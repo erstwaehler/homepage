@@ -172,7 +172,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           options={{
             api_host: "/ingest",
             ui_host: env.VITE_PUBLIC_POSTHOG_HOST || "https://eu.posthog.com",
-            defaults: "2026-05-24",
+            capture_exceptions: true,
             capture_exceptions: true,
             debug: import.meta.env.DEV,
           }}>
