@@ -17,6 +17,8 @@ import { Route as ImpressumIndexRouteImport } from './routes/impressum/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as TeamVornameRouteImport } from './routes/team/$vorname'
 import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
+import { Route as ApiTeamRouteImport } from './routes/api/team'
+import { Route as ApiBlogRouteImport } from './routes/api/blog'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,9 +60,21 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiTeamRoute = ApiTeamRouteImport.update({
+  id: '/api/team',
+  path: '/api/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiBlogRoute = ApiBlogRouteImport.update({
+  id: '/api/blog',
+  path: '/api/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/blog': typeof ApiBlogRoute
+  '/api/team': typeof ApiTeamRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/team/$vorname': typeof TeamVornameRoute
   '/blog/': typeof BlogIndexRoute
@@ -71,6 +85,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/blog': typeof ApiBlogRoute
+  '/api/team': typeof ApiTeamRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/team/$vorname': typeof TeamVornameRoute
   '/blog': typeof BlogIndexRoute
@@ -82,6 +98,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/blog': typeof ApiBlogRoute
+  '/api/team': typeof ApiTeamRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/team/$vorname': typeof TeamVornameRoute
   '/blog/': typeof BlogIndexRoute
@@ -94,6 +112,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/api/blog'
+    | '/api/team'
     | '/blog/$slug'
     | '/team/$vorname'
     | '/blog/'
@@ -104,6 +124,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/api/blog'
+    | '/api/team'
     | '/blog/$slug'
     | '/team/$vorname'
     | '/blog'
@@ -114,6 +136,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/api/blog'
+    | '/api/team'
     | '/blog/$slug'
     | '/team/$vorname'
     | '/blog/'
@@ -125,6 +149,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiBlogRoute: typeof ApiBlogRoute
+  ApiTeamRoute: typeof ApiTeamRoute
   BlogSlugRoute: typeof BlogSlugRoute
   TeamVornameRoute: typeof TeamVornameRoute
   BlogIndexRoute: typeof BlogIndexRoute
@@ -192,11 +218,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/team': {
+      id: '/api/team'
+      path: '/api/team'
+      fullPath: '/api/team'
+      preLoaderRoute: typeof ApiTeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/blog': {
+      id: '/api/blog'
+      path: '/api/blog'
+      fullPath: '/api/blog'
+      preLoaderRoute: typeof ApiBlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiBlogRoute: ApiBlogRoute,
+  ApiTeamRoute: ApiTeamRoute,
   BlogSlugRoute: BlogSlugRoute,
   TeamVornameRoute: TeamVornameRoute,
   BlogIndexRoute: BlogIndexRoute,

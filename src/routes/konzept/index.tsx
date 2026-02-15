@@ -2,6 +2,7 @@ import { MDXContent } from "@content-collections/mdx/react";
 import { createFileRoute } from "@tanstack/react-router";
 import { allPages } from "#cc";
 import * as m from "#p";
+import { generateMetaTags } from "~/lib/meta";
 
 export const Route = createFileRoute("/konzept/")({
   loader: () => {
@@ -10,6 +11,19 @@ export const Route = createFileRoute("/konzept/")({
     return page;
   },
   component: KonzeptPage,
+  head: ({ loaderData: page }) => {
+    const title = `${m.konzept_title()} - ${m.site_title()}`;
+    const description =
+      page.description ||
+      "Das Konzept des Erstwähler Forums 2026 - eine schulübergreifende Großveranstaltung zur politischen Bildung";
+
+    return generateMetaTags({
+      title,
+      description,
+      url: "/konzept",
+      type: "website",
+    });
+  },
 });
 
 function KonzeptPage() {

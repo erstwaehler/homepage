@@ -2,10 +2,22 @@ import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import * as m from "#p";
 import { teamMembers } from "~/data/team";
+import { generateMetaTags } from "~/lib/meta";
 
 export const Route = createFileRoute("/team/")({
   loader: () => teamMembers,
   component: TeamListPage,
+  head: () => {
+    const title = `${m.team_title()} - ${m.site_title()}`;
+    const description = m.team_description();
+
+    return generateMetaTags({
+      title,
+      description,
+      url: "/team",
+      type: "website",
+    });
+  },
 });
 
 function TeamListPage() {

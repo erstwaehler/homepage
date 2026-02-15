@@ -37,10 +37,9 @@ const config = defineConfig({
     }),
     tailwindcss(),
     tanstackStart({
-      prerender: {
+      sitemap: {
         enabled: true,
-        crawlLinks: true,
-        autoStaticPathsDiscovery: true,
+        host: "https://ewf-stade.de",
       },
     }),
     viteReact(),

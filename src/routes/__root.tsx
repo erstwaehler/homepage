@@ -33,39 +33,138 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     }
   },
 
-  head: () => ({
-    meta: [
-      {
-        charSet: "utf-8",
-      },
-      {
-        name: "viewport",
-        content: "width=device-width, initial-scale=1",
-      },
-      {
-        title: m.site_title(),
-      },
-      {
-        name: "description",
-        content: m.site_description(),
-      },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-    ],
-  }),
+  head: () => {
+    const siteUrl = "https://ewf-stade.de";
+    const title = m.site_title();
+    const description = m.site_description();
+    const ogImage = `${siteUrl}/og-image.png`;
+
+    return {
+      meta: [
+        {
+          charSet: "utf-8",
+        },
+        {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1",
+        },
+        {
+          title,
+        },
+        {
+          name: "description",
+          content: description,
+        },
+        // Open Graph
+        {
+          property: "og:title",
+          content: title,
+        },
+        {
+          property: "og:description",
+          content: description,
+        },
+        {
+          property: "og:url",
+          content: siteUrl,
+        },
+        {
+          property: "og:image",
+          content: ogImage,
+        },
+        {
+          property: "og:type",
+          content: "website",
+        },
+        {
+          property: "og:site_name",
+          content: title,
+        },
+        {
+          property: "og:locale",
+          content: "de_DE",
+        },
+        // Twitter Card
+        {
+          name: "twitter:card",
+          content: "summary_large_image",
+        },
+        {
+          name: "twitter:title",
+          content: title,
+        },
+        {
+          name: "twitter:description",
+          content: description,
+        },
+        {
+          name: "twitter:image",
+          content: ogImage,
+        },
+      ],
+      links: [
+        {
+          rel: "stylesheet",
+          href: appCss,
+        },
+        {
+          rel: "canonical",
+          href: siteUrl,
+        },
+      ],
+    };
+  },
 
   shellComponent: RootDocument,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Erstwähler Forum 2026",
+    url: "https://ewf-stade.de",
+    logo: "https://ewf-stade.de/logo.png",
+    description:
+      "Schulübergreifende Großveranstaltung zur politischen Bildung in Stade",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Stade",
+      addressCountry: "DE",
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "info@ewf-stade.de",
+      contactType: "General Inquiries",
+    },
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Erstwähler Forum 2026",
+    url: "https://ewf-stade.de",
+    description:
+      "Schulübergreifende Großveranstaltung zur politischen Bildung in Stade",
+    inLanguage: "de",
+  };
+
   return (
     <html lang={getLocale()}>
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: Required for JSON-LD structured data
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: Required for JSON-LD structured data
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
       </head>
       <body className="dark">
         <PostHogProvider

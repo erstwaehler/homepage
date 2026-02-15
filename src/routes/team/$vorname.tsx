@@ -3,6 +3,11 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Mail } from "lucide-react";
 import * as m from "#p";
 import { teamMembers } from "~/data/team";
+import {
+  generateMetaTags,
+  generatePersonSchema,
+  SITE_BASE_URL,
+} from "~/lib/meta";
 
 export const Route = createFileRoute("/team/$vorname")({
   loader: ({ params }) => {
@@ -11,6 +16,37 @@ export const Route = createFileRoute("/team/$vorname")({
     return member;
   },
   component: TeamMemberPage,
+  head: ({ loaderData: member }) => {
+    const name =
+      member.vorname.charAt(0).toUpperCase() + member.vorname.slice(1);
+    const title = `${name} - ${member.rolle} - ${m.site_title()}`;
+    const description = member.bio;
+    const url = `/team/${member.vorname}`;
+    const image = `${SITE_BASE_URL}${member.profile_image}`;
+    const hasEmail = ["jack", "maite", "joshua", "oskar"].includes(
+      member.vorname,
+    );
+
+    return {
+      ...generateMetaTags({
+        title,
+        description,
+        url,
+        type: "profile",
+        image,
+      }),
+      scripts: [
+        generatePersonSchema({
+          name,
+          jobTitle: member.rolle,
+          description: member.bio,
+          image,
+          url: `${SITE_BASE_URL}${url}`,
+          ...(hasEmail ? { email: `${member.vorname}@ewf-stade.de` } : {}),
+        }),
+      ],
+    };
+  },
 });
 
 function TeamMemberPage() {

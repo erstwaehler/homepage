@@ -4,8 +4,28 @@ import { Calendar, MapPin, MessageSquare, Users, Vote } from "lucide-react";
 import { useEffect, useRef } from "react";
 import * as m from "#p";
 import { gsap } from "~/lib/gsap";
+import {
+  generateMetaTags,
+  generateWebSiteSchema,
+} from "~/lib/meta";
 
-export const Route = createFileRoute("/")({ component: HomePage });
+export const Route = createFileRoute("/")({
+  component: HomePage,
+  head: () => {
+    const title = m.site_title();
+    const description = m.site_description();
+
+    return {
+      ...generateMetaTags({
+        title,
+        description,
+        url: "/",
+        type: "website",
+      }),
+      scripts: [generateWebSiteSchema()],
+    };
+  },
+});
 
 function HomePage() {
   const posthog = usePostHog();

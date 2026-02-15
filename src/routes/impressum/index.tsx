@@ -2,6 +2,7 @@ import { MDXContent } from "@content-collections/mdx/react";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { allPages } from "#cc";
 import * as m from "#p";
+import { generateMetaTags } from "~/lib/meta";
 
 export const Route = createFileRoute("/impressum/")({
   loader: () => {
@@ -10,6 +11,18 @@ export const Route = createFileRoute("/impressum/")({
     return page;
   },
   component: ImpressumPage,
+  head: () => {
+    const title = `${m.impressum_title()} - ${m.site_title()}`;
+    const description =
+      "Impressum und rechtliche Informationen zum Erstwähler Forum 2026";
+
+    return generateMetaTags({
+      title,
+      description,
+      url: "/impressum",
+      type: "website",
+    });
+  },
 });
 
 function ImpressumPage() {

@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Calendar } from "lucide-react";
 import { allPosts } from "#cc";
 import * as m from "#p";
+import { generateMetaTags } from "~/lib/meta";
 import { getLocale } from "~/paraglide/runtime";
 
 export const Route = createFileRoute("/blog/")({
@@ -12,6 +13,17 @@ export const Route = createFileRoute("/blog/")({
     );
   },
   component: BlogListPage,
+  head: () => {
+    const title = `${m.blog_title()} - ${m.site_title()}`;
+    const description = m.blog_subtitle();
+
+    return generateMetaTags({
+      title,
+      description,
+      url: "/blog",
+      type: "website",
+    });
+  },
 });
 
 function BlogListPage() {

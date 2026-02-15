@@ -3,6 +3,11 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import { allPosts } from "#cc";
 import * as m from "#p";
+import {
+  generateArticleSchema,
+  generateMetaTags,
+  SITE_BASE_URL,
+} from "~/lib/meta";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => {
@@ -11,6 +16,37 @@ export const Route = createFileRoute("/blog/$slug")({
     return post;
   },
   component: BlogPostPage,
+  head: ({ loaderData: post }) => {
+    const title = `${post.title} - ${m.site_title()}`;
+    const description = post.description || post.title;
+    const url = `/blog/${post.slug}`;
+    const image = post.image
+      ? `${SITE_BASE_URL}${post.image}`
+      : `${SITE_BASE_URL}/og-image.png`;
+
+    return {
+      ...generateMetaTags({
+        title,
+        description,
+        url,
+        type: "article",
+        author: post.author,
+        publishedTime: post.date,
+        image,
+      }),
+      scripts: [
+        generateArticleSchema({
+          headline: post.title,
+          description,
+          author: post.author || "Erstwähler Forum Team",
+          datePublished: post.date,
+          dateModified: post.date,
+          image,
+          url: `${SITE_BASE_URL}${url}`,
+        }),
+      ],
+    };
+  },
 });
 
 function BlogPostPage() {

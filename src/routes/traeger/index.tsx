@@ -2,9 +2,22 @@ import { usePostHog } from "@posthog/react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Building2, Heart, Users } from "lucide-react";
 import * as m from "#p";
+import { generateMetaTags } from "~/lib/meta";
 
 export const Route = createFileRoute("/traeger/")({
   component: TraegerPage,
+  head: () => {
+    const title = `${m.traeger_title()} - ${m.site_title()}`;
+    const description =
+      "Das Erstwähler Forum 2026 wird getragen von drei Stader Schulen: Gymnasium Athenaeum Stade, IGS Stade und Vincent-Lübeck-Gymnasium.";
+
+    return generateMetaTags({
+      title,
+      description,
+      url: "/traeger",
+      type: "website",
+    });
+  },
 });
 
 function TraegerPage() {
