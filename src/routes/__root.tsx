@@ -1,82 +1,84 @@
 import {
-  HeadContent,
-  Scripts,
-  createRootRouteWithContext,
-  redirect,
-} from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
+	HeadContent,
+	Outlet,
+	Scripts,
+	createRootRouteWithContext,
+} from "@tanstack/react-router";
 
-import Header from '../components/Header'
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import { initPostHog } from "../integrations/posthog";
 
-import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
+import { getLocale } from "@/paraglide/runtime";
 
-import { getLocale, shouldRedirect } from '@/paraglide/runtime'
+import appCss from "../styles.css?url";
 
-import appCss from '../styles.css?url'
-
-import type { QueryClient } from '@tanstack/react-query'
+import type { QueryClient } from "@tanstack/react-query";
 
 interface MyRouterContext {
-  queryClient: QueryClient
+	queryClient: QueryClient;
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
-  beforeLoad: async () => {
-    // Other redirect strategies are possible; see
-    // https://github.com/TanStack/router/tree/main/examples/react/i18n-paraglide#offline-redirect
-    if (typeof document !== 'undefined') {
-      document.documentElement.setAttribute('lang', getLocale())
-    }
-  },
+	beforeLoad: async () => {
+		if (typeof document !== "undefined") {
+			document.documentElement.setAttribute("lang", getLocale());
+			initPostHog();
+		}
+	},
 
-  head: () => ({
-    meta: [
-      {
-        charSet: 'utf-8',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
-      {
-        title: 'TanStack Start Starter',
-      },
-    ],
-    links: [
-      {
-        rel: 'stylesheet',
-        href: appCss,
-      },
-    ],
-  }),
+	head: () => ({
+		meta: [
+			{
+				charSet: "utf-8",
+			},
+			{
+				name: "viewport",
+				content: "width=device-width, initial-scale=1",
+			},
+			{
+				title: "Erstwähler Forum 2026",
+			},
+			{
+				name: "description",
+				content:
+					"Schulübergreifende Großveranstaltung zur politischen Bildung für Erstwähler in Stade",
+			},
+		],
+		links: [
+			{
+				rel: "stylesheet",
+				href: appCss,
+			},
+		],
+	}),
 
-  shellComponent: RootDocument,
-})
+	component: RootComponent,
+	shellComponent: RootDocument,
+});
+
+function RootComponent() {
+	return (
+		<>
+			<Header />
+			<main>
+				<Outlet />
+			</main>
+			<Footer />
+		</>
+	);
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang={getLocale()}>
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <Header />
-        {children}
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
-          }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-            TanStackQueryDevtools,
-          ]}
-        />
-        <Scripts />
-      </body>
-    </html>
-  )
+	return (
+		<html lang={getLocale()}>
+			<head>
+				<HeadContent />
+			</head>
+			<body className="min-h-screen bg-slate-900 text-white">
+				{children}
+				<Scripts />
+			</body>
+		</html>
+	);
 }
