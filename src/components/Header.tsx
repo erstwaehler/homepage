@@ -5,8 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { Menu, Vote, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "~/lib/gsap";
-import * as m from "~/paraglide/messages";
-import ParaglideLocaleSwitcher from "./LocaleSwitcher.tsx";
+import * as m from "#p";
 
 export default function Header() {
   const posthog = usePostHog();
@@ -23,24 +22,31 @@ export default function Header() {
 
     const header = headerRef.current;
 
+    // Initialisierung der Maske für den Gradient-Blur-Effekt
+    // Dies sorgt dafür, dass der Blur-Effekt nach unten hin weich ausläuft
+    gsap.set(header, {
+      webkitMaskImage:
+        "linear-gradient(to bottom, black 0%, black 50%, transparent 100%)",
+      maskImage:
+        "linear-gradient(to bottom, black 0%, black 50%, transparent 100%)",
+    });
+
     ScrollTrigger.create({
-      start: "top -80",
+      start: "top -10",
+      end: "top -200",
+      scrub: 0.5,
       onUpdate: (self) => {
-        if (self.direction === 1) {
-          gsap.to(header, {
-            backgroundColor: "rgba(0, 0, 0, 0.9)",
-            backdropFilter: "blur(20px)",
-            duration: 0.3,
-            ease: "power2.out",
-          });
-        } else if (self.progress === 0) {
-          gsap.to(header, {
-            backgroundColor: "transparent",
-            backdropFilter: "blur(0px)",
-            duration: 0.3,
-            ease: "power2.inOut",
-          });
-        }
+        const progress = self.progress;
+        const blur = progress * 20;
+        const opacity = progress * 0.7;
+
+        gsap.to(header, {
+          backdropFilter: `blur(${blur}px)`,
+          // Hintergrund-Gradient, der mit dem Scrollen dunkler wird
+          background: `linear-gradient(to bottom, rgba(0, 0, 0, ${opacity}), rgba(0, 0, 0, 0))`,
+          duration: 0.1,
+          ease: "none",
+        });
       },
     });
 
@@ -64,12 +70,15 @@ export default function Header() {
     <>
       <header
         ref={headerRef}
-        className="fixed top-0 z-40 w-full transition-all duration-300"
-        style={{ backgroundColor: "transparent" }}>
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        /* h-32 statt h-20, damit der Gradient Raum zum Auslaufen hat */
+        className="fixed top-0 z-40 w-full transition-all duration-300 h-32 pointer-events-none"
+        style={{ backgroundColor: "transparent" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between pointer-events-auto">
           <Link
             to="/"
-            className="flex items-center gap-3 hover:opacity-80 transition-opacity magnetic-target">
+            className="flex items-center gap-3 hover:opacity-80 transition-opacity magnetic-target"
+          >
             <Vote className="w-8 h-8 text-white" />
             <span className="font-bold text-xl hidden sm:inline text-white">
               {m.site_title()}
@@ -87,27 +96,30 @@ export default function Header() {
                 className="text-sm font-medium text-white/80 hover:text-white transition-colors magnetic-target"
                 activeProps={{
                   className: "text-sm font-medium text-white",
-                }}>
+                }}
+              >
                 {item.label}
               </Link>
             ))}
-            <ParaglideLocaleSwitcher />
           </nav>
 
           <button
             type="button"
             onClick={handleMenuOpen}
             className="md:hidden p-2 hover:bg-white/10 rounded-lg transition-colors text-white"
-            aria-label="Open menu">
+            aria-label="Open menu"
+          >
             <Menu size={24} />
           </button>
         </div>
       </header>
 
+      {/* Mobile Sidebar */}
       <aside
         className={`fixed top-0 left-0 h-full w-80 bg-card border-r border-border shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}>
+        }`}
+      >
         <div className="flex items-center justify-between p-4 border-b border-border">
           <div className="flex items-center gap-3">
             <Vote className="w-6 h-6 text-primary" />
@@ -117,7 +129,8 @@ export default function Header() {
             type="button"
             onClick={() => setIsOpen(false)}
             className="p-2 hover:bg-accent rounded-lg transition-colors"
-            aria-label="Close menu">
+            aria-label="Close menu"
+          >
             <X size={24} />
           </button>
         </div>
@@ -132,15 +145,12 @@ export default function Header() {
               activeProps={{
                 className:
                   "flex items-center gap-3 p-3 rounded-lg bg-primary text-primary-foreground transition-colors mb-2",
-              }}>
+              }}
+            >
               <span className="font-medium">{item.label}</span>
             </Link>
           ))}
         </nav>
-
-        <div className="p-4 border-t border-border">
-          <ParaglideLocaleSwitcher />
-        </div>
       </aside>
 
       {isOpen && (

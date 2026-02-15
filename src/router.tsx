@@ -3,6 +3,7 @@ import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query
 import * as TanstackQuery from "./integrations/tanstack-query/root-provider";
 
 import { deLocalizeUrl, localizeUrl } from "./paraglide/runtime";
+import { setupPageTransitions } from "./lib/pageTransitions";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
@@ -30,6 +31,11 @@ export const getRouter = () => {
     router,
     queryClient: rqContext.queryClient,
   });
+
+  // Setup page transitions
+  if (typeof window !== "undefined") {
+    setupPageTransitions(router);
+  }
 
   return router;
 };

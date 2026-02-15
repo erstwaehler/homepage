@@ -1,8 +1,11 @@
-import barba, { type ITransitionData } from "@barba/core";
+import type { ITransitionData } from "@barba/core";
 import { cleanupScrollTrigger, gsap, initScrollTrigger } from "./gsap";
 
-export function initBarba() {
+export async function initBarba() {
   if (typeof window === "undefined") return;
+
+  // Dynamic import to avoid SSR issues (Element is not defined in Node.js)
+  const { default: barba } = await import("@barba/core");
 
   barba.init({
     transitions: [

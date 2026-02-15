@@ -7,11 +7,11 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { initBarba } from "~/lib/barba";
 import { initLenis } from "~/lib/lenis";
-import * as m from "~/paraglide/messages";
+import * as m from "#p";
 import { getLocale } from "~/paraglide/runtime";
 import CustomCursor from "../components/CustomCursor";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import NoiseOverlay from "../components/NoiseOverlay";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
@@ -19,7 +19,6 @@ import appCss from "../styles.css?url";
 
 if (typeof window !== "undefined") {
   initLenis();
-  initBarba();
 }
 
 interface MyRouterContext {
@@ -67,7 +66,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="dark">
         <PostHogProvider
           apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY!}
           options={{
@@ -82,11 +81,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <NoiseOverlay />
           <CustomCursor />
           <Header />
-          <main data-barba="wrapper">
-            <div data-barba="container" data-barba-namespace="page">
-              {children}
-            </div>
-          </main>
+          <main data-transition-container>{children}</main>
+          <Footer />
           <TanStackDevtools
             config={{
               position: "bottom-right",
