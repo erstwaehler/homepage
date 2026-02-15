@@ -1,19 +1,15 @@
+import type { QueryClient } from "@tanstack/react-query";
 import {
+	createRootRouteWithContext,
 	HeadContent,
 	Outlet,
 	Scripts,
-	createRootRouteWithContext,
 } from "@tanstack/react-router";
-
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import { initPostHog } from "../integrations/posthog";
-
 import { getLocale } from "@/paraglide/runtime";
-
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import { initPostHog } from "../integrations/posthog";
 import appCss from "../styles.css?url";
-
-import type { QueryClient } from "@tanstack/react-query";
 
 interface MyRouterContext {
 	queryClient: QueryClient;

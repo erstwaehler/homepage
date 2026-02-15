@@ -1,7 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import ParaglideLocaleSwitcher from "./LocaleSwitcher.tsx";
-import { m } from "@/paraglide/messages";
-import { useState } from "react";
 import {
 	BookOpen,
 	FileText,
@@ -12,6 +9,9 @@ import {
 	Users,
 	X,
 } from "lucide-react";
+import { useState } from "react";
+import { m } from "@/paraglide/messages";
+import ParaglideLocaleSwitcher from "./LocaleSwitcher.tsx";
 
 export default function Header() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -42,6 +42,7 @@ export default function Header() {
 			<header className="p-4 flex items-center justify-between bg-slate-900 text-white shadow-lg border-b border-slate-800">
 				<div className="flex items-center">
 					<button
+						type="button"
 						onClick={() => setIsOpen(true)}
 						className="p-2 hover:bg-slate-800 rounded-lg transition-colors md:hidden"
 						aria-label="Open menu"
@@ -84,10 +85,11 @@ export default function Header() {
 
 			{/* Mobile sidebar */}
 			{isOpen && (
-				<div
-					className="fixed inset-0 bg-black/50 z-40 md:hidden"
+				<button
+					type="button"
+					className="fixed inset-0 bg-black/50 z-40 md:hidden cursor-default"
 					onClick={() => setIsOpen(false)}
-					onKeyDown={(e) => e.key === "Escape" && setIsOpen(false)}
+					aria-label="Close menu overlay"
 				/>
 			)}
 			<aside
@@ -100,6 +102,7 @@ export default function Header() {
 						Erstwähler Forum
 					</h2>
 					<button
+						type="button"
 						onClick={() => setIsOpen(false)}
 						className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
 						aria-label="Close menu"
@@ -124,9 +127,7 @@ export default function Header() {
 								activeOptions={{ exact: true }}
 							>
 								<Icon size={20} />
-								<span className="font-medium">
-									{item.label()}
-								</span>
+								<span className="font-medium">{item.label()}</span>
 							</Link>
 						);
 					})}

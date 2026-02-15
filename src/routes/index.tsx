@@ -57,9 +57,7 @@ function HomePage() {
 					</p>
 					<div className="flex items-center justify-center gap-2 text-gray-400 mb-8">
 						<Calendar className="w-5 h-5" />
-						<span className="text-sm md:text-base">
-							{m.hero_date()}
-						</span>
+						<span className="text-sm md:text-base">{m.hero_date()}</span>
 					</div>
 					<div className="flex flex-col sm:flex-row items-center justify-center gap-4">
 						<Link
@@ -99,9 +97,7 @@ function HomePage() {
 							key={item.title}
 							className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-8 hover:border-blue-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 text-center"
 						>
-							<div className="flex justify-center mb-4">
-								{item.icon}
-							</div>
+							<div className="flex justify-center mb-4">{item.icon}</div>
 							<h3 className="text-xl font-semibold text-white mb-3">
 								{item.title}
 							</h3>
@@ -128,9 +124,7 @@ function HomePage() {
 							<h3 className="text-lg font-semibold text-white mb-1">
 								{school.name}
 							</h3>
-							<span className="text-sm text-gray-500">
-								{school.abbr}
-							</span>
+							<span className="text-sm text-gray-500">{school.abbr}</span>
 						</div>
 					))}
 				</div>

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getLocale } from "@/paraglide/runtime";
-import { getMarkdownContent } from "@/data/loaders";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
+import { getMarkdownContent } from "@/data/loaders";
+import { getLocale } from "@/paraglide/runtime";
 
 export const Route = createFileRoute("/impressum")({
 	loader: async () => {

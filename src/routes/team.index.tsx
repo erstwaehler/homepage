@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { getLocale } from "@/paraglide/runtime";
-import { m } from "@/paraglide/messages";
-import { getTeamMembers } from "@/data/loaders";
-import type { TeamMember } from "@/data/loaders";
 import { Mail, School } from "lucide-react";
+import type { TeamMember } from "@/data/loaders";
+import { getTeamMembers } from "@/data/loaders";
+import { m } from "@/paraglide/messages";
+import { getLocale } from "@/paraglide/runtime";
 
 export const Route = createFileRoute("/team/")({
 	loader: async () => {
@@ -88,10 +88,7 @@ function TeamPage() {
 				</div>
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{members.map((member) => (
-						<TeamMemberCard
-							key={member.vorname}
-							member={member}
-						/>
+						<TeamMemberCard key={member.vorname} member={member} />
 					))}
 				</div>
 			</div>

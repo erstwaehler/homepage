@@ -27,14 +27,10 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
 						</h3>
 					),
 					p: ({ children }) => (
-						<p className="text-gray-300 leading-relaxed mb-4">
-							{children}
-						</p>
+						<p className="text-gray-300 leading-relaxed mb-4">{children}</p>
 					),
 					strong: ({ children }) => (
-						<strong className="text-white font-semibold">
-							{children}
-						</strong>
+						<strong className="text-white font-semibold">{children}</strong>
 					),
 					ul: ({ children }) => (
 						<ul className="list-disc list-inside space-y-2 mb-4 text-gray-300">
@@ -46,21 +42,13 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
 							{children}
 						</ol>
 					),
-					li: ({ children }) => (
-						<li className="text-gray-300">{children}</li>
-					),
+					li: ({ children }) => <li className="text-gray-300">{children}</li>,
 					a: ({ href, children }) => (
 						<a
 							href={href}
 							className="text-blue-400 hover:text-blue-300 underline transition-colors"
-							target={
-								href?.startsWith("http") ? "_blank" : undefined
-							}
-							rel={
-								href?.startsWith("http")
-									? "noopener noreferrer"
-									: undefined
-							}
+							target={href?.startsWith("http") ? "_blank" : undefined}
+							rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
 						>
 							{children}
 						</a>

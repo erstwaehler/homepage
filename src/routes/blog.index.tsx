@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { getLocale } from "@/paraglide/runtime";
-import { m } from "@/paraglide/messages";
-import { getBlogPosts } from "@/data/loaders";
 import { Calendar, Newspaper } from "lucide-react";
+import { getBlogPosts } from "@/data/loaders";
+import { m } from "@/paraglide/messages";
+import { getLocale } from "@/paraglide/runtime";
 
 export const Route = createFileRoute("/blog/")({
 	loader: async () => {
@@ -30,12 +30,8 @@ function BlogPage() {
 				</div>
 				<div className="space-y-6">
 					{posts.map((post) => {
-						const title =
-							locale === "de" ? post.title_de : post.title_en;
-						const excerpt =
-							locale === "de"
-								? post.excerpt_de
-								: post.excerpt_en;
+						const title = locale === "de" ? post.title_de : post.title_en;
+						const excerpt = locale === "de" ? post.excerpt_de : post.excerpt_en;
 						return (
 							<Link
 								key={post.slug}
@@ -50,9 +46,7 @@ function BlogPage() {
 								<h2 className="text-xl font-semibold text-white mb-2">
 									{title}
 								</h2>
-								<p className="text-gray-400 leading-relaxed">
-									{excerpt}
-								</p>
+								<p className="text-gray-400 leading-relaxed">{excerpt}</p>
 								<span className="inline-block mt-4 text-sm text-blue-400 hover:text-blue-300">
 									{m.blog_read_more()} →
 								</span>

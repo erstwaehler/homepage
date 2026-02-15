@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { m } from "@/paraglide/messages";
 import { HandHeart, School, Users } from "lucide-react";
+import { m } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/traeger")({
 	component: TraegerPage,
@@ -32,9 +32,7 @@ function TraegerPage() {
 						<School className="w-6 h-6 text-cyan-400" />
 						{m.traeger_schulen()}
 					</h2>
-					<p className="text-gray-400 mb-8">
-						{m.traeger_schulen_desc()}
-					</p>
+					<p className="text-gray-400 mb-8">{m.traeger_schulen_desc()}</p>
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 						{schools.map((school) => (
 							<div
@@ -45,9 +43,7 @@ function TraegerPage() {
 								<h3 className="text-lg font-semibold text-white mb-1">
 									{school.name}
 								</h3>
-								<span className="text-sm text-gray-500">
-									{school.abbr}
-								</span>
+								<span className="text-sm text-gray-500">{school.abbr}</span>
 							</div>
 						))}
 					</div>
@@ -59,9 +55,7 @@ function TraegerPage() {
 						<Users className="w-6 h-6 text-teal-400" />
 						{m.traeger_jugendringe()}
 					</h2>
-					<p className="text-gray-400 mb-8">
-						{m.traeger_jugendringe_desc()}
-					</p>
+					<p className="text-gray-400 mb-8">{m.traeger_jugendringe_desc()}</p>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 						<div className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 text-center hover:border-teal-500/50 transition-colors">
 							<Users className="w-10 h-10 text-teal-400 mx-auto mb-4" />

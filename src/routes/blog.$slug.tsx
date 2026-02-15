@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { getLocale } from "@/paraglide/runtime";
-import { m } from "@/paraglide/messages";
-import { getBlogPostContent } from "@/data/loaders";
-import MarkdownRenderer from "@/components/MarkdownRenderer";
 import { ArrowLeft } from "lucide-react";
+import MarkdownRenderer from "@/components/MarkdownRenderer";
+import { getBlogPostContent } from "@/data/loaders";
+import { m } from "@/paraglide/messages";
+import { getLocale } from "@/paraglide/runtime";
 
 export const Route = createFileRoute("/blog/$slug")({
 	loader: async ({ params }) => {

@@ -42,10 +42,7 @@ export default function Footer() {
 								</Link>
 							</li>
 							<li>
-								<Link
-									to="/team"
-									className="hover:text-white transition-colors"
-								>
+								<Link to="/team" className="hover:text-white transition-colors">
 									{m.nav_team()}
 								</Link>
 							</li>
@@ -58,10 +55,7 @@ export default function Footer() {
 								</Link>
 							</li>
 							<li>
-								<Link
-									to="/blog"
-									className="hover:text-white transition-colors"
-								>
+								<Link to="/blog" className="hover:text-white transition-colors">
 									{m.nav_blog()}
 								</Link>
 							</li>

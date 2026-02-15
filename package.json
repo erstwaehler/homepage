@@ -12,6 +12,8 @@
     "check": "biome check"
   },
   "dependencies": {
+    "@inlang/plugin-m-function-matcher": "^2.2.1",
+    "@inlang/plugin-message-format": "^4.3.0",
     "@t3-oss/env-core": "^0.13.8",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/react-devtools": "^0.7.0",

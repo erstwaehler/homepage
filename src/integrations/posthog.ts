@@ -6,7 +6,8 @@ export function initPostHog() {
 	if (typeof window === "undefined" || initialized) return;
 
 	const apiKey = import.meta.env.VITE_POSTHOG_API_KEY;
-	const apiHost = import.meta.env.VITE_POSTHOG_HOST || "https://eu.i.posthog.com";
+	const apiHost =
+		import.meta.env.VITE_POSTHOG_HOST || "https://eu.i.posthog.com";
 
 	if (!apiKey) return;
 

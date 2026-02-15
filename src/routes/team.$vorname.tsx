@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { getLocale } from "@/paraglide/runtime";
-import { m } from "@/paraglide/messages";
-import { getTeamMember } from "@/data/loaders";
 import { ArrowLeft, Mail, School } from "lucide-react";
+import { getTeamMember } from "@/data/loaders";
+import { m } from "@/paraglide/messages";
+import { getLocale } from "@/paraglide/runtime";
 
 export const Route = createFileRoute("/team/$vorname")({
 	loader: async ({ params }) => {
@@ -41,8 +41,7 @@ function TeamMemberPage() {
 							alt=""
 							className="w-full h-full object-cover"
 							onError={(e) => {
-								(e.target as HTMLImageElement).style.display =
-									"none";
+								(e.target as HTMLImageElement).style.display = "none";
 							}}
 						/>
 					</div>
@@ -56,8 +55,7 @@ function TeamMemberPage() {
 									alt={member.vorname}
 									className="w-full h-full object-cover"
 									onError={(e) => {
-										const target =
-											e.target as HTMLImageElement;
+										const target = e.target as HTMLImageElement;
 										target.style.display = "none";
 										if (target.parentElement) {
 											target.parentElement.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-600 to-cyan-600"><span class="text-4xl font-bold text-white">${member.vorname[0]}</span></div>`;

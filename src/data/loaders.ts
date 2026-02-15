@@ -22,7 +22,7 @@ export const getTeamMembers = createServerFn({ method: "GET" }).handler(
 );
 
 export const getTeamMember = createServerFn({ method: "GET" })
-	.validator((vorname: string) => vorname)
+	.inputValidator((vorname: string) => vorname)
 	.handler(async ({ data: vorname }): Promise<TeamMember | null> => {
 		const fs = await import("node:fs");
 		const path = await import("node:path");
@@ -31,14 +31,13 @@ export const getTeamMember = createServerFn({ method: "GET" })
 		const lines = content.trim().split("\n");
 		const members = lines.map((line) => JSON.parse(line) as TeamMember);
 		return (
-			members.find(
-				(m) => m.vorname.toLowerCase() === vorname.toLowerCase(),
-			) ?? null
+			members.find((m) => m.vorname.toLowerCase() === vorname.toLowerCase()) ??
+			null
 		);
 	});
 
 export const getMarkdownContent = createServerFn({ method: "GET" })
-	.validator((data: { page: string; locale: string }) => data)
+	.inputValidator((data: { page: string; locale: string }) => data)
 	.handler(async ({ data: { page, locale } }): Promise<string> => {
 		const fs = await import("node:fs");
 		const path = await import("node:path");
@@ -72,17 +71,14 @@ export const getBlogPosts = createServerFn({ method: "GET" }).handler(
 	async (): Promise<BlogPost[]> => {
 		const fs = await import("node:fs");
 		const path = await import("node:path");
-		const filePath = path.resolve(
-			process.cwd(),
-			"src/data/blog-posts.json",
-		);
+		const filePath = path.resolve(process.cwd(), "src/data/blog-posts.json");
 		const content = fs.readFileSync(filePath, "utf-8");
 		return JSON.parse(content) as BlogPost[];
 	},
 );
 
 export const getBlogPostContent = createServerFn({ method: "GET" })
-	.validator((data: { slug: string; locale: string }) => data)
+	.inputValidator((data: { slug: string; locale: string }) => data)
 	.handler(async ({ data: { slug, locale } }): Promise<string> => {
 		const fs = await import("node:fs");
 		const path = await import("node:path");

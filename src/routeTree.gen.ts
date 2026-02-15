@@ -9,9 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TraegerRouteImport } from './routes/traeger'
+import { Route as KonzeptRouteImport } from './routes/konzept'
+import { Route as ImpressumRouteImport } from './routes/impressum'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TeamIndexRouteImport } from './routes/team.index'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as TeamVornameRouteImport } from './routes/team.$vorname'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
 import { Route as DemoI18nRouteImport } from './routes/demo.i18n'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
 import { Route as DemoApiTqTodosRouteImport } from './routes/demo/api.tq-todos'
@@ -21,9 +28,39 @@ import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr
 import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
 import { Route as DemoStartSsrDataOnlyRouteImport } from './routes/demo/start.ssr.data-only'
 
+const TraegerRoute = TraegerRouteImport.update({
+  id: '/traeger',
+  path: '/traeger',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KonzeptRoute = KonzeptRouteImport.update({
+  id: '/konzept',
+  path: '/konzept',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImpressumRoute = ImpressumRouteImport.update({
+  id: '/impressum',
+  path: '/impressum',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamIndexRoute = TeamIndexRouteImport.update({
+  id: '/team/',
+  path: '/team/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamVornameRoute = TeamVornameRouteImport.update({
+  id: '/team/$vorname',
+  path: '/team/$vorname',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
@@ -34,6 +71,11 @@ const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
 const DemoI18nRoute = DemoI18nRouteImport.update({
   id: '/demo/i18n',
   path: '/demo/i18n',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoStartServerFuncsRoute = DemoStartServerFuncsRouteImport.update({
@@ -79,8 +121,15 @@ const DemoStartSsrDataOnlyRoute = DemoStartSsrDataOnlyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/impressum': typeof ImpressumRoute
+  '/konzept': typeof KonzeptRoute
+  '/traeger': typeof TraegerRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/demo/i18n': typeof DemoI18nRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/team/$vorname': typeof TeamVornameRoute
+  '/blog/': typeof BlogIndexRoute
+  '/team/': typeof TeamIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/api/tq-todos': typeof DemoApiTqTodosRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
@@ -92,8 +141,15 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/impressum': typeof ImpressumRoute
+  '/konzept': typeof KonzeptRoute
+  '/traeger': typeof TraegerRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/demo/i18n': typeof DemoI18nRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/team/$vorname': typeof TeamVornameRoute
+  '/blog': typeof BlogIndexRoute
+  '/team': typeof TeamIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/api/tq-todos': typeof DemoApiTqTodosRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
@@ -106,8 +162,15 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/impressum': typeof ImpressumRoute
+  '/konzept': typeof KonzeptRoute
+  '/traeger': typeof TraegerRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/demo/i18n': typeof DemoI18nRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/team/$vorname': typeof TeamVornameRoute
+  '/blog/': typeof BlogIndexRoute
+  '/team/': typeof TeamIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/api/tq-todos': typeof DemoApiTqTodosRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
@@ -121,8 +184,15 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/impressum'
+    | '/konzept'
+    | '/traeger'
+    | '/blog/$slug'
     | '/demo/i18n'
     | '/demo/tanstack-query'
+    | '/team/$vorname'
+    | '/blog/'
+    | '/team/'
     | '/demo/api/names'
     | '/demo/api/tq-todos'
     | '/demo/start/api-request'
@@ -134,8 +204,15 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/impressum'
+    | '/konzept'
+    | '/traeger'
+    | '/blog/$slug'
     | '/demo/i18n'
     | '/demo/tanstack-query'
+    | '/team/$vorname'
+    | '/blog'
+    | '/team'
     | '/demo/api/names'
     | '/demo/api/tq-todos'
     | '/demo/start/api-request'
@@ -147,8 +224,15 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/impressum'
+    | '/konzept'
+    | '/traeger'
+    | '/blog/$slug'
     | '/demo/i18n'
     | '/demo/tanstack-query'
+    | '/team/$vorname'
+    | '/blog/'
+    | '/team/'
     | '/demo/api/names'
     | '/demo/api/tq-todos'
     | '/demo/start/api-request'
@@ -161,8 +245,15 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ImpressumRoute: typeof ImpressumRoute
+  KonzeptRoute: typeof KonzeptRoute
+  TraegerRoute: typeof TraegerRoute
+  BlogSlugRoute: typeof BlogSlugRoute
   DemoI18nRoute: typeof DemoI18nRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
+  TeamVornameRoute: typeof TeamVornameRoute
+  BlogIndexRoute: typeof BlogIndexRoute
+  TeamIndexRoute: typeof TeamIndexRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
   DemoApiTqTodosRoute: typeof DemoApiTqTodosRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
@@ -175,11 +266,53 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/traeger': {
+      id: '/traeger'
+      path: '/traeger'
+      fullPath: '/traeger'
+      preLoaderRoute: typeof TraegerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/konzept': {
+      id: '/konzept'
+      path: '/konzept'
+      fullPath: '/konzept'
+      preLoaderRoute: typeof KonzeptRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/impressum': {
+      id: '/impressum'
+      path: '/impressum'
+      fullPath: '/impressum'
+      preLoaderRoute: typeof ImpressumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/team/': {
+      id: '/team/'
+      path: '/team'
+      fullPath: '/team/'
+      preLoaderRoute: typeof TeamIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/team/$vorname': {
+      id: '/team/$vorname'
+      path: '/team/$vorname'
+      fullPath: '/team/$vorname'
+      preLoaderRoute: typeof TeamVornameRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/tanstack-query': {
@@ -194,6 +327,13 @@ declare module '@tanstack/react-router' {
       path: '/demo/i18n'
       fullPath: '/demo/i18n'
       preLoaderRoute: typeof DemoI18nRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/start/server-funcs': {
@@ -257,8 +397,15 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ImpressumRoute: ImpressumRoute,
+  KonzeptRoute: KonzeptRoute,
+  TraegerRoute: TraegerRoute,
+  BlogSlugRoute: BlogSlugRoute,
   DemoI18nRoute: DemoI18nRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
+  TeamVornameRoute: TeamVornameRoute,
+  BlogIndexRoute: BlogIndexRoute,
+  TeamIndexRoute: TeamIndexRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
   DemoApiTqTodosRoute: DemoApiTqTodosRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,
