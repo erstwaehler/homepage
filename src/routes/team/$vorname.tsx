@@ -1,8 +1,8 @@
 import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Mail } from "lucide-react";
-import { teamMembers } from "~/data/team";
 import * as m from "#p";
+import { teamMembers } from "~/data/team";
 
 export const Route = createFileRoute("/team/$vorname")({
   loader: ({ params }) => {

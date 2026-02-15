@@ -37,7 +37,7 @@ export function CustomCursor() {
       gsap.to(cursor, {
         scale: 1,
         backgroundColor: "white",
-        mixBlendMode: "normal",
+        mixBlendMode: "difference",
         duration: 0.3,
       });
     };

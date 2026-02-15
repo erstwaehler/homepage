@@ -28,14 +28,14 @@ The wizard has completed a deep integration of PostHog analytics into your Erstw
 We've built some insights and a dashboard for you to keep an eye on user behavior, based on the events we just instrumented:
 
 ### Dashboard
-- [Analytics basics](https://eu.posthog.com/project/127039/dashboard/525354) - Core analytics dashboard for the EWF 2026 website
+- Analytics basics - Core analytics dashboard for the EWF 2026 website
 
 ### Insights
-- [Homepage Navigation Clicks](https://eu.posthog.com/project/127039/insights/tpl6Xiq7) - Tracks CTA, team, and blog link clicks from homepage
-- [Content Engagement](https://eu.posthog.com/project/127039/insights/7DaL6cHl) - Tracks blog posts read and team profiles viewed
-- [Team Contact Engagement](https://eu.posthog.com/project/127039/insights/wl8NxWz8) - Tracks email and Mastodon contact clicks
-- [Partner School Interest](https://eu.posthog.com/project/127039/insights/yYIcr3ZI) - Tracks clicks to partner school websites by school
-- [User Experience Signals](https://eu.posthog.com/project/127039/insights/w0FxMiia) - Tracks language changes and mobile menu usage
+- Homepage Navigation Clicks - Tracks CTA, team, and blog link clicks from homepage
+- Content Engagement - Tracks blog posts read and team profiles viewed
+- Team Contact Engagement - Tracks email and Mastodon contact clicks
+- Partner School Interest - Tracks clicks to partner school websites by school
+- User Experience Signals - Tracks language changes and mobile menu usage
 
 ### Agent skill
 

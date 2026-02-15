@@ -25,9 +25,15 @@
   "team_school": "School",
   "team_contact": "Contact",
   "blog_title": "News",
+  "blog_subtitle": "Updates and news about the First-Time Voters Forum 2026",
   "blog_read_more": "Read more",
   "blog_back": "Back to overview",
   "konzept_title": "The Concept",
   "traeger_title": "Our Organizers",
-  "impressum_title": "Imprint"
+  "impressum_title": "Imprint",
+  "footer_tagline": "First-Time Voters Forum 2026 - experience democracy, shape the future.",
+  "footer_navigation": "Navigation",
+  "footer_language": "Language",
+  "footer_contact": "Contact",
+  "footer_rights": "© {year} First-Time Voters Forum. All rights reserved."
 }

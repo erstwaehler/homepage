@@ -7,8 +7,9 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { initLenis } from "~/lib/lenis";
+import { env } from "#env";
 import * as m from "#p";
+import { initLenis } from "~/lib/lenis";
 import { getLocale } from "~/paraglide/runtime";
 import CustomCursor from "../components/CustomCursor";
 import Footer from "../components/Footer";
@@ -68,13 +69,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="dark">
         <PostHogProvider
-          apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY!}
+          apiKey={env.VITE_PUBLIC_POSTHOG_KEY}
           options={{
             api_host: "/ingest",
-            ui_host:
-              import.meta.env.VITE_PUBLIC_POSTHOG_HOST ||
-              "https://eu.posthog.com",
-            defaults: "2025-05-24",
+            ui_host: env.VITE_PUBLIC_POSTHOG_HOST || "https://eu.posthog.com",
+            defaults: "2026-05-24",
             capture_exceptions: true,
             debug: import.meta.env.DEV,
           }}>

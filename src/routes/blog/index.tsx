@@ -1,12 +1,13 @@
 import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { allPosts } from "#cc";
 import { ArrowRight, Calendar } from "lucide-react";
+import { allPosts } from "#cc";
 import * as m from "#p";
+import { getLocale } from "~/paraglide/runtime";
 
 export const Route = createFileRoute("/blog/")({
   loader: () => {
-    return allPosts.sort(
+    return [...allPosts].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
     );
   },
@@ -16,6 +17,7 @@ export const Route = createFileRoute("/blog/")({
 function BlogListPage() {
   const posthog = usePostHog();
   const posts = Route.useLoaderData();
+  const currentLocale = getLocale();
 
   return (
     <div className="min-h-screen bg-background">
@@ -24,9 +26,7 @@ function BlogListPage() {
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             {m.blog_title()}
           </h1>
-          <p className="text-xl text-muted-foreground">
-            Neuigkeiten und Updates zum Erstwähler Forum 2026
-          </p>
+          <p className="text-xl text-muted-foreground">{m.blog_subtitle()}</p>
         </div>
 
         <div className="space-y-8">
@@ -52,7 +52,7 @@ function BlogListPage() {
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4" />
                       <time dateTime={post.date}>
-                        {new Date(post.date).toLocaleDateString("de-DE", {
+                        {new Date(post.date).toLocaleDateString(currentLocale, {
                           year: "numeric",
                           month: "long",
                           day: "numeric",

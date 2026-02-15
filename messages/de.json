@@ -25,9 +25,15 @@
   "team_school": "Schule",
   "team_contact": "Kontakt",
   "blog_title": "Aktuelles",
+  "blog_subtitle": "Neuigkeiten und Updates zum Erstwähler Forum 2026",
   "blog_read_more": "Weiterlesen",
   "blog_back": "Zurück zur Übersicht",
   "konzept_title": "Das Konzept",
   "traeger_title": "Unsere Träger",
-  "impressum_title": "Impressum"
+  "impressum_title": "Impressum",
+  "footer_tagline": "Erstwählerforum 2026 - Demokratie erleben, Zukunft gestalten.",
+  "footer_navigation": "Navigation",
+  "footer_language": "Sprache",
+  "footer_contact": "Kontakt",
+  "footer_rights": "© {year} Erstwählerforum. Alle Rechte vorbehalten."
 }

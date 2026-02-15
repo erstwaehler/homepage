@@ -4,8 +4,8 @@ import { usePostHog } from "@posthog/react";
 import { Link } from "@tanstack/react-router";
 import { Menu, Vote, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { gsap, ScrollTrigger } from "~/lib/gsap";
 import * as m from "#p";
+import { gsap, ScrollTrigger } from "~/lib/gsap";
 
 export default function Header() {
   const posthog = usePostHog();
@@ -31,7 +31,7 @@ export default function Header() {
         "linear-gradient(to bottom, black 0%, black 50%, transparent 100%)",
     });
 
-    ScrollTrigger.create({
+    const scrollTrigger = ScrollTrigger.create({
       start: "top -10",
       end: "top -200",
       scrub: 0.5,
@@ -51,11 +51,24 @@ export default function Header() {
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach((st) => {
-        st.kill();
-      });
+      scrollTrigger.kill();
     };
   }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
 
   const navItems = [
     { to: "/", label: m.nav_home() },
@@ -72,13 +85,11 @@ export default function Header() {
         ref={headerRef}
         /* h-32 statt h-20, damit der Gradient Raum zum Auslaufen hat */
         className="fixed top-0 z-40 w-full transition-all duration-300 h-32 pointer-events-none"
-        style={{ backgroundColor: "transparent" }}
-      >
+        style={{ backgroundColor: "transparent" }}>
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between pointer-events-auto">
           <Link
             to="/"
-            className="flex items-center gap-3 hover:opacity-80 transition-opacity magnetic-target"
-          >
+            className="flex items-center gap-3 hover:opacity-80 transition-opacity magnetic-target">
             <Vote className="w-8 h-8 text-white" />
             <span className="font-bold text-xl hidden sm:inline text-white">
               {m.site_title()}
@@ -96,8 +107,7 @@ export default function Header() {
                 className="text-sm font-medium text-white/80 hover:text-white transition-colors magnetic-target"
                 activeProps={{
                   className: "text-sm font-medium text-white",
-                }}
-              >
+                }}>
                 {item.label}
               </Link>
             ))}
@@ -107,8 +117,7 @@ export default function Header() {
             type="button"
             onClick={handleMenuOpen}
             className="md:hidden p-2 hover:bg-white/10 rounded-lg transition-colors text-white"
-            aria-label="Open menu"
-          >
+            aria-label="Open menu">
             <Menu size={24} />
           </button>
         </div>
@@ -118,8 +127,7 @@ export default function Header() {
       <aside
         className={`fixed top-0 left-0 h-full w-80 bg-card border-r border-border shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
+        }`}>
         <div className="flex items-center justify-between p-4 border-b border-border">
           <div className="flex items-center gap-3">
             <Vote className="w-6 h-6 text-primary" />
@@ -129,8 +137,7 @@ export default function Header() {
             type="button"
             onClick={() => setIsOpen(false)}
             className="p-2 hover:bg-accent rounded-lg transition-colors"
-            aria-label="Close menu"
-          >
+            aria-label="Close menu">
             <X size={24} />
           </button>
         </div>
@@ -145,8 +152,7 @@ export default function Header() {
               activeProps={{
                 className:
                   "flex items-center gap-3 p-3 rounded-lg bg-primary text-primary-foreground transition-colors mb-2",
-              }}
-            >
+              }}>
               <span className="font-medium">{item.label}</span>
             </Link>
           ))}
@@ -158,11 +164,6 @@ export default function Header() {
           type="button"
           className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden"
           onClick={() => setIsOpen(false)}
-          onKeyDown={(e) => {
-            if (e.key === "Escape") {
-              setIsOpen(false);
-            }
-          }}
           aria-label="Close menu"
         />
       )}

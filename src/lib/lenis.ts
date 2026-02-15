@@ -2,6 +2,7 @@ import Lenis from "lenis";
 import { ScrollTrigger } from "./gsap";
 
 let lenis: Lenis | null = null;
+let rafId: number | null = null;
 
 export function initLenis() {
   if (typeof window === "undefined") return;
@@ -15,10 +16,10 @@ export function initLenis() {
 
   function raf(time: number) {
     lenis?.raf(time);
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
   }
 
-  requestAnimationFrame(raf);
+  rafId = requestAnimationFrame(raf);
 
   lenis.on("scroll", () => {
     ScrollTrigger.update();
@@ -28,6 +29,10 @@ export function initLenis() {
 }
 
 export function destroyLenis() {
+  if (rafId !== null) {
+    cancelAnimationFrame(rafId);
+    rafId = null;
+  }
   lenis?.destroy();
   lenis = null;
 }

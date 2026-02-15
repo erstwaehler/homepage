@@ -1,9 +1,8 @@
 import { createRouter } from "@tanstack/react-router";
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
 import * as TanstackQuery from "./integrations/tanstack-query/root-provider";
-
-import { deLocalizeUrl, localizeUrl } from "./paraglide/runtime";
 import { setupPageTransitions } from "./lib/pageTransitions";
+import { deLocalizeUrl, localizeUrl } from "./paraglide/runtime";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";

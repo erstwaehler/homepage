@@ -1,7 +1,7 @@
-import type { Router } from "@tanstack/react-router";
+import type { AnyRouter } from "@tanstack/react-router";
 import { gsap } from "./gsap";
 
-export function setupPageTransitions(router: Router<any, any, any>) {
+export function setupPageTransitions(router: AnyRouter) {
   if (typeof window === "undefined") return;
 
   let isTransitioning = false;

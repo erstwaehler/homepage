@@ -1,11 +1,9 @@
-"use client";
-
 import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Calendar, MapPin, MessageSquare, Users, Vote } from "lucide-react";
 import { useEffect, useRef } from "react";
-import { gsap } from "~/lib/gsap";
 import * as m from "#p";
+import { gsap } from "~/lib/gsap";
 
 export const Route = createFileRoute("/")({ component: HomePage });
 

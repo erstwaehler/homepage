@@ -1,7 +1,7 @@
 "use client";
 
 import { Link } from "@tanstack/react-router";
-import { Vote, Github, Mail } from "lucide-react";
+import { Github, Mail, Vote } from "lucide-react";
 import * as m from "~/paraglide/messages";
 import LocaleSwitcher from "./LocaleSwitcher";
 
@@ -28,13 +28,13 @@ export default function Footer() {
               <span className="font-bold text-xl">{m.site_title()}</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Erstwählerforum 2026 - Demokratie erleben, Zukunft gestalten.
+              {m.footer_tagline()}
             </p>
           </div>
 
           {/* Navigation */}
           <div>
-            <h3 className="font-semibold mb-4">Navigation</h3>
+            <h3 className="font-semibold mb-4">{m.footer_navigation()}</h3>
             <nav className="space-y-2">
               {navItems.map((item) => (
                 <Link
@@ -50,14 +50,14 @@ export default function Footer() {
           {/* Language & Contact */}
           <div className="space-y-6">
             <div>
-              <h3 className="font-semibold mb-4">Sprache / Language</h3>
+              <h3 className="font-semibold mb-4">{m.footer_language()}</h3>
               <LocaleSwitcher />
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Kontakt</h3>
+              <h3 className="font-semibold mb-4">{m.footer_contact()}</h3>
               <div className="flex gap-4">
                 <a
-                  href="mailto:info@erstwaehlerforum.de"
+                  href="mailto:info@ewf-stade.de"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                   aria-label="E-Mail">
                   <Mail className="w-5 h-5" />
@@ -76,7 +76,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          <p>© {currentYear} Erstwählerforum. Alle Rechte vorbehalten.</p>
+          <p>{m.footer_rights({ year: currentYear })}</p>
         </div>
       </div>
     </footer>

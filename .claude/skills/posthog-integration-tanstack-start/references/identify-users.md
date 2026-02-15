@@ -199,4 +199,4 @@ Ask a question
 
 ### Was this page useful?
 
-HelpfulCould be better
+Helpful • Could be better

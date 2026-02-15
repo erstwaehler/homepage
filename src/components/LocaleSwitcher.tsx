@@ -2,7 +2,6 @@
 
 import { usePostHog } from "@posthog/react";
 import { Languages } from "lucide-react";
-import { getLocale, locales, setLocale } from "~/paraglide/runtime";
 import {
   Select,
   SelectContent,
@@ -10,11 +9,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
+import { getLocale, locales, setLocale } from "~/paraglide/runtime";
 
 const languageConfig = {
   de: { name: "Deutsch", flag: "🇩🇪" },
   en: { name: "English", flag: "🇬🇧" },
 } as const;
+
+const fallbackLanguage = { name: "Unknown", flag: "🌐" };
 
 export default function LocaleSwitcher() {
   const posthog = usePostHog();
@@ -38,14 +40,20 @@ export default function LocaleSwitcher() {
           <span className="flex items-center gap-2">
             <span>
               {
-                languageConfig[currentLocale as keyof typeof languageConfig]
-                  .flag
+                (
+                  languageConfig[
+                    currentLocale as keyof typeof languageConfig
+                  ] ?? fallbackLanguage
+                ).flag
               }
             </span>
             <span>
               {
-                languageConfig[currentLocale as keyof typeof languageConfig]
-                  .name
+                (
+                  languageConfig[
+                    currentLocale as keyof typeof languageConfig
+                  ] ?? fallbackLanguage
+                ).name
               }
             </span>
           </span>
@@ -53,7 +61,9 @@ export default function LocaleSwitcher() {
       </SelectTrigger>
       <SelectContent>
         {locales.map((locale) => {
-          const config = languageConfig[locale as keyof typeof languageConfig];
+          const config =
+            languageConfig[locale as keyof typeof languageConfig] ??
+            fallbackLanguage;
           return (
             <SelectItem key={locale} value={locale}>
               <span className="flex items-center gap-2">

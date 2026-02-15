@@ -1,7 +1,7 @@
 import { MDXContent } from "@content-collections/mdx/react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { allPosts } from "#cc";
 import { ArrowLeft, Calendar, User } from "lucide-react";
+import { allPosts } from "#cc";
 import * as m from "#p";
 
 export const Route = createFileRoute("/blog/$slug")({

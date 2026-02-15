@@ -1,7 +1,7 @@
 import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { teamMembers } from "~/data/team";
 import * as m from "#p";
+import { teamMembers } from "~/data/team";
 
 export const Route = createFileRoute("/team/")({
   loader: () => teamMembers,

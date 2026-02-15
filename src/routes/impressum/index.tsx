@@ -1,12 +1,12 @@
 import { MDXContent } from "@content-collections/mdx/react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { allPages } from "#cc";
 import * as m from "#p";
 
 export const Route = createFileRoute("/impressum/")({
   loader: () => {
     const page = allPages.find((p) => p.slug === "impressum");
-    if (!page) throw new Error("Impressum page not found");
+    if (!page) throw notFound();
     return page;
   },
   component: ImpressumPage,
