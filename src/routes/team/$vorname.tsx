@@ -11,7 +11,7 @@ import {
 
 export const Route = createFileRoute("/team/$vorname")({
   loader: ({ params }) => {
-    const member = teamMembers.find((m) => m.vorname === params.vorname);
+    const member = teamMembers.find((tm) => tm.vorname === params.vorname);
     if (!member) throw notFound();
     return member;
   },
