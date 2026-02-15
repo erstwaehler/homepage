@@ -1,57 +1,111 @@
+'use client'
+
 import { Link } from '@tanstack/react-router'
-
 import ParaglideLocaleSwitcher from './LocaleSwitcher.tsx'
-
-import { useState } from 'react'
-import {
-  ChevronDown,
-  ChevronRight,
-  Home,
-  Languages,
-  Menu,
-  Network,
-  SquareFunction,
-  StickyNote,
-  X,
-} from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { Menu, X, Vote } from 'lucide-react'
+import { gsap, ScrollTrigger } from '@/lib/gsap'
+import * as m from '@/paraglide/messages'
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const [groupedExpanded, setGroupedExpanded] = useState<
-    Record<string, boolean>
-  >({})
+  const headerRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !headerRef.current) return
+
+    const header = headerRef.current
+
+    ScrollTrigger.create({
+      start: 'top -80',
+      onUpdate: (self) => {
+        if (self.direction === 1) {
+          gsap.to(header, {
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            backdropFilter: 'blur(20px)',
+            duration: 0.3,
+            ease: 'power2.out',
+          })
+        } else if (self.progress === 0) {
+          gsap.to(header, {
+            backgroundColor: 'transparent',
+            backdropFilter: 'blur(0px)',
+            duration: 0.3,
+            ease: 'power2.inOut',
+          })
+        }
+      },
+    })
+
+    return () => {
+      ScrollTrigger.getAll().forEach((st) => st.kill())
+    }
+  }, [])
+
+  const navItems = [
+    { to: '/', label: m.nav_home() },
+    { to: '/konzept', label: m.nav_konzept() },
+    { to: '/team', label: m.nav_team() },
+    { to: '/traeger', label: m.nav_traeger() },
+    { to: '/blog', label: m.nav_blog() },
+    { to: '/impressum', label: m.nav_impressum() },
+  ]
 
   return (
     <>
-      <header className="p-4 flex items-center bg-gray-800 text-white shadow-lg">
-        <button
-          onClick={() => setIsOpen(true)}
-          className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
-          aria-label="Open menu"
-        >
-          <Menu size={24} />
-        </button>
-        <h1 className="ml-4 text-xl font-semibold">
-          <Link to="/">
-            <img
-              src="/tanstack-word-logo-white.svg"
-              alt="TanStack Logo"
-              className="h-10"
-            />
+      <header
+        ref={headerRef}
+        className="fixed top-0 z-40 w-full transition-all duration-300"
+        style={{ backgroundColor: 'transparent' }}
+      >
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity magnetic-target">
+            <Vote className="w-8 h-8 text-white" />
+            <span className="font-bold text-xl hidden sm:inline text-white">
+              {m.site_title()}
+            </span>
+            <span className="font-bold text-xl sm:hidden text-white">EWF'26</span>
           </Link>
-        </h1>
+
+          <nav className="hidden md:flex items-center gap-8">
+            {navItems.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="text-sm font-medium text-white/80 hover:text-white transition-colors magnetic-target"
+                activeProps={{
+                  className: 'text-sm font-medium text-white',
+                }}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <ParaglideLocaleSwitcher />
+          </nav>
+
+          <button
+            onClick={() => setIsOpen(true)}
+            className="md:hidden p-2 hover:bg-white/10 rounded-lg transition-colors text-white"
+            aria-label="Open menu"
+          >
+            <Menu size={24} />
+          </button>
+        </div>
       </header>
 
       <aside
-        className={`fixed top-0 left-0 h-full w-80 bg-gray-900 text-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${
+        className={`fixed top-0 left-0 h-full w-80 bg-card border-r border-border shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          <h2 className="text-xl font-bold">Navigation</h2>
+        <div className="flex items-center justify-between p-4 border-b border-border">
+          <div className="flex items-center gap-3">
+            <Vote className="w-6 h-6 text-primary" />
+            <h2 className="text-lg font-bold">{m.site_title()}</h2>
+          </div>
           <button
             onClick={() => setIsOpen(false)}
-            className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+            className="p-2 hover:bg-accent rounded-lg transition-colors"
             aria-label="Close menu"
           >
             <X size={24} />
@@ -59,152 +113,32 @@ export default function Header() {
         </div>
 
         <nav className="flex-1 p-4 overflow-y-auto">
-          <Link
-            to="/"
-            onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
-          >
-            <Home size={20} />
-            <span className="font-medium">Home</span>
-          </Link>
-
-          {/* Demo Links Start */}
-
-          <Link
-            to="/demo/start/server-funcs"
-            onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
-          >
-            <SquareFunction size={20} />
-            <span className="font-medium">Start - Server Functions</span>
-          </Link>
-
-          <Link
-            to="/demo/start/api-request"
-            onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
-          >
-            <Network size={20} />
-            <span className="font-medium">Start - API Request</span>
-          </Link>
-
-          <div className="flex flex-row justify-between">
+          {navItems.map((item) => (
             <Link
-              to="/demo/start/ssr"
+              key={item.to}
+              to={item.to}
               onClick={() => setIsOpen(false)}
-              className="flex-1 flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors mb-2"
               activeProps={{
-                className:
-                  'flex-1 flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+                className: 'flex items-center gap-3 p-3 rounded-lg bg-primary text-primary-foreground transition-colors mb-2',
               }}
             >
-              <StickyNote size={20} />
-              <span className="font-medium">Start - SSR Demos</span>
+              <span className="font-medium">{item.label}</span>
             </Link>
-            <button
-              className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
-              onClick={() =>
-                setGroupedExpanded((prev) => ({
-                  ...prev,
-                  StartSSRDemo: !prev.StartSSRDemo,
-                }))
-              }
-            >
-              {groupedExpanded.StartSSRDemo ? (
-                <ChevronDown size={20} />
-              ) : (
-                <ChevronRight size={20} />
-              )}
-            </button>
-          </div>
-          {groupedExpanded.StartSSRDemo && (
-            <div className="flex flex-col ml-4">
-              <Link
-                to="/demo/start/ssr/spa-mode"
-                onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-                activeProps={{
-                  className:
-                    'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-                }}
-              >
-                <StickyNote size={20} />
-                <span className="font-medium">SPA Mode</span>
-              </Link>
-
-              <Link
-                to="/demo/start/ssr/full-ssr"
-                onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-                activeProps={{
-                  className:
-                    'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-                }}
-              >
-                <StickyNote size={20} />
-                <span className="font-medium">Full SSR</span>
-              </Link>
-
-              <Link
-                to="/demo/start/ssr/data-only"
-                onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-                activeProps={{
-                  className:
-                    'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-                }}
-              >
-                <StickyNote size={20} />
-                <span className="font-medium">Data Only</span>
-              </Link>
-            </div>
-          )}
-
-          <Link
-            to="/demo/i18n"
-            onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
-          >
-            <Languages size={20} />
-            <span className="font-medium">I18n example</span>
-          </Link>
-
-          <Link
-            to="/demo/tanstack-query"
-            onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
-          >
-            <Network size={20} />
-            <span className="font-medium">TanStack Query</span>
-          </Link>
-
-          {/* Demo Links End */}
+          ))}
         </nav>
 
-        <div className="p-4 border-t border-gray-700 bg-gray-800 flex flex-col gap-2">
+        <div className="p-4 border-t border-border">
           <ParaglideLocaleSwitcher />
         </div>
       </aside>
+
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
     </>
   )
 }

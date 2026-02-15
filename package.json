@@ -12,6 +12,7 @@
     "check": "biome check"
   },
   "dependencies": {
+    "@barba/core": "^2.10.3",
     "@t3-oss/env-core": "^0.13.8",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/react-devtools": "^0.7.0",
@@ -24,18 +25,25 @@
     "@tanstack/router-plugin": "^1.132.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "gsap": "^3.14.2",
+    "lenis": "^1.3.17",
     "lucide-react": "^0.561.0",
     "nitro": "npm:nitro-nightly@latest",
+    "posthog-js": "^1.347.2",
+    "posthog-node": "^5.24.15",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.6",
     "tw-animate-css": "^1.3.6",
     "vite-tsconfig-paths": "^6.0.2",
-    "zod": "^4.1.11"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
+    "@content-collections/core": "^0.14.0",
+    "@content-collections/mdx": "^0.2.2",
+    "@content-collections/vite": "^0.2.9",
     "@inlang/paraglide-js": "^2.8.0",
     "@tanstack/devtools-vite": "^0.3.11",
     "@testing-library/dom": "^10.4.0",
