@@ -28,20 +28,17 @@ function TraegerPage() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(".traeger-hero h1", {
-        opacity: 0,
         y: 40,
         duration: 0.8,
         ease: "expo.out",
       });
       gsap.from(".traeger-hero p", {
-        opacity: 0,
         y: 30,
         duration: 0.8,
         delay: 0.15,
         ease: "expo.out",
       });
       gsap.from(".school-card", {
-        opacity: 0,
         y: 50,
         duration: 0.7,
         stagger: 0.12,
@@ -49,7 +46,6 @@ function TraegerPage() {
         ease: "expo.out",
       });
       gsap.from(".traeger-detail", {
-        opacity: 0,
         y: 40,
         duration: 0.8,
         delay: 0.6,

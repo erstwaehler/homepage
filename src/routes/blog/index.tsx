@@ -36,20 +36,17 @@ function BlogListPage() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(".blog-hero h1", {
-        opacity: 0,
         y: 40,
         duration: 0.8,
         ease: "expo.out",
       });
       gsap.from(".blog-hero p", {
-        opacity: 0,
         y: 30,
         duration: 0.8,
         delay: 0.15,
         ease: "expo.out",
       });
       gsap.from(".blog-post", {
-        opacity: 0,
         y: 40,
         duration: 0.7,
         stagger: 0.1,
