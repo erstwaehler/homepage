@@ -20,9 +20,7 @@ export const Route = createFileRoute("/blog/$slug")({
     const title = `${post.title} - ${m.site_title()}`;
     const description = post.description || post.title;
     const url = `/blog/${post.slug}`;
-    const image = post.image
-      ? `${SITE_BASE_URL}${post.image}`
-      : `${SITE_BASE_URL}/og-image.png`;
+    const image = `${SITE_BASE_URL}/og-image.png`;
 
     return {
       ...generateMetaTags({
