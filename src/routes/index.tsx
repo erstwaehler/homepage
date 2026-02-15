@@ -1,118 +1,301 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { usePostHog } from "@posthog/react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Calendar, MapPin, MessageSquare, Users, Vote } from "lucide-react";
+import { useEffect, useRef } from "react";
+import * as m from "#p";
+import { gsap } from "~/lib/gsap";
 import {
-  Zap,
-  Server,
-  Route as RouteIcon,
-  Shield,
-  Waves,
-  Sparkles,
-} from 'lucide-react'
+  generateMetaTags,
+  generateWebSiteSchema,
+} from "~/lib/meta";
 
-export const Route = createFileRoute('/')({ component: App })
+export const Route = createFileRoute("/")({
+  component: HomePage,
+  head: () => {
+    const title = m.site_title();
+    const description = m.site_description();
 
-function App() {
-  const features = [
-    {
-      icon: <Zap className="w-12 h-12 text-cyan-400" />,
-      title: 'Powerful Server Functions',
-      description:
-        'Write server-side code that seamlessly integrates with your client components. Type-safe, secure, and simple.',
-    },
-    {
-      icon: <Server className="w-12 h-12 text-cyan-400" />,
-      title: 'Flexible Server Side Rendering',
-      description:
-        'Full-document SSR, streaming, and progressive enhancement out of the box. Control exactly what renders where.',
-    },
-    {
-      icon: <RouteIcon className="w-12 h-12 text-cyan-400" />,
-      title: 'API Routes',
-      description:
-        'Build type-safe API endpoints alongside your application. No separate backend needed.',
-    },
-    {
-      icon: <Shield className="w-12 h-12 text-cyan-400" />,
-      title: 'Strongly Typed Everything',
-      description:
-        'End-to-end type safety from server to client. Catch errors before they reach production.',
-    },
-    {
-      icon: <Waves className="w-12 h-12 text-cyan-400" />,
-      title: 'Full Streaming Support',
-      description:
-        'Stream data from server to client progressively. Perfect for AI applications and real-time updates.',
-    },
-    {
-      icon: <Sparkles className="w-12 h-12 text-cyan-400" />,
-      title: 'Next Generation Ready',
-      description:
-        'Built from the ground up for modern web applications. Deploy anywhere JavaScript runs.',
-    },
-  ]
+    return {
+      ...generateMetaTags({
+        title,
+        description,
+        url: "/",
+        type: "website",
+      }),
+      scripts: [generateWebSiteSchema()],
+    };
+  },
+});
+
+function HomePage() {
+  const posthog = usePostHog();
+  const heroRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 0.2 });
+
+      if (titleRef.current) {
+        const words = titleRef.current.querySelectorAll(".word");
+        tl.from(words, {
+          y: 120,
+          opacity: 0,
+          duration: 1.2,
+          ease: "expo.out",
+          stagger: 0.1,
+        });
+      }
+
+      if (subtitleRef.current) {
+        tl.from(
+          subtitleRef.current,
+          {
+            y: 60,
+            opacity: 0,
+            duration: 1,
+            ease: "expo.out",
+          },
+          "-=0.8",
+        );
+      }
+
+      if (ctaRef.current) {
+        tl.from(
+          ctaRef.current,
+          {
+            y: 40,
+            opacity: 0,
+            duration: 0.8,
+            ease: "expo.out",
+          },
+          "-=0.6",
+        );
+      }
+    }, heroRef);
+
+    window.initHeroAnimations = () => ctx.revert();
+
+    return () => ctx.revert();
+  }, []);
+
+  const heroTitle = m.hero_title();
+  const heroWords = heroTitle.split(" ");
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-      <section className="relative py-20 px-6 text-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10"></div>
-        <div className="relative max-w-5xl mx-auto">
-          <div className="flex items-center justify-center gap-6 mb-6">
-            <img
-              src="/tanstack-circle-logo.png"
-              alt="TanStack Logo"
-              className="w-24 h-24 md:w-32 md:h-32"
-            />
-            <h1 className="text-6xl md:text-7xl font-black text-white [letter-spacing:-0.08em]">
-              <span className="text-gray-300">TANSTACK</span>{' '}
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                START
-              </span>
-            </h1>
+    <div
+      className="min-h-screen"
+      style={{
+        background: "linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%)",
+      }}>
+      <section
+        ref={heroRef}
+        className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 50%, rgba(168, 139, 250, 0.15) 0%, transparent 70%)",
+        }}>
+        <div className="absolute inset-0 bg-[url('/hero/stadeum.png')] bg-cover bg-center opacity-5" />
+
+        <div className="relative max-w-6xl mx-auto text-center z-10">
+          <div className="inline-block px-6 py-2 mb-8 rounded-full border border-[#A88BFA]/30 bg-[#A88BFA]/5">
+            <span className="text-sm font-medium" style={{ color: "#A88BFA" }}>
+              {m.site_title()}
+            </span>
           </div>
-          <p className="text-2xl md:text-3xl text-gray-300 mb-4 font-light">
-            The framework for next generation AI applications
+
+          <h1
+            ref={titleRef}
+            className="text-6xl md:text-8xl font-bold mb-8 tracking-tight leading-[1.1]"
+            style={{ color: "#ffffff" }}>
+            {heroWords.map((word, _i) => (
+              <span key={word} className="word inline-block mr-4">
+                {word}
+              </span>
+            ))}
+          </h1>
+
+          <p
+            ref={subtitleRef}
+            className="text-2xl md:text-4xl mb-12 font-light"
+            style={{ color: "rgba(255, 255, 255, 0.7)" }}>
+            {m.hero_subtitle()}
           </p>
-          <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-8">
-            Full-stack framework powered by TanStack Router for React and Solid.
-            Build modern applications with server functions, streaming, and type
-            safety.
-          </p>
-          <div className="flex flex-col items-center gap-4">
-            <a
-              href="https://tanstack.com/start"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg transition-colors shadow-lg shadow-cyan-500/50"
-            >
-              Documentation
-            </a>
-            <p className="text-gray-400 text-sm mt-2">
-              Begin your TanStack Start journey by editing{' '}
-              <code className="px-2 py-1 bg-slate-700 rounded text-cyan-400">
-                /src/routes/index.tsx
-              </code>
-            </p>
+
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+            <div
+              className="flex items-center gap-3"
+              style={{ color: "rgba(255, 255, 255, 0.6)" }}>
+              <Calendar className="w-6 h-6" />
+              <span className="text-lg">{m.hero_date()}</span>
+            </div>
+            <span
+              className="hidden sm:block"
+              style={{ color: "rgba(255, 255, 255, 0.3)" }}>
+              •
+            </span>
+            <div
+              className="flex items-center gap-3"
+              style={{ color: "rgba(255, 255, 255, 0.6)" }}>
+              <MapPin className="w-6 h-6" />
+              <span className="text-lg">{m.hero_location()}</span>
+            </div>
+          </div>
+
+          <Link
+            ref={ctaRef}
+            to="/konzept"
+            onClick={() =>
+              posthog.capture("cta_clicked", {
+                cta_location: "hero",
+                destination: "/konzept",
+              })
+            }
+            className="magnetic-target inline-flex items-center gap-3 px-12 py-5 font-bold rounded-full text-lg transition-all hover:scale-105"
+            style={{
+              background: "linear-gradient(135deg, #A88BFA 0%, #FFD948 100%)",
+              color: "#000000",
+              boxShadow: "0 20px 60px rgba(168, 139, 250, 0.3)",
+            }}>
+            {m.hero_cta()}
+          </Link>
+        </div>
+      </section>
+
+      <section className="py-32 px-6" style={{ background: "#0f0f0f" }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div
+              className="text-center p-10 rounded-2xl border transition-all hover:scale-105"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(168, 139, 250, 0.05) 0%, rgba(255, 217, 72, 0.05) 100%)",
+                borderColor: "rgba(168, 139, 250, 0.2)",
+              }}>
+              <Users
+                className="w-14 h-14 mx-auto mb-6"
+                style={{ color: "#A88BFA" }}
+              />
+              <h3
+                className="text-2xl font-bold mb-4"
+                style={{ color: "#ffffff" }}>
+                Schulübergreifend
+              </h3>
+              <p style={{ color: "rgba(255, 255, 255, 0.6)" }}>
+                Drei Stader Schulen kommen zusammen für eine gemeinsame
+                Großveranstaltung
+              </p>
+            </div>
+            <div
+              className="text-center p-10 rounded-2xl border transition-all hover:scale-105"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(168, 139, 250, 0.05) 0%, rgba(255, 217, 72, 0.05) 100%)",
+                borderColor: "rgba(255, 217, 72, 0.2)",
+              }}>
+              <MessageSquare
+                className="w-14 h-14 mx-auto mb-6"
+                style={{ color: "#FFD948" }}
+              />
+              <h3
+                className="text-2xl font-bold mb-4"
+                style={{ color: "#ffffff" }}>
+                Direkte Gespräche
+              </h3>
+              <p style={{ color: "rgba(255, 255, 255, 0.6)" }}>
+                Podiumsdiskussionen und Parteimarkt für direkten Austausch mit
+                Politikern
+              </p>
+            </div>
+            <div
+              className="text-center p-10 rounded-2xl border transition-all hover:scale-105"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(168, 139, 250, 0.05) 0%, rgba(255, 217, 72, 0.05) 100%)",
+                borderColor: "rgba(168, 139, 250, 0.2)",
+              }}>
+              <Vote
+                className="w-14 h-14 mx-auto mb-6"
+                style={{ color: "#A88BFA" }}
+              />
+              <h3
+                className="text-2xl font-bold mb-4"
+                style={{ color: "#ffffff" }}>
+                Deine Stimme zählt
+              </h3>
+              <p style={{ color: "rgba(255, 255, 255, 0.6)" }}>
+                Politische Bildung für Erstwähler zur Kommunal- und
+                Bürgermeisterwahl
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 px-6 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10"
-            >
-              <div className="mb-4">{feature.icon}</div>
-              <h3 className="text-xl font-semibold text-white mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-gray-400 leading-relaxed">
-                {feature.description}
-              </p>
+      <section
+        className="py-32 px-6"
+        style={{
+          background: "linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%)",
+        }}>
+        <div className="max-w-4xl mx-auto">
+          <div
+            className="rounded-3xl p-16 text-center border"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 50%, rgba(168, 139, 250, 0.1) 0%, transparent 70%)",
+              borderColor: "rgba(168, 139, 250, 0.3)",
+            }}>
+            <h2
+              className="text-4xl md:text-5xl font-bold mb-6"
+              style={{ color: "#ffffff" }}>
+              Einzigartig in Deutschland
+            </h2>
+            <p
+              className="text-xl mb-12"
+              style={{ color: "rgba(255, 255, 255, 0.7)" }}>
+              Das Erstwähler Forum 2026 ist die erste Veranstaltung dieser Art
+              in der Region – wenn nicht sogar bundesweit. Eine
+              schulübergreifende Initiative, die jungen Menschen einen
+              einzigartigen Zugang zur Kommunalpolitik bietet.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Link
+                to="/team"
+                onClick={() =>
+                  posthog.capture("team_link_clicked", {
+                    source: "homepage_cta",
+                  })
+                }
+                className="magnetic-target inline-flex items-center justify-center gap-2 px-8 py-4 border rounded-full font-semibold transition-all hover:scale-105"
+                style={{
+                  borderColor: "rgba(168, 139, 250, 0.4)",
+                  color: "#ffffff",
+                }}>
+                Unser Team kennenlernen
+              </Link>
+              <Link
+                to="/blog"
+                onClick={() =>
+                  posthog.capture("blog_link_clicked", {
+                    source: "homepage_cta",
+                  })
+                }
+                className="magnetic-target inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold transition-all hover:scale-105"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #A88BFA 0%, #FFD948 100%)",
+                  color: "#000000",
+                }}>
+                Aktuelle Neuigkeiten
+              </Link>
             </div>
-          ))}
+          </div>
         </div>
       </section>
     </div>
-  )
+  );
 }
