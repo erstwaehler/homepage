@@ -1,8 +1,10 @@
 import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Mail } from "lucide-react";
+import { useEffect } from "react";
 import * as m from "#p";
 import { teamMembers } from "~/data/team";
+import { gsap } from "~/lib/gsap";
 import {
   generateMetaTags,
   generatePersonSchema,
@@ -56,9 +58,41 @@ function TeamMemberPage() {
     member.vorname,
   );
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".member-banner img", {
+        scale: 1.1,
+        duration: 1.2,
+        ease: "expo.out",
+      });
+      gsap.from(".member-back-link", {
+        opacity: 0,
+        x: -20,
+        duration: 0.6,
+        delay: 0.2,
+        ease: "expo.out",
+      });
+      gsap.from(".member-profile-card", {
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        delay: 0.3,
+        ease: "expo.out",
+      });
+      gsap.from(".member-bio-card", {
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        delay: 0.5,
+        ease: "expo.out",
+      });
+    });
+    return () => ctx.revert();
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
-      <div className="relative h-80 bg-muted overflow-hidden">
+      <div className="member-banner relative h-80 bg-muted overflow-hidden">
         <img
           src={member.banner_image}
           alt={`${member.vorname} Banner`}
@@ -70,12 +104,12 @@ function TeamMemberPage() {
       <div className="max-w-4xl mx-auto px-6 -mt-32 relative">
         <Link
           to="/team"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
+          className="member-back-link inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
           <ArrowLeft className="w-4 h-4" />
           Zurück zum Team
         </Link>
 
-        <div className="bg-card border border-border rounded-2xl p-8 mb-8">
+        <div className="member-profile-card bg-card border border-border rounded-2xl p-8 mb-8">
           <div className="flex flex-col md:flex-row gap-8 items-start">
             <img
               src={member.profile_image}
@@ -131,7 +165,7 @@ function TeamMemberPage() {
           </div>
         </div>
 
-        <div className="bg-card border border-border rounded-2xl p-8">
+        <div className="member-bio-card bg-card border border-border rounded-2xl p-8">
           <h2 className="text-2xl font-bold mb-4">Über {member.vorname}</h2>
           <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
             <p className="text-muted-foreground leading-relaxed">

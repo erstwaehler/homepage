@@ -1,8 +1,10 @@
 import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Calendar } from "lucide-react";
+import { useEffect } from "react";
 import { allPosts } from "#cc";
 import * as m from "#p";
+import { gsap } from "~/lib/gsap";
 import { generateMetaTags } from "~/lib/meta";
 import { getLocale } from "~/paraglide/runtime";
 
@@ -31,10 +33,37 @@ function BlogListPage() {
   const posts = Route.useLoaderData();
   const currentLocale = getLocale();
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".blog-hero h1", {
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        ease: "expo.out",
+      });
+      gsap.from(".blog-hero p", {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        delay: 0.15,
+        ease: "expo.out",
+      });
+      gsap.from(".blog-post", {
+        opacity: 0,
+        y: 40,
+        duration: 0.7,
+        stagger: 0.1,
+        delay: 0.3,
+        ease: "expo.out",
+      });
+    });
+    return () => ctx.revert();
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-5xl mx-auto px-6 py-16">
-        <div className="mb-12">
+      <div className="max-w-5xl mx-auto px-6 pt-32 pb-16">
+        <div className="blog-hero mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             {m.blog_title()}
           </h1>
@@ -54,7 +83,7 @@ function BlogListPage() {
                   post_author: post.author,
                 })
               }
-              className="group block bg-card border border-border rounded-xl p-8 hover:border-primary/50 transition-all hover:shadow-lg">
+              className="blog-post group block bg-card border border-border rounded-xl p-8 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-0.5">
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div className="flex-1">
                   <h2 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">
