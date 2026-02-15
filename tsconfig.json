@@ -23,7 +23,12 @@
     "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
-    }
-  }
+      "#cc": ["./.content-collections/generated"],
+      "#p": ["./src/paraglide/messages"],
+      "#env": ["./src/env.ts"],
+      "#flags": ["./src/lib/flags.ts"],
+      "~/*": ["./src/*"],
+      "@/*": ["./*"],
+    },
+  },
 }

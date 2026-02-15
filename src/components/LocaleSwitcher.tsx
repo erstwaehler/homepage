@@ -1,46 +1,79 @@
-// Locale switcher refs:
-// - Paraglide docs: https://inlang.com/m/gerre34r/library-inlang-paraglideJs
-// - Router example: https://github.com/TanStack/router/tree/main/examples/react/i18n-paraglide#switching-locale
-import { getLocale, locales, setLocale } from '@/paraglide/runtime'
-import { m } from '@/paraglide/messages'
+"use client";
 
-export default function ParaglideLocaleSwitcher() {
-  const currentLocale = getLocale()
+import { usePostHog } from "@posthog/react";
+import { Languages } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
+import { getLocale, locales, setLocale } from "~/paraglide/runtime";
+
+const languageConfig = {
+  de: { name: "Deutsch", flag: "🇩🇪" },
+  en: { name: "English", flag: "🇬🇧" },
+} as const;
+
+const fallbackLanguage = { name: "Unknown", flag: "🌐" };
+
+export default function LocaleSwitcher() {
+  const posthog = usePostHog();
+  const currentLocale = getLocale();
+
+  const handleLocaleChange = (newLocale: string) => {
+    if (newLocale !== currentLocale) {
+      posthog.capture("locale_changed", {
+        from_locale: currentLocale,
+        to_locale: newLocale,
+      });
+    }
+    setLocale(newLocale as typeof currentLocale);
+  };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        gap: '0.5rem',
-        alignItems: 'center',
-        color: 'inherit',
-      }}
-      aria-label={m.language_label()}
-    >
-      <span style={{ opacity: 0.85 }}>
-        {m.current_locale({ locale: currentLocale })}
-      </span>
-      <div style={{ display: 'flex', gap: '0.25rem' }}>
-        {locales.map((locale) => (
-          <button
-            key={locale}
-            onClick={() => setLocale(locale)}
-            aria-pressed={locale === currentLocale}
-            style={{
-              cursor: 'pointer',
-              padding: '0.35rem 0.75rem',
-              borderRadius: '999px',
-              border: '1px solid #d1d5db',
-              background: locale === currentLocale ? '#0f172a' : 'transparent',
-              color: locale === currentLocale ? '#f8fafc' : 'inherit',
-              fontWeight: locale === currentLocale ? 700 : 500,
-              letterSpacing: '0.01em',
-            }}
-          >
-            {locale.toUpperCase()}
-          </button>
-        ))}
-      </div>
-    </div>
-  )
+    <Select value={currentLocale} onValueChange={handleLocaleChange}>
+      <SelectTrigger className="w-[180px] gap-2">
+        <Languages className="w-4 h-4" />
+        <SelectValue>
+          <span className="flex items-center gap-2">
+            <span>
+              {
+                (
+                  languageConfig[
+                    currentLocale as keyof typeof languageConfig
+                  ] ?? fallbackLanguage
+                ).flag
+              }
+            </span>
+            <span>
+              {
+                (
+                  languageConfig[
+                    currentLocale as keyof typeof languageConfig
+                  ] ?? fallbackLanguage
+                ).name
+              }
+            </span>
+          </span>
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {locales.map((locale) => {
+          const config =
+            languageConfig[locale as keyof typeof languageConfig] ??
+            fallbackLanguage;
+          return (
+            <SelectItem key={locale} value={locale}>
+              <span className="flex items-center gap-2">
+                <span className="text-xl">{config.flag}</span>
+                <span>{config.name}</span>
+              </span>
+            </SelectItem>
+          );
+        })}
+      </SelectContent>
+    </Select>
+  );
 }
