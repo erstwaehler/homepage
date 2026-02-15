@@ -173,9 +173,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             api_host: "/ingest",
             ui_host: env.VITE_PUBLIC_POSTHOG_HOST || "https://eu.posthog.com",
             capture_exceptions: true,
-            capture_exceptions: true,
             debug: import.meta.env.DEV,
-          }}>
+          }}
+        >
           <NoiseOverlay />
           <CustomCursor />
           <Header />

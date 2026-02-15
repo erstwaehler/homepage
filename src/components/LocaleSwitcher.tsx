@@ -59,7 +59,7 @@ export default function LocaleSwitcher() {
           </span>
         </SelectValue>
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent position="popper" sideOffset={6} align="end">
         {locales.map((locale) => {
           const config =
             languageConfig[locale as keyof typeof languageConfig] ??

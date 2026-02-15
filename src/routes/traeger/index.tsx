@@ -1,7 +1,9 @@
 import { usePostHog } from "@posthog/react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Building2, Heart, Users } from "lucide-react";
+import { useEffect } from "react";
 import * as m from "#p";
+import { gsap } from "~/lib/gsap";
 import { generateMetaTags } from "~/lib/meta";
 
 export const Route = createFileRoute("/traeger/")({
@@ -22,6 +24,41 @@ export const Route = createFileRoute("/traeger/")({
 
 function TraegerPage() {
   const posthog = usePostHog();
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".traeger-hero h1", {
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        ease: "expo.out",
+      });
+      gsap.from(".traeger-hero p", {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        delay: 0.15,
+        ease: "expo.out",
+      });
+      gsap.from(".school-card", {
+        opacity: 0,
+        y: 50,
+        duration: 0.7,
+        stagger: 0.12,
+        delay: 0.3,
+        ease: "expo.out",
+      });
+      gsap.from(".traeger-detail", {
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        delay: 0.6,
+        ease: "expo.out",
+      });
+    });
+    return () => ctx.revert();
+  }, []);
+
   const schools = [
     {
       name: "Gymnasium Athenaeum Stade",
@@ -45,8 +82,8 @@ function TraegerPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-6xl mx-auto px-6 py-16">
-        <div className="mb-12 text-center">
+      <div className="max-w-6xl mx-auto px-6 pt-32 pb-16">
+        <div className="traeger-hero mb-12 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             {m.traeger_title()}
           </h1>
@@ -61,7 +98,7 @@ function TraegerPage() {
           {schools.map((school) => (
             <div
               key={school.name}
-              className="bg-card border border-border rounded-xl p-8 hover:border-primary/50 transition-all">
+              className="school-card bg-card border border-border rounded-xl p-8 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1">
               <Building2 className="w-12 h-12 text-primary mb-4" />
               <h3 className="text-xl font-semibold mb-3">{school.name}</h3>
               <p className="text-muted-foreground mb-4 leading-relaxed">
@@ -84,7 +121,7 @@ function TraegerPage() {
           ))}
         </div>
 
-        <div className="bg-card border border-border rounded-2xl p-12">
+        <div className="traeger-detail bg-card border border-border rounded-2xl p-12">
           <div className="max-w-3xl mx-auto">
             <div className="flex items-center gap-4 mb-8">
               <img

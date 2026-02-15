@@ -4,10 +4,7 @@ import { Calendar, MapPin, MessageSquare, Users, Vote } from "lucide-react";
 import { useEffect, useRef } from "react";
 import * as m from "#p";
 import { gsap } from "~/lib/gsap";
-import {
-  generateMetaTags,
-  generateWebSiteSchema,
-} from "~/lib/meta";
+import { generateMetaTags, generateWebSiteSchema } from "~/lib/meta";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
