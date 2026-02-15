@@ -1,56 +1,57 @@
-import barba from '@barba/core'
-import { gsap } from './gsap'
-import { initScrollTrigger, cleanupScrollTrigger } from './gsap'
+import barba, { type ITransitionData } from "@barba/core";
+import { cleanupScrollTrigger, gsap, initScrollTrigger } from "./gsap";
 
 export function initBarba() {
-  if (typeof window === 'undefined') return
+  if (typeof window === "undefined") return;
 
   barba.init({
     transitions: [
       {
-        name: 'page-transition',
-        async leave(data) {
-          cleanupScrollTrigger()
-          const done = this.async()
-          
-          gsap.to(data.current.container, {
-            opacity: 0,
-            y: -50,
-            duration: 0.4,
-            ease: 'power2.inOut',
-            onComplete: done,
-          })
+        name: "page-transition",
+        leave(data: ITransitionData) {
+          cleanupScrollTrigger();
+
+          return new Promise((resolve) => {
+            gsap.to(data.current.container, {
+              opacity: 0,
+              y: -50,
+              duration: 0.4,
+              ease: "power2.inOut",
+              onComplete: resolve,
+            });
+          });
         },
-        async enter(data) {
-          window.scrollTo(0, 0)
-          
-          gsap.from(data.next.container, {
-            opacity: 0,
-            y: 50,
-            duration: 0.4,
-            ease: 'power2.inOut',
-            onComplete: () => {
-              initScrollTrigger()
-            },
-          })
+        enter(data: ITransitionData) {
+          window.scrollTo(0, 0);
+
+          return new Promise((resolve) => {
+            gsap.from(data.next.container, {
+              opacity: 0,
+              y: 50,
+              duration: 0.4,
+              ease: "power2.inOut",
+              onComplete: () => {
+                initScrollTrigger();
+                resolve();
+              },
+            });
+          });
         },
       },
     ],
     views: [
       {
-        namespace: 'home',
+        namespace: "home",
         afterEnter() {
-          if (typeof window !== 'undefined' && window.initHeroAnimations) {
-            window.initHeroAnimations()
-          }
+          window.initHeroAnimations?.();
         },
       },
     ],
-  })
+  });
 }
 
 declare global {
   interface Window {
-    initHeroAnimations?: () => void
+    initHeroAnimations?: () => void;
   }
 }

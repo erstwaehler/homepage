@@ -1,12 +1,14 @@
+import { usePostHog } from "@posthog/react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Building2, Heart, Users } from "lucide-react";
-import * as m from "@/paraglide/messages";
+import * as m from "#p";
 
 export const Route = createFileRoute("/traeger/")({
   component: TraegerPage,
 });
 
 function TraegerPage() {
+  const posthog = usePostHog();
   const schools = [
     {
       name: "Gymnasium Athenaeum Stade",
@@ -46,8 +48,7 @@ function TraegerPage() {
           {schools.map((school) => (
             <div
               key={school.name}
-              className="bg-card border border-border rounded-xl p-8 hover:border-primary/50 transition-all"
-            >
+              className="bg-card border border-border rounded-xl p-8 hover:border-primary/50 transition-all">
               <Building2 className="w-12 h-12 text-primary mb-4" />
               <h3 className="text-xl font-semibold mb-3">{school.name}</h3>
               <p className="text-muted-foreground mb-4 leading-relaxed">
@@ -57,8 +58,13 @@ function TraegerPage() {
                 href={school.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary hover:underline text-sm font-medium"
-              >
+                onClick={() =>
+                  posthog.capture("school_website_clicked", {
+                    school_name: school.name,
+                    website_url: school.website,
+                  })
+                }
+                className="text-primary hover:underline text-sm font-medium">
                 Zur Website →
               </a>
             </div>

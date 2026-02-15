@@ -1,0 +1,27 @@
+diff --git a/node_modules/@barba/core/.bun-tag-7f050fa68f44437c b/.bun-tag-7f050fa68f44437c
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/node_modules/@barba/core/.bun-tag-e6e44fa8296ffd9e b/.bun-tag-e6e44fa8296ffd9e
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/node_modules/@barba/core/dist/barba.d.ts b/dist/barba.d.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..34cc5f5c9459afa9775451a4460cadcc52d85ebf
+--- /dev/null
++++ b/dist/barba.d.ts
+@@ -0,0 +1,2 @@
++export { default } from './src';
++export * from './src/defs';
+diff --git a/package.json b/package.json
+index 3b473aaf92a20c360744e4b3ee4a23db11f0a920..f97b2f4a0ec7836569f1726d45d1c26013467d8e 100644
+--- a/package.json
++++ b/package.json
+@@ -11,7 +11,7 @@
+   "unpkg": "dist/barba.umd.js",
+   "module": "dist/barba.mjs",
+   "source": "src/index.ts",
+-  "types": "dist/core/src/typings",
++  "types": "dist/barba.d.ts",
+   "mangle": {
+     "regex": "^_"
+   },

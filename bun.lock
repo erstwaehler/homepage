@@ -6,6 +6,7 @@
       "name": "homepage",
       "dependencies": {
         "@barba/core": "^2.10.3",
+        "@posthog/react": "^1.7.1",
         "@t3-oss/env-core": "^0.13.8",
         "@tailwindcss/vite": "^4.0.6",
         "@tanstack/react-devtools": "^0.7.0",
@@ -52,6 +53,9 @@
         "web-vitals": "^5.1.0",
       },
     },
+  },
+  "patchedDependencies": {
+    "@barba/core@2.10.3": "patches/@barba%2Fcore@2.10.3.patch",
   },
   "packages": {
     "@acemir/cssom": ["@acemir/cssom@0.9.31", "", {}, "sha512-ZnR3GSaH+/vJ0YlHau21FjfLYjMpYVIzTD8M8vIEQvIGxeOXyXdzCI140rrCY862p/C/BbzWsjc1dgnM9mkoTA=="],
@@ -347,6 +351,8 @@
     "@oxc-transform/binding-win32-x64-msvc": ["@oxc-transform/binding-win32-x64-msvc@0.110.0", "", { "os": "win32", "cpu": "x64" }, "sha512-QROrowwlrApI1fEScMknGWKM6GTM/Z2xwMnDqvSaEmzNazBsDUlE08Jasw610hFEsYAVU2K5sp/YaCa9ORdP4A=="],
 
     "@posthog/core": ["@posthog/core@1.22.0", "", { "dependencies": { "cross-spawn": "^7.0.6" } }, "sha512-WkmOnq95aAOu6yk6r5LWr5cfXsQdpVbWDCwOxQwxSne8YV6GuZET1ziO5toSQXgrgbdcjrSz2/GopAfiL6iiAA=="],
+
+    "@posthog/react": ["@posthog/react@1.7.1", "", { "peerDependencies": { "@types/react": ">=16.8.0", "posthog-js": ">=1.257.2", "react": ">=16.8.0" }, "optionalPeers": ["@types/react"] }, "sha512-x2u7zRjsCpZoZUuvaJRgKWMJWbCPmLO49iXjOx9PdgOB/v5jwphZTj9ZmFZWkXgobdjmqQvVtXaLTMxcb0537g=="],
 
     "@posthog/types": ["@posthog/types@1.347.2", "", {}, "sha512-aT+r/7jXOzPmUHO6sutoWzczPcYIZyhmWt1f1OvY4zKC7Pwp/ZsJWKFTxjV02p0PZz96AE83eLTe7w7b6tjhIw=="],
 

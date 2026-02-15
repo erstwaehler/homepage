@@ -1,3 +1,4 @@
+import { PostHogProvider } from "@posthog/react";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 import {
@@ -6,10 +7,10 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { initBarba } from "@/lib/barba";
-import { initLenis } from "@/lib/lenis";
-import * as m from "@/paraglide/messages";
-import { getLocale } from "@/paraglide/runtime";
+import { initBarba } from "~/lib/barba";
+import { initLenis } from "~/lib/lenis";
+import * as m from "~/paraglide/messages";
+import { getLocale } from "~/paraglide/runtime";
 import CustomCursor from "../components/CustomCursor";
 import Header from "../components/Header";
 import NoiseOverlay from "../components/NoiseOverlay";
@@ -67,26 +68,38 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <NoiseOverlay />
-        <CustomCursor />
-        <Header />
-        <main data-barba="wrapper">
-          <div data-barba="container" data-barba-namespace="page">
-            {children}
-          </div>
-        </main>
-        <TanStackDevtools
-          config={{
-            position: "bottom-right",
-          }}
-          plugins={[
-            {
-              name: "Tanstack Router",
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-            TanStackQueryDevtools,
-          ]}
-        />
+        <PostHogProvider
+          apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY!}
+          options={{
+            api_host: "/ingest",
+            ui_host:
+              import.meta.env.VITE_PUBLIC_POSTHOG_HOST ||
+              "https://eu.posthog.com",
+            defaults: "2025-05-24",
+            capture_exceptions: true,
+            debug: import.meta.env.DEV,
+          }}>
+          <NoiseOverlay />
+          <CustomCursor />
+          <Header />
+          <main data-barba="wrapper">
+            <div data-barba="container" data-barba-namespace="page">
+              {children}
+            </div>
+          </main>
+          <TanStackDevtools
+            config={{
+              position: "bottom-right",
+            }}
+            plugins={[
+              {
+                name: "Tanstack Router",
+                render: <TanStackRouterDevtoolsPanel />,
+              },
+              TanStackQueryDevtools,
+            ]}
+          />
+        </PostHogProvider>
         <Scripts />
       </body>
     </html>

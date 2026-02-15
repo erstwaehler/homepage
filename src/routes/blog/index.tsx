@@ -1,38 +1,48 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { allPosts } from 'content-collections'
-import { Calendar, ArrowRight } from 'lucide-react'
-import * as m from '@/paraglide/messages'
+import { usePostHog } from "@posthog/react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { allPosts } from "#cc";
+import { ArrowRight, Calendar } from "lucide-react";
+import * as m from "#p";
 
-export const Route = createFileRoute('/blog/')({
+export const Route = createFileRoute("/blog/")({
   loader: () => {
-    return allPosts.sort((a, b) => 
-      new Date(b.date).getTime() - new Date(a.date).getTime()
-    )
+    return allPosts.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+    );
   },
   component: BlogListPage,
-})
+});
 
 function BlogListPage() {
-  const posts = Route.useLoaderData()
-  
+  const posthog = usePostHog();
+  const posts = Route.useLoaderData();
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-5xl mx-auto px-6 py-16">
         <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{m.blog_title()}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            {m.blog_title()}
+          </h1>
           <p className="text-xl text-muted-foreground">
             Neuigkeiten und Updates zum Erstwähler Forum 2026
           </p>
         </div>
-        
+
         <div className="space-y-8">
           {posts.map((post) => (
             <Link
               key={post.slug}
               to="/blog/$slug"
               params={{ slug: post.slug }}
-              className="group block bg-card border border-border rounded-xl p-8 hover:border-primary/50 transition-all hover:shadow-lg"
-            >
+              onClick={() =>
+                posthog.capture("blog_post_selected", {
+                  post_slug: post.slug,
+                  post_title: post.title,
+                  post_author: post.author,
+                })
+              }
+              className="group block bg-card border border-border rounded-xl p-8 hover:border-primary/50 transition-all hover:shadow-lg">
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div className="flex-1">
                   <h2 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">
@@ -42,10 +52,10 @@ function BlogListPage() {
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4" />
                       <time dateTime={post.date}>
-                        {new Date(post.date).toLocaleDateString('de-DE', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
+                        {new Date(post.date).toLocaleDateString("de-DE", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
                         })}
                       </time>
                     </div>
@@ -59,7 +69,7 @@ function BlogListPage() {
                 </div>
                 <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
               </div>
-              
+
               {post.description && (
                 <p className="text-muted-foreground leading-relaxed">
                   {post.description}
@@ -70,5 +80,5 @@ function BlogListPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
