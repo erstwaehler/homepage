@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Building2, Heart, Users } from "lucide-react";
 import { useEffect } from "react";
 import * as m from "#p";
+import { OptimizedImage } from "~/components/OptimizedImage";
 import { gsap } from "~/lib/gsap";
 import { generateMetaTags } from "~/lib/meta";
 
@@ -94,7 +95,8 @@ function TraegerPage() {
           {schools.map((school) => (
             <div
               key={school.name}
-              className="school-card bg-card border border-border rounded-xl p-8 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1">
+              className="school-card bg-card border border-border rounded-xl p-8 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1"
+            >
               <Building2 className="w-12 h-12 text-primary mb-4" />
               <h3 className="text-xl font-semibold mb-3">{school.name}</h3>
               <p className="text-muted-foreground mb-4 leading-relaxed">
@@ -110,7 +112,8 @@ function TraegerPage() {
                     website_url: school.website,
                   })
                 }
-                className="text-primary hover:underline text-sm font-medium">
+                className="text-primary hover:underline text-sm font-medium"
+              >
                 Zur Website →
               </a>
             </div>
@@ -120,9 +123,10 @@ function TraegerPage() {
         <div className="traeger-detail bg-card border border-border rounded-2xl p-12">
           <div className="max-w-3xl mx-auto">
             <div className="flex items-center gap-4 mb-8">
-              <img
+              <OptimizedImage
                 src="/schulen/schulleitungen.png"
                 alt="Schulleitungen"
+                layout="fullWidth"
                 className="w-full rounded-lg border border-border"
               />
             </div>

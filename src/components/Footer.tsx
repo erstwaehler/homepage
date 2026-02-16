@@ -8,75 +8,110 @@ import LocaleSwitcher from "./LocaleSwitcher";
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const navItems = [
+  const navigationItems = [
     { to: "/", label: m.nav_home() },
     { to: "/konzept", label: m.nav_konzept() },
-    { to: "/team", label: m.nav_team() },
-    { to: "/traeger", label: m.nav_traeger() },
     { to: "/blog", label: m.nav_blog() },
     { to: "/impressum", label: m.nav_impressum() },
   ];
 
+  const aboutItems = [
+    { to: "/team", label: m.nav_team() },
+    { to: "/traeger", label: m.nav_traeger() },
+  ];
+
   return (
-    <footer className="bg-card border-t border-border mt-20">
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+    <footer className="bg-linear-to-b from-card via-card to-background border-t border-border mt-20">
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
           {/* Brand Section */}
-          <div className="space-y-4">
+          <div className="md:col-span-4 space-y-6">
             <div className="flex items-center gap-3">
-              <Vote className="w-8 h-8 text-primary" />
-              <span className="font-bold text-xl">{m.site_title()}</span>
+              <Vote className="w-10 h-10 text-primary" />
+              <span className="font-bold text-2xl">{m.site_title()}</span>
             </div>
-            <p className="text-sm text-muted-foreground">
-              {m.footer_tagline()}
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
+              Schulübergreifende Großveranstaltung zur politischen Bildung
             </p>
           </div>
 
-          {/* Navigation */}
-          <div>
-            <h3 className="font-semibold mb-4">{m.footer_navigation()}</h3>
-            <nav className="space-y-2">
-              {navItems.map((item) => (
+          {/* Navigation Section */}
+          <div className="md:col-span-3">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-6">
+              NAVIGATION
+            </h3>
+            <nav className="space-y-3">
+              {navigationItems.map((item) => (
                 <Link
                   key={item.to}
                   to={item.to}
-                  className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  className="block text-foreground hover:text-primary transition-colors duration-200"
+                >
                   {item.label}
                 </Link>
               ))}
             </nav>
           </div>
 
-          {/* Language & Contact */}
-          <div className="space-y-6">
-            <div>
-              <h3 className="font-semibold mb-4">{m.footer_language()}</h3>
-              <LocaleSwitcher />
+          {/* About Section */}
+          <div className="md:col-span-3">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-6">
+              WER WIR SIND
+            </h3>
+            <nav className="space-y-3">
+              {aboutItems.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className="block text-foreground hover:text-primary transition-colors duration-200"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          {/* Social & Language Section */}
+          <div className="md:col-span-2">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-6">
+              SOCIALS
+            </h3>
+            <div className="flex gap-4 mb-8">
+              <a
+                href="mailto:info@ewf-stade.de"
+                className="text-foreground hover:text-primary transition-colors duration-200"
+                aria-label="E-Mail"
+              >
+                <Mail className="w-6 h-6" />
+              </a>
+              <a
+                href="https://github.com/erstwaehlerforum"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-primary transition-colors duration-200"
+                aria-label="GitHub"
+              >
+                <Github className="w-6 h-6" />
+              </a>
             </div>
-            <div>
-              <h3 className="font-semibold mb-4">{m.footer_contact()}</h3>
-              <div className="flex gap-4">
-                <a
-                  href="mailto:info@ewf-stade.de"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="E-Mail">
-                  <Mail className="w-5 h-5" />
-                </a>
-                <a
-                  href="https://github.com/erstwaehlerforum"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="GitHub">
-                  <Github className="w-5 h-5" />
-                </a>
-              </div>
-            </div>
+            <LocaleSwitcher />
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          <p>{m.footer_rights({ year: currentYear })}</p>
+        {/* Footer Bottom */}
+        <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+          <p>
+            © {currentYear} • {m.site_title()} • Erstwähler Forum ist eine
+            gemeinnützige Initiative
+          </p>
+          <div className="flex gap-6">
+            <Link
+              to="/impressum"
+              className="hover:text-foreground transition-colors"
+            >
+              Impressum
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

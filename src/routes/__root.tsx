@@ -16,6 +16,8 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import NoiseOverlay from "../components/NoiseOverlay";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
+import { NotFoundPage } from "./404";
+import { ServerErrorPage } from "./500";
 import appCss from "../styles.css?url";
 
 if (typeof window !== "undefined") {
@@ -32,6 +34,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       document.documentElement.setAttribute("lang", getLocale());
     }
   },
+
+  notFoundComponent: NotFoundPage,
+  errorComponent: ServerErrorPage,
 
   head: () => {
     const siteUrl = "https://ewf-stade.de";

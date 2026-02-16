@@ -2,7 +2,7 @@
 
 import { usePostHog } from "@posthog/react";
 import { Link } from "@tanstack/react-router";
-import { Menu, Vote, X } from "lucide-react";
+import { Vote, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import * as m from "#p";
 import { gsap, ScrollTrigger } from "~/lib/gsap";
@@ -11,10 +11,15 @@ export default function Header() {
   const posthog = usePostHog();
   const [isOpen, setIsOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const handleMenuOpen = () => {
-    posthog.capture("mobile_menu_opened");
+    posthog.capture("menu_opened");
     setIsOpen(true);
+  };
+
+  const handleMenuClose = () => {
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -22,8 +27,6 @@ export default function Header() {
 
     const header = headerRef.current;
 
-    // Initialisierung der Maske für den Gradient-Blur-Effekt
-    // Dies sorgt dafür, dass der Blur-Effekt nach unten hin weich ausläuft
     gsap.set(header, {
       webkitMaskImage:
         "linear-gradient(to bottom, black 0%, black 50%, transparent 100%)",
@@ -42,7 +45,6 @@ export default function Header() {
 
         gsap.to(header, {
           backdropFilter: `blur(${blur}px)`,
-          // Hintergrund-Gradient, der mit dem Scrollen dunkler wird
           background: `linear-gradient(to bottom, rgba(0, 0, 0, ${opacity}), rgba(0, 0, 0, 0))`,
           duration: 0.1,
           ease: "none",
@@ -70,6 +72,41 @@ export default function Header() {
     };
   }, [isOpen]);
 
+  // Animate menu on open/close
+  useEffect(() => {
+    if (!menuRef.current) return;
+
+    if (isOpen) {
+      // Fade in overlay
+      gsap.fromTo(
+        menuRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3, ease: "power2.out" },
+      );
+
+      // Animate menu items
+      const ctx = gsap.context(() => {
+        gsap.from(".menu-item", {
+          y: 60,
+          opacity: 0,
+          duration: 0.6,
+          stagger: 0.08,
+          ease: "expo.out",
+          delay: 0.2,
+        });
+      }, menuRef);
+
+      return () => ctx.revert();
+    } else if (menuRef.current) {
+      // Fade out overlay
+      gsap.to(menuRef.current, {
+        opacity: 0,
+        duration: 0.3,
+        ease: "power2.in",
+      });
+    }
+  }, [isOpen]);
+
   const navItems = [
     { to: "/", label: m.nav_home() },
     { to: "/konzept", label: m.nav_konzept() },
@@ -83,14 +120,15 @@ export default function Header() {
     <>
       <header
         ref={headerRef}
-        /* h-32 statt h-20, damit der Gradient Raum zum Auslaufen hat */
         className="fixed top-0 z-40 w-full transition-all duration-300 h-32 pointer-events-none"
-        style={{ backgroundColor: "transparent" }}>
+        style={{ backgroundColor: "transparent" }}
+      >
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between pointer-events-auto">
           <Link
             to="/"
-            className="flex items-center gap-3 hover:opacity-80 transition-opacity magnetic-target">
-            <Vote className="w-8 h-8 text-white" />
+            className="flex items-center gap-3 hover:opacity-80 transition-opacity magnetic-target group"
+          >
+            <Vote className="w-8 h-8 text-white group-hover:scale-110 transition-transform" />
             <span className="font-bold text-xl hidden sm:inline text-white">
               {m.site_title()}
             </span>
@@ -99,73 +137,93 @@ export default function Header() {
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className="text-sm font-medium text-white/80 hover:text-white transition-colors magnetic-target"
-                activeProps={{
-                  className: "text-sm font-medium text-white",
-                }}>
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
           <button
             type="button"
             onClick={handleMenuOpen}
-            className="md:hidden p-2 hover:bg-white/10 rounded-lg transition-colors text-white"
-            aria-label="Open menu">
-            <Menu size={24} />
+            className="flex items-center gap-2 text-white hover:text-white/80 transition-colors group"
+            aria-label="Open menu"
+          >
+            <span className="text-2xl font-light group-hover:tracking-wider transition-all">
+              +
+            </span>
+            <span className="text-sm font-medium uppercase tracking-wider">
+              MENU
+            </span>
           </button>
         </div>
       </header>
 
-      {/* Mobile Sidebar */}
-      <aside
-        className={`fixed top-0 left-0 h-full w-80 bg-card border-r border-border shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}>
-        <div className="flex items-center justify-between p-4 border-b border-border">
-          <div className="flex items-center gap-3">
-            <Vote className="w-6 h-6 text-primary" />
-            <h2 className="text-lg font-bold">{m.site_title()}</h2>
-          </div>
-          <button
-            type="button"
-            onClick={() => setIsOpen(false)}
-            className="p-2 hover:bg-accent rounded-lg transition-colors"
-            aria-label="Close menu">
-            <X size={24} />
-          </button>
-        </div>
-
-        <nav className="flex-1 p-4 overflow-y-auto">
-          {navItems.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors mb-2"
-              activeProps={{
-                className:
-                  "flex items-center gap-3 p-3 rounded-lg bg-primary text-primary-foreground transition-colors mb-2",
-              }}>
-              <span className="font-medium">{item.label}</span>
-            </Link>
-          ))}
-        </nav>
-      </aside>
-
+      {/* Fullscreen Menu Overlay */}
       {isOpen && (
-        <button
-          type="button"
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden"
-          onClick={() => setIsOpen(false)}
-          aria-label="Close menu"
-        />
+        <div
+          ref={menuRef}
+          className="fixed inset-0 z-50 bg-card/95 backdrop-blur-xl overflow-hidden"
+        >
+          <div className="max-w-7xl mx-auto px-6 h-screen flex flex-col">
+            {/* Menu Header */}
+            <div className="h-20 flex items-center justify-between">
+              <Link
+                to="/"
+                onClick={handleMenuClose}
+                className="flex items-center gap-3 hover:opacity-80 transition-opacity group"
+              >
+                <Vote className="w-8 h-8 text-foreground group-hover:scale-110 transition-transform" />
+                <span className="font-bold text-xl hidden sm:inline text-foreground">
+                  {m.site_title()}
+                </span>
+                <span className="font-bold text-xl sm:hidden text-foreground">
+                  EWF'26
+                </span>
+              </Link>
+
+              <button
+                type="button"
+                onClick={handleMenuClose}
+                className="flex items-center gap-2 hover:text-muted-foreground transition-colors group"
+                aria-label="Close menu"
+              >
+                <X className="w-6 h-6" />
+                <span className="text-sm font-medium uppercase tracking-wider">
+                  CLOSE
+                </span>
+              </button>
+            </div>
+
+            {/* Menu Items */}
+            <nav className="flex-1 flex items-center justify-center">
+              <div className="space-y-2 w-full max-w-3xl">
+                {navItems.map((item, index) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    onClick={handleMenuClose}
+                    className="menu-item block group"
+                    activeProps={{
+                      className: "menu-item block group active",
+                    }}
+                  >
+                    <div className="flex items-center justify-between py-6 px-8 border-b border-border/50 hover:border-primary/50 transition-all duration-300">
+                      <span className="text-4xl md:text-6xl font-bold group-hover:text-primary group-hover:translate-x-4 transition-all duration-300">
+                        {item.label}
+                      </span>
+                      <span className="text-lg md:text-2xl text-muted-foreground group-hover:text-primary group-hover:translate-x-2 transition-all duration-300">
+                        ({String(index + 1).padStart(2, "0")})
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </nav>
+
+            {/* Menu Footer */}
+            <div className="h-20 flex items-center justify-between text-sm text-muted-foreground">
+              <p>
+                © {new Date().getFullYear()} {m.site_title()}
+              </p>
+              <p className="hidden md:block">Erstwähler Forum 2026 – Stade</p>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
