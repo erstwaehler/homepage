@@ -1,3 +1,4 @@
+import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Calendar, MapPin, MessageSquare, Users, Vote } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -31,6 +32,7 @@ const HERO_IMAGES = [
 ];
 
 function HomePage() {
+  const posthog = usePostHog();
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const heroImageRef = useRef<HTMLDivElement>(null);
@@ -359,6 +361,13 @@ function HomePage() {
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link
                 to="/team"
+                onClick={() =>
+                  posthog.capture("cta_clicked", {
+                    cta_label: "Unser Team kennenlernen",
+                    cta_destination: "/team",
+                    cta_location: "homepage_unique_section",
+                  })
+                }
                 className="magnetic-target inline-flex items-center justify-center gap-2 px-8 py-4 border rounded-full font-semibold transition-all hover:scale-105"
                 style={{
                   borderColor: "rgba(168, 139, 250, 0.4)",
@@ -368,6 +377,13 @@ function HomePage() {
               </Link>
               <Link
                 to="/blog"
+                onClick={() =>
+                  posthog.capture("cta_clicked", {
+                    cta_label: "Aktuelle Neuigkeiten",
+                    cta_destination: "/blog",
+                    cta_location: "homepage_unique_section",
+                  })
+                }
                 className="magnetic-target inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold transition-all hover:scale-105"
                 style={{
                   background:

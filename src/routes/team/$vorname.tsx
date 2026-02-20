@@ -1,3 +1,4 @@
+import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Mail } from "lucide-react";
 import { useEffect } from "react";
@@ -62,9 +63,18 @@ export const Route = createFileRoute("/team/$vorname")({
 
 function TeamMemberPage() {
   const member = Route.useLoaderData();
+  const posthog = usePostHog();
   const hasEmail = ["jack", "maite", "joshua", "oskar"].includes(
     member.vorname,
   );
+
+  useEffect(() => {
+    posthog.capture("team_member_viewed", {
+      member_name: member.vorname,
+      member_role: member.rolle,
+      member_school: member.schule,
+    });
+  }, [member.vorname, member.rolle, member.schule, posthog]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -143,6 +153,12 @@ function TeamMemberPage() {
                 {hasEmail && (
                   <a
                     href={`mailto:${member.vorname}@ewf-stade.de`}
+                    onClick={() =>
+                      posthog.capture("team_member_email_clicked", {
+                        member_name: member.vorname,
+                        member_role: member.rolle,
+                      })
+                    }
                     className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
                     <Mail className="w-4 h-4" />
                     E-Mail

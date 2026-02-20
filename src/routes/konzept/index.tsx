@@ -1,4 +1,5 @@
 import { MDXContent } from "@content-collections/mdx/react";
+import { usePostHog } from "@posthog/react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Calendar,
@@ -38,10 +39,17 @@ export const Route = createFileRoute("/konzept/")({
 
 function KonzeptPage() {
   const page = Route.useLoaderData();
+  const posthog = usePostHog();
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const highlightsRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    posthog.capture("konzept_page_viewed", {
+      page_title: page.title,
+    });
+  }, [page.title, posthog]);
 
   // Initial animations
   useEffect(() => {

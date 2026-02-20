@@ -44,7 +44,16 @@ const config = defineConfig({
     }),
     viteReact(),
   ],
-  server: {},
+  server: {
+    proxy: {
+      "/ingest": {
+        target: "https://eu.i.posthog.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/ingest/, ""),
+        secure: false,
+      },
+    },
+  },
 });
 
 export default config;

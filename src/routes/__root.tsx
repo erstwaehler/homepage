@@ -1,5 +1,6 @@
 // react-scan must be imported before React and TanStack Start
 
+import { PostHogProvider } from "@posthog/react";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 import {
@@ -177,23 +178,35 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         />
       </head>
       <body className="dark">
-        <NoiseOverlay />
-        <CustomCursor />
-        <Header />
-        <main data-transition-container>{children}</main>
-        <Footer />
-        <TanStackDevtools
-          config={{
-            position: "bottom-right",
-          }}
-          plugins={[
-            {
-              name: "Tanstack Router",
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-            TanStackQueryDevtools,
-          ]}
-        />
+        <PostHogProvider
+          apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY as string}
+          options={{
+            api_host: "/ingest",
+            ui_host:
+              import.meta.env.VITE_PUBLIC_POSTHOG_HOST ||
+              "https://eu.posthog.com",
+            defaults: "2025-05-24",
+            capture_exceptions: true,
+            debug: import.meta.env.DEV,
+          }}>
+          <NoiseOverlay />
+          <CustomCursor />
+          <Header />
+          <main data-transition-container>{children}</main>
+          <Footer />
+          <TanStackDevtools
+            config={{
+              position: "bottom-right",
+            }}
+            plugins={[
+              {
+                name: "Tanstack Router",
+                render: <TanStackRouterDevtoolsPanel />,
+              },
+              TanStackQueryDevtools,
+            ]}
+          />
+        </PostHogProvider>
         <Scripts />
       </body>
     </html>

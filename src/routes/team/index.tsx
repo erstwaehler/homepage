@@ -1,3 +1,4 @@
+import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 import * as m from "#p";
@@ -24,6 +25,7 @@ export const Route = createFileRoute("/team/")({
 
 function TeamListPage() {
   const team = Route.useLoaderData();
+  const posthog = usePostHog();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -67,6 +69,13 @@ function TeamListPage() {
               key={member.vorname}
               to="/team/$vorname"
               params={{ vorname: member.vorname }}
+              onClick={() =>
+                posthog.capture("team_member_clicked", {
+                  member_name: member.vorname,
+                  member_role: member.rolle,
+                  member_school: member.schule,
+                })
+              }
               className="team-card group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1">
               <div className="aspect-video bg-muted relative overflow-hidden">
                 <ThumbnailImage

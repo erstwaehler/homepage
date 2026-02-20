@@ -1,5 +1,6 @@
 "use client";
 
+import { usePostHog } from "@posthog/react";
 import { Link } from "@tanstack/react-router";
 import { Vote, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -10,16 +11,22 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const posthog = usePostHog();
 
   const handleMenuOpen = () => {
     setIsOpen(true);
+    posthog.capture("nav_menu_opened");
   };
 
   const handleMenuClose = () => {
     setIsOpen(false);
   };
 
-  const handleNavLinkClick = () => {
+  const handleNavLinkClick = (label: string, to: string) => {
+    posthog.capture("nav_link_clicked", {
+      link_label: label,
+      link_destination: to,
+    });
     handleMenuClose();
   };
 
@@ -191,7 +198,7 @@ export default function Header() {
                   <Link
                     key={item.to}
                     to={item.to}
-                    onClick={handleNavLinkClick}
+                    onClick={() => handleNavLinkClick(item.label, item.to)}
                     className="menu-item block group"
                     activeProps={{
                       className: "menu-item block group active",

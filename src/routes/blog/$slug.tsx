@@ -1,6 +1,8 @@
 import { MDXContent } from "@content-collections/mdx/react";
+import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Calendar, User } from "lucide-react";
+import { useEffect } from "react";
 import { allPosts } from "#cc";
 import * as m from "#p";
 import {
@@ -50,6 +52,17 @@ export const Route = createFileRoute("/blog/$slug")({
 
 function BlogPostPage() {
   const post = Route.useLoaderData();
+  const posthog = usePostHog();
+
+  useEffect(() => {
+    posthog.capture("blog_post_viewed", {
+      post_slug: post.slug,
+      post_title: post.title,
+      post_author: post.author,
+      post_date: post.date,
+    });
+  }, [post.slug, post.title, post.author, post.date, posthog]);
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto px-6 pt-32 pb-16">
