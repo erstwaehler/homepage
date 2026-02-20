@@ -1,4 +1,3 @@
-import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Calendar } from "lucide-react";
 import { useEffect } from "react";
@@ -30,7 +29,6 @@ export const Route = createFileRoute("/blog/")({
 });
 
 function BlogListPage() {
-  const posthog = usePostHog();
   const posts = Route.useLoaderData();
   const currentLocale = getLocale();
 
@@ -131,16 +129,7 @@ function BlogListPage() {
                 <Link
                   to="/blog/$slug"
                   params={{ slug: featuredPost.slug }}
-                  onClick={() =>
-                    posthog.capture("blog_post_selected", {
-                      post_slug: featuredPost.slug,
-                      post_title: featuredPost.title,
-                      post_author: featuredPost.author,
-                      featured: true,
-                    })
-                  }
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all duration-300 hover:gap-3 group"
-                >
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all duration-300 hover:gap-3 group">
                   <span className="font-medium">Mehr lesen</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -150,16 +139,7 @@ function BlogListPage() {
               <Link
                 to="/blog/$slug"
                 params={{ slug: featuredPost.slug }}
-                onClick={() =>
-                  posthog.capture("blog_post_selected", {
-                    post_slug: featuredPost.slug,
-                    post_title: featuredPost.title,
-                    post_author: featuredPost.author,
-                    featured: true,
-                  })
-                }
-                className="group relative aspect-4/3 rounded-2xl overflow-hidden bg-linear-to-br from-primary/20 via-primary/10 to-background border border-border hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 hover:scale-[1.02]"
-              >
+                className="group relative aspect-4/3 rounded-2xl overflow-hidden bg-linear-to-br from-primary/20 via-primary/10 to-background border border-border hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 hover:scale-[1.02]">
                 {featuredPost.banner ? (
                   <>
                     <HeroImage
@@ -214,15 +194,7 @@ function BlogListPage() {
                   key={post.slug}
                   to="/blog/$slug"
                   params={{ slug: post.slug }}
-                  onClick={() =>
-                    posthog.capture("blog_post_selected", {
-                      post_slug: post.slug,
-                      post_title: post.title,
-                      post_author: post.author,
-                    })
-                  }
-                  className="blog-post group block bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1"
-                >
+                  className="blog-post group block bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1">
                   {/* Card Header with Gradient */}
                   <div className="h-32 bg-linear-to-br from-primary/10 via-primary/5 to-background relative overflow-hidden">
                     <div className="absolute inset-0 bg-linear-to-t from-card to-transparent" />

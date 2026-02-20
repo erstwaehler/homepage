@@ -16,7 +16,8 @@ export const Route = createFileRoute("/blog/$slug")({
     return post;
   },
   component: BlogPostPage,
-  head: ({ loaderData: post }) => {
+  head: ({ loaderData }) => {
+    const post = loaderData!;
     const title = `${post.title} - ${m.site_title()}`;
     const description = post.description || post.title;
     const url = `/blog/${post.slug}`;
@@ -49,7 +50,6 @@ export const Route = createFileRoute("/blog/$slug")({
 
 function BlogPostPage() {
   const post = Route.useLoaderData();
-
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto px-6 pt-32 pb-16">

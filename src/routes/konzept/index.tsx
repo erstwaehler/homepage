@@ -2,11 +2,11 @@ import { MDXContent } from "@content-collections/mdx/react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Calendar,
-  MapPin,
-  Users,
-  MessageSquare,
   Lightbulb,
+  MapPin,
+  MessageSquare,
   Target,
+  Users,
 } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { allPages } from "#cc";
@@ -121,8 +121,7 @@ function KonzeptPage() {
       {/* Hero Section */}
       <section
         ref={heroRef}
-        className="relative pt-32 pb-20 px-6 overflow-hidden"
-      >
+        className="relative pt-32 pb-20 px-6 overflow-hidden">
         {/* Background Gradient */}
         <div
           className="absolute inset-0 opacity-30"

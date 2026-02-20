@@ -1,6 +1,5 @@
 "use client";
 
-import { usePostHog } from "@posthog/react";
 import { Languages } from "lucide-react";
 import {
   Select,
@@ -19,16 +18,9 @@ const languageConfig = {
 const fallbackLanguage = { name: "Unknown", flag: "🌐" };
 
 export default function LocaleSwitcher() {
-  const posthog = usePostHog();
   const currentLocale = getLocale();
 
   const handleLocaleChange = (newLocale: string) => {
-    if (newLocale !== currentLocale) {
-      posthog.capture("locale_changed", {
-        from_locale: currentLocale,
-        to_locale: newLocale,
-      });
-    }
     setLocale(newLocale as typeof currentLocale);
   };
 

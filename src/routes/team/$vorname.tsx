@@ -1,4 +1,3 @@
-import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Mail } from "lucide-react";
 import { useEffect } from "react";
@@ -62,7 +61,6 @@ export const Route = createFileRoute("/team/$vorname")({
 });
 
 function TeamMemberPage() {
-  const posthog = usePostHog();
   const member = Route.useLoaderData();
   const hasEmail = ["jack", "maite", "joshua", "oskar"].includes(
     member.vorname,
@@ -114,8 +112,7 @@ function TeamMemberPage() {
       <div className="max-w-4xl mx-auto px-6 -mt-32 relative">
         <Link
           to="/team"
-          className="member-back-link inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors"
-        >
+          className="member-back-link inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
           <ArrowLeft className="w-4 h-4" />
           Zurück zum Team
         </Link>
@@ -146,14 +143,7 @@ function TeamMemberPage() {
                 {hasEmail && (
                   <a
                     href={`mailto:${member.vorname}@ewf-stade.de`}
-                    onClick={() =>
-                      posthog.capture("team_member_email_clicked", {
-                        member_name: member.vorname,
-                        member_role: member.rolle,
-                      })
-                    }
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-                  >
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
                     <Mail className="w-4 h-4" />
                     E-Mail
                   </a>
@@ -163,14 +153,7 @@ function TeamMemberPage() {
                     href={member.mastodon}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() =>
-                      posthog.capture("team_member_mastodon_clicked", {
-                        member_name: member.vorname,
-                        mastodon_url: member.mastodon,
-                      })
-                    }
-                    className="inline-flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-accent transition-colors"
-                  >
+                    className="inline-flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-accent transition-colors">
                     Mastodon
                   </a>
                 )}

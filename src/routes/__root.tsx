@@ -1,4 +1,5 @@
-import { PostHogProvider } from "@posthog/react";
+// react-scan must be imported before React and TanStack Start
+
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 import {
@@ -7,7 +8,8 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { env } from "#env";
+import { useEffect } from "react";
+import { scan } from "react-scan";
 import * as m from "#p";
 import { initLenis } from "~/lib/lenis";
 import { getLocale } from "~/paraglide/runtime";
@@ -16,9 +18,9 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import NoiseOverlay from "../components/NoiseOverlay";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
+import appCss from "../styles.css?url";
 import { NotFoundPage } from "./404";
 import { ServerErrorPage } from "./500";
-import appCss from "../styles.css?url";
 
 if (typeof window !== "undefined") {
   initLenis();
@@ -124,6 +126,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    scan({ enabled: import.meta.env.DEV });
+  }, []);
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -172,33 +177,23 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         />
       </head>
       <body className="dark">
-        <PostHogProvider
-          apiKey={env.VITE_PUBLIC_POSTHOG_KEY}
-          options={{
-            api_host: "/ingest",
-            ui_host: env.VITE_PUBLIC_POSTHOG_HOST || "https://eu.posthog.com",
-            capture_exceptions: true,
-            debug: import.meta.env.DEV,
+        <NoiseOverlay />
+        <CustomCursor />
+        <Header />
+        <main data-transition-container>{children}</main>
+        <Footer />
+        <TanStackDevtools
+          config={{
+            position: "bottom-right",
           }}
-        >
-          <NoiseOverlay />
-          <CustomCursor />
-          <Header />
-          <main data-transition-container>{children}</main>
-          <Footer />
-          <TanStackDevtools
-            config={{
-              position: "bottom-right",
-            }}
-            plugins={[
-              {
-                name: "Tanstack Router",
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-              TanStackQueryDevtools,
-            ]}
-          />
-        </PostHogProvider>
+          plugins={[
+            {
+              name: "Tanstack Router",
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+            TanStackQueryDevtools,
+          ]}
+        />
         <Scripts />
       </body>
     </html>
