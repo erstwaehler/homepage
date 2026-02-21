@@ -3,6 +3,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Mail } from "lucide-react";
 import { useEffect } from "react";
 import * as m from "#p";
+import { AvatarImage, HeroImage } from "~/components/OptimizedImage";
 import { teamMembers } from "~/data/team";
 import { gsap } from "~/lib/gsap";
 import {
@@ -19,6 +20,15 @@ export const Route = createFileRoute("/team/$vorname")({
   },
   component: TeamMemberPage,
   head: ({ loaderData: member }) => {
+    if (!member) {
+      return generateMetaTags({
+        title: m.site_title(),
+        description: m.site_description(),
+        url: "/team",
+        type: "website",
+      });
+    }
+
     const name =
       member.vorname.charAt(0).toUpperCase() + member.vorname.slice(1);
     const title = `${name} - ${member.rolle} - ${m.site_title()}`;
@@ -52,11 +62,19 @@ export const Route = createFileRoute("/team/$vorname")({
 });
 
 function TeamMemberPage() {
-  const posthog = usePostHog();
   const member = Route.useLoaderData();
+  const posthog = usePostHog();
   const hasEmail = ["jack", "maite", "joshua", "oskar"].includes(
     member.vorname,
   );
+
+  useEffect(() => {
+    posthog.capture("team_member_viewed", {
+      member_name: member.vorname,
+      member_role: member.rolle,
+      member_school: member.schule,
+    });
+  }, [member.vorname, member.rolle, member.schule, posthog]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -93,10 +111,10 @@ function TeamMemberPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="member-banner relative h-80 bg-muted overflow-hidden">
-        <img
+        <HeroImage
           src={member.banner_image}
           alt={`${member.vorname} Banner`}
-          className="w-full h-full object-cover"
+          aspectRatio={21 / 9}
         />
         <div className="absolute inset-0 bg-linear-to-t from-background via-background/50 to-transparent" />
       </div>
@@ -111,10 +129,11 @@ function TeamMemberPage() {
 
         <div className="member-profile-card bg-card border border-border rounded-2xl p-8 mb-8">
           <div className="flex flex-col md:flex-row gap-8 items-start">
-            <img
+            <AvatarImage
               src={member.profile_image}
               alt={member.vorname}
-              className="w-32 h-32 rounded-full object-cover border-4 border-border"
+              size={128}
+              className="w-32 h-32 border-4 border-border"
             />
 
             <div className="flex-1">
@@ -150,12 +169,6 @@ function TeamMemberPage() {
                     href={member.mastodon}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() =>
-                      posthog.capture("team_member_mastodon_clicked", {
-                        member_name: member.vorname,
-                        mastodon_url: member.mastodon,
-                      })
-                    }
                     className="inline-flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-accent transition-colors">
                     Mastodon
                   </a>

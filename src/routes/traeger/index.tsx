@@ -1,8 +1,8 @@
-import { usePostHog } from "@posthog/react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Building2, Heart, Users } from "lucide-react";
 import { useEffect } from "react";
 import * as m from "#p";
+import { OptimizedImage } from "~/components/OptimizedImage";
 import { gsap } from "~/lib/gsap";
 import { generateMetaTags } from "~/lib/meta";
 
@@ -23,33 +23,30 @@ export const Route = createFileRoute("/traeger/")({
 });
 
 function TraegerPage() {
-  const posthog = usePostHog();
-
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(".traeger-hero h1", {
-        opacity: 0,
         y: 40,
         duration: 0.8,
         ease: "expo.out",
       });
       gsap.from(".traeger-hero p", {
-        opacity: 0,
         y: 30,
         duration: 0.8,
         delay: 0.15,
         ease: "expo.out",
       });
       gsap.from(".school-card", {
-        opacity: 0,
         y: 50,
         duration: 0.7,
         stagger: 0.12,
-        delay: 0.3,
         ease: "expo.out",
+        scrollTrigger: {
+          trigger: ".school-card",
+          start: "top 80%",
+        },
       });
       gsap.from(".traeger-detail", {
-        opacity: 0,
         y: 40,
         duration: 0.8,
         delay: 0.6,
@@ -108,12 +105,6 @@ function TraegerPage() {
                 href={school.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() =>
-                  posthog.capture("school_website_clicked", {
-                    school_name: school.name,
-                    website_url: school.website,
-                  })
-                }
                 className="text-primary hover:underline text-sm font-medium">
                 Zur Website →
               </a>
@@ -124,9 +115,10 @@ function TraegerPage() {
         <div className="traeger-detail bg-card border border-border rounded-2xl p-12">
           <div className="max-w-3xl mx-auto">
             <div className="flex items-center gap-4 mb-8">
-              <img
+              <OptimizedImage
                 src="/schulen/schulleitungen.png"
                 alt="Schulleitungen"
+                layout="fullWidth"
                 className="w-full rounded-lg border border-border"
               />
             </div>

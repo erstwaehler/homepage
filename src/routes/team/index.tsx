@@ -2,6 +2,7 @@ import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 import * as m from "#p";
+import { AvatarImage, ThumbnailImage } from "~/components/OptimizedImage";
 import { teamMembers } from "~/data/team";
 import { gsap } from "~/lib/gsap";
 import { generateMetaTags } from "~/lib/meta";
@@ -23,26 +24,23 @@ export const Route = createFileRoute("/team/")({
 });
 
 function TeamListPage() {
-  const posthog = usePostHog();
   const team = Route.useLoaderData();
+  const posthog = usePostHog();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(".team-hero h1", {
-        opacity: 0,
         y: 40,
         duration: 0.8,
         ease: "expo.out",
       });
       gsap.from(".team-hero p", {
-        opacity: 0,
         y: 30,
         duration: 0.8,
         delay: 0.15,
         ease: "expo.out",
       });
       gsap.from(".team-card", {
-        opacity: 0,
         y: 50,
         duration: 0.7,
         stagger: 0.1,
@@ -72,7 +70,7 @@ function TeamListPage() {
               to="/team/$vorname"
               params={{ vorname: member.vorname }}
               onClick={() =>
-                posthog.capture("team_member_selected", {
+                posthog.capture("team_member_clicked", {
                   member_name: member.vorname,
                   member_role: member.rolle,
                   member_school: member.schule,
@@ -80,19 +78,21 @@ function TeamListPage() {
               }
               className="team-card group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1">
               <div className="aspect-video bg-muted relative overflow-hidden">
-                <img
+                <ThumbnailImage
                   src={member.banner_image}
                   alt={`${member.vorname} Banner`}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+                  aspectRatio={16 / 9}
+                  className="w-full h-full group-hover:scale-110 transition-transform duration-500 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               <div className="p-6">
                 <div className="flex items-start gap-4 mb-4">
-                  <img
+                  <AvatarImage
                     src={member.profile_image}
                     alt={member.vorname}
-                    className="w-16 h-16 rounded-full object-cover border-2 border-border group-hover:border-primary/50 transition-colors duration-300"
+                    size={64}
+                    className="w-16 h-16 border-2 border-border group-hover:border-primary/50 transition-colors duration-300"
                   />
                   <div className="flex-1">
                     <h3 className="text-xl font-semibold capitalize group-hover:text-primary transition-colors duration-300">

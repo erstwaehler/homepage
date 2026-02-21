@@ -1,3 +1,5 @@
+// react-scan must be imported before React and TanStack Start
+
 import { PostHogProvider } from "@posthog/react";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
@@ -7,7 +9,8 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { env } from "#env";
+import { useEffect } from "react";
+import { scan } from "react-scan";
 import * as m from "#p";
 import { initLenis } from "~/lib/lenis";
 import { getLocale } from "~/paraglide/runtime";
@@ -17,6 +20,8 @@ import Header from "../components/Header";
 import NoiseOverlay from "../components/NoiseOverlay";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
+import { NotFoundPage } from "./404";
+import { ServerErrorPage } from "./500";
 
 if (typeof window !== "undefined") {
   initLenis();
@@ -32,6 +37,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       document.documentElement.setAttribute("lang", getLocale());
     }
   },
+
+  notFoundComponent: NotFoundPage,
+  errorComponent: ServerErrorPage,
 
   head: () => {
     const siteUrl = "https://ewf-stade.de";
@@ -119,6 +127,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    scan({ enabled: import.meta.env.DEV });
+  }, []);
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -168,14 +179,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="dark">
         <PostHogProvider
-          apiKey={env.VITE_PUBLIC_POSTHOG_KEY}
+          apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY as string}
           options={{
             api_host: "/ingest",
-            ui_host: env.VITE_PUBLIC_POSTHOG_HOST || "https://eu.posthog.com",
+            ui_host:
+              import.meta.env.VITE_PUBLIC_POSTHOG_HOST ||
+              "https://eu.posthog.com",
+            defaults: "2025-05-24",
             capture_exceptions: true,
             debug: import.meta.env.DEV,
-          }}
-        >
+          }}>
           <NoiseOverlay />
           <CustomCursor />
           <Header />
