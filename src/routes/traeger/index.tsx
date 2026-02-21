@@ -40,8 +40,11 @@ function TraegerPage() {
         y: 50,
         duration: 0.7,
         stagger: 0.12,
-        delay: 0.3,
         ease: "expo.out",
+        scrollTrigger: {
+          trigger: ".school-card",
+          start: "top 80%",
+        },
       });
       gsap.from(".traeger-detail", {
         y: 40,

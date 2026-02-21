@@ -1,6 +1,6 @@
 "use client";
 
-import { Image as UnpicImage, type ImageProps } from "@unpic/react";
+import { type ImageProps, Image as UnpicImage } from "@unpic/react";
 
 interface OptimizedImageProps extends Omit<ImageProps, "layout"> {
   layout?: "constrained" | "fullWidth" | "fixed";

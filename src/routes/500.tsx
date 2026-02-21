@@ -28,8 +28,7 @@ export function ServerErrorPage() {
         <div className="pt-4">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-card hover:bg-card/80 text-foreground rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border border-border"
-          >
+            className="inline-flex items-center gap-2 px-8 py-4 bg-card hover:bg-card/80 text-foreground rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border border-border">
             <span className="font-medium">Zurück zur Startseite</span>
           </Link>
         </div>

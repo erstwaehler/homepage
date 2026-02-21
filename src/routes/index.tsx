@@ -190,14 +190,19 @@ function HomePage() {
           background:
             "radial-gradient(circle at 50% 50%, rgba(168, 139, 250, 0.15) 0%, transparent 70%)",
         }}>
-        <div
-          ref={heroImageRef}
-          className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000"
-          style={{
-            backgroundImage: `url('${HERO_IMAGES[currentImageIndex]}')`,
-            opacity: 0.5,
-          }}
-        />
+        <div ref={heroImageRef} className="absolute inset-0">
+          {HERO_IMAGES.map((src, index) => (
+            <div
+              key={src}
+              className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
+                index === currentImageIndex ? "opacity-50" : "opacity-0"
+              }`}
+              style={{
+                backgroundImage: `url('${src}')`,
+              }}
+            />
+          ))}
+        </div>
 
         <div className="relative max-w-6xl mx-auto text-center z-10">
           <div className="inline-block px-6 py-2 mb-8 rounded-full border border-[#A88BFA]/30 bg-[#A88BFA]/5">

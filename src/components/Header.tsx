@@ -5,7 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { Vote, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import * as m from "#p";
-import { gsap, ScrollTrigger } from "~/lib/gsap";
+import { gsap } from "~/lib/gsap";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,26 +42,23 @@ export default function Header() {
         "linear-gradient(to bottom, black 0%, black 50%, transparent 100%)",
     });
 
-    const scrollTrigger = ScrollTrigger.create({
-      start: "top -10",
-      end: "top -200",
-      scrub: 0.5,
-      onUpdate: (self) => {
-        const progress = self.progress;
-        const blur = progress * 20;
-        const opacity = progress * 0.7;
-
-        gsap.to(header, {
-          backdropFilter: `blur(${blur}px)`,
-          background: `linear-gradient(to bottom, rgba(0, 0, 0, ${opacity}), rgba(0, 0, 0, 0))`,
-          duration: 0.1,
-          ease: "none",
-        });
-      },
-    });
+    const ctx = gsap.context(() => {
+      gsap.to(header, {
+        backdropFilter: "blur(20px)",
+        background:
+          "linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))",
+        ease: "none",
+        scrollTrigger: {
+          trigger: document.body,
+          start: "top -10",
+          end: "top -200",
+          scrub: 0.5,
+        },
+      });
+    }, headerRef);
 
     return () => {
-      scrollTrigger.kill();
+      ctx.revert();
     };
   }, []);
 
