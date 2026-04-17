@@ -1,7 +1,8 @@
 "use client";
 
 import { Link } from "@tanstack/react-router";
-import { Github, Mail, Vote } from "lucide-react";
+import { Mail, Vote } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
 import * as m from "~/paraglide/messages";
 import LocaleSwitcher from "./LocaleSwitcher";
 
@@ -28,24 +29,25 @@ export default function Footer() {
           <div className="md:col-span-4 space-y-6">
             <div className="flex items-center gap-3">
               <Vote className="w-10 h-10 text-primary" />
-              <span className="font-bold text-2xl">{m.site_title()}</span>
+              <span className="font-bold text-2xl">{m.site_title_full()}</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
-              Schulübergreifende Großveranstaltung zur politischen Bildung
+              {m.site_description()}
             </p>
           </div>
 
           {/* Navigation Section */}
           <div className="md:col-span-3">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-6">
-              NAVIGATION
+              {m.nav_navigation()}
             </h3>
             <nav className="space-y-3">
               {navigationItems.map((item) => (
                 <Link
                   key={item.to}
                   to={item.to}
-                  className="block text-foreground hover:text-primary transition-colors duration-200">
+                  className="block text-foreground hover:text-primary transition-colors duration-200"
+                >
                   {item.label}
                 </Link>
               ))}
@@ -55,14 +57,15 @@ export default function Footer() {
           {/* About Section */}
           <div className="md:col-span-3">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-6">
-              WER WIR SIND
+              {m.nav_whoweare()}
             </h3>
             <nav className="space-y-3">
               {aboutItems.map((item) => (
                 <Link
                   key={item.to}
                   to={item.to}
-                  className="block text-foreground hover:text-primary transition-colors duration-200">
+                  className="block text-foreground hover:text-primary transition-colors duration-200"
+                >
                   {item.label}
                 </Link>
               ))}
@@ -72,13 +75,14 @@ export default function Footer() {
           {/* Social & Language Section */}
           <div className="md:col-span-2">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-6">
-              SOCIALS
+              {m.nav_socials()}
             </h3>
             <div className="flex gap-4 mb-8">
               <a
                 href="mailto:info@ewf-stade.de"
                 className="text-foreground hover:text-primary transition-colors duration-200"
-                aria-label="E-Mail">
+                aria-label="E-Mail"
+              >
                 <Mail className="w-6 h-6" />
               </a>
               <a
@@ -86,8 +90,9 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-foreground hover:text-primary transition-colors duration-200"
-                aria-label="GitHub">
-                <Github className="w-6 h-6" />
+                aria-label="GitHub"
+              >
+                <FaGithub className="w-6 h-6" />
               </a>
             </div>
             <LocaleSwitcher />
@@ -97,14 +102,17 @@ export default function Footer() {
         {/* Footer Bottom */}
         <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>
-            © {currentYear} • {m.site_title()} • Erstwähler Forum ist eine
-            gemeinnützige Initiative
+            {m.copyright({
+              currentYear,
+              site_title_noyear: m.site_title_noyear(),
+            })}
           </p>
           <div className="flex gap-6">
             <Link
               to="/impressum"
-              className="hover:text-foreground transition-colors">
-              Impressum
+              className="hover:text-foreground transition-colors"
+            >
+              {m.nav_impressum()}
             </Link>
           </div>
         </div>

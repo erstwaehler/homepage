@@ -126,17 +126,19 @@ export default function Header() {
       <header
         ref={headerRef}
         className="fixed top-0 z-40 w-full transition-all duration-300 h-32 pointer-events-none"
-        style={{ backgroundColor: "transparent" }}>
+        style={{ backgroundColor: "transparent" }}
+      >
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between pointer-events-auto">
           <Link
             to="/"
-            className="flex items-center gap-3 hover:opacity-80 transition-opacity magnetic-target group">
+            className="flex items-center gap-3 hover:opacity-80 transition-opacity magnetic-target group"
+          >
             <Vote className="w-8 h-8 text-white group-hover:scale-110 transition-transform" />
             <span className="font-bold text-xl hidden sm:inline text-white">
               {m.site_title()}
             </span>
             <span className="font-bold text-xl sm:hidden text-white">
-              EWF'26
+              {m.site_title_short()}
             </span>
           </Link>
 
@@ -144,12 +146,13 @@ export default function Header() {
             type="button"
             onClick={handleMenuOpen}
             className="flex items-center gap-2 text-white hover:text-white/80 transition-colors group"
-            aria-label="Open menu">
+            aria-label="Open menu"
+          >
             <span className="text-2xl font-light group-hover:tracking-wider transition-all">
               +
             </span>
             <span className="text-sm font-medium uppercase tracking-wider">
-              MENU
+              {m.nav_menu()}
             </span>
           </button>
         </div>
@@ -159,20 +162,22 @@ export default function Header() {
       {isOpen && (
         <div
           ref={menuRef}
-          className="fixed inset-0 z-50 bg-card/95 backdrop-blur-xl overflow-hidden">
+          className="fixed inset-0 z-50 bg-card/95 backdrop-blur-xl overflow-hidden"
+        >
           <div className="max-w-7xl mx-auto px-6 h-screen flex flex-col">
             {/* Menu Header */}
             <div className="h-20 flex items-center justify-between">
               <Link
                 to="/"
                 onClick={handleMenuClose}
-                className="flex items-center gap-3 hover:opacity-80 transition-opacity group">
+                className="flex items-center gap-3 hover:opacity-80 transition-opacity group"
+              >
                 <Vote className="w-8 h-8 text-foreground group-hover:scale-110 transition-transform" />
                 <span className="font-bold text-xl hidden sm:inline text-foreground">
                   {m.site_title()}
                 </span>
                 <span className="font-bold text-xl sm:hidden text-foreground">
-                  EWF'26
+                  {m.site_title_short()}
                 </span>
               </Link>
 
@@ -180,10 +185,11 @@ export default function Header() {
                 type="button"
                 onClick={handleMenuClose}
                 className="flex items-center gap-2 hover:text-muted-foreground transition-colors group"
-                aria-label="Close menu">
+                aria-label="Close menu"
+              >
                 <X className="w-6 h-6" />
                 <span className="text-sm font-medium uppercase tracking-wider">
-                  CLOSE
+                  {m.nav_close()}
                 </span>
               </button>
             </div>
@@ -199,7 +205,8 @@ export default function Header() {
                     className="menu-item block group"
                     activeProps={{
                       className: "menu-item block group active",
-                    }}>
+                    }}
+                  >
                     <div className="flex items-center justify-between py-6 px-8 border-b border-border/50 hover:border-primary/50 transition-all duration-300">
                       <span className="text-4xl md:text-6xl font-bold group-hover:text-primary group-hover:translate-x-4 transition-all duration-300">
                         {item.label}
@@ -215,10 +222,18 @@ export default function Header() {
 
             {/* Menu Footer */}
             <div className="h-20 flex items-center justify-between text-sm text-muted-foreground">
-              <p>
-                © {new Date().getFullYear()} {m.site_title()}
+              <p className="hidden max-md:block">
+                {m.copyright({
+                  currentYear: new Date().getFullYear(),
+                  site_title_noyear: m.site_title_noyear(),
+                })}
               </p>
-              <p className="hidden md:block">Erstwähler Forum 2026 – Stade</p>
+              <p className="hidden md:block">
+                {m.copyright_nonprofit({
+                  currentYear: new Date().getFullYear(),
+                  site_title_noyear: m.site_title_noyear(),
+                })}
+              </p>
             </div>
           </div>
         </div>

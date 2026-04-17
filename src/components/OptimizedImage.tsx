@@ -41,16 +41,23 @@ export function OptimizedImage({
   layout = "constrained",
   priority = false,
   loading,
+  aspectRatio,
+  style,
   ...props
 }: OptimizedImageProps) {
   const imageProps: any = {
     ...props,
     layout,
     loading: priority ? "eager" : (loading ?? "lazy"),
-    ...(priority && { fetchpriority: "high" as const }),
+    ...(priority && { fetchpriority: "high" }),
   };
 
-  return <UnpicImage {...imageProps} />;
+  const mergedStyle = {
+    ...style,
+    ...(aspectRatio ? { aspectRatio } : null),
+  };
+
+  return <UnpicImage {...imageProps} style={mergedStyle} />;
 }
 
 export default OptimizedImage;

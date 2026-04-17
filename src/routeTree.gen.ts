@@ -10,9 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as TraegerIndexRouteImport } from './routes/traeger/index'
 import { Route as TeamIndexRouteImport } from './routes/team/index'
-import { Route as KonzeptIndexRouteImport } from './routes/konzept/index'
 import { Route as ImpressumIndexRouteImport } from './routes/impressum/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as TeamVornameRouteImport } from './routes/team/$vorname'
@@ -23,19 +21,9 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TraegerIndexRoute = TraegerIndexRouteImport.update({
-  id: '/traeger/',
-  path: '/traeger/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const TeamIndexRoute = TeamIndexRouteImport.update({
   id: '/team/',
   path: '/team/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KonzeptIndexRoute = KonzeptIndexRouteImport.update({
-  id: '/konzept/',
-  path: '/konzept/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ImpressumIndexRoute = ImpressumIndexRouteImport.update({
@@ -65,9 +53,7 @@ export interface FileRoutesByFullPath {
   '/team/$vorname': typeof TeamVornameRoute
   '/blog/': typeof BlogIndexRoute
   '/impressum/': typeof ImpressumIndexRoute
-  '/konzept/': typeof KonzeptIndexRoute
   '/team/': typeof TeamIndexRoute
-  '/traeger/': typeof TraegerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -75,9 +61,7 @@ export interface FileRoutesByTo {
   '/team/$vorname': typeof TeamVornameRoute
   '/blog': typeof BlogIndexRoute
   '/impressum': typeof ImpressumIndexRoute
-  '/konzept': typeof KonzeptIndexRoute
   '/team': typeof TeamIndexRoute
-  '/traeger': typeof TraegerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -86,9 +70,7 @@ export interface FileRoutesById {
   '/team/$vorname': typeof TeamVornameRoute
   '/blog/': typeof BlogIndexRoute
   '/impressum/': typeof ImpressumIndexRoute
-  '/konzept/': typeof KonzeptIndexRoute
   '/team/': typeof TeamIndexRoute
-  '/traeger/': typeof TraegerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -98,19 +80,9 @@ export interface FileRouteTypes {
     | '/team/$vorname'
     | '/blog/'
     | '/impressum/'
-    | '/konzept/'
     | '/team/'
-    | '/traeger/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/blog/$slug'
-    | '/team/$vorname'
-    | '/blog'
-    | '/impressum'
-    | '/konzept'
-    | '/team'
-    | '/traeger'
+  to: '/' | '/blog/$slug' | '/team/$vorname' | '/blog' | '/impressum' | '/team'
   id:
     | '__root__'
     | '/'
@@ -118,9 +90,7 @@ export interface FileRouteTypes {
     | '/team/$vorname'
     | '/blog/'
     | '/impressum/'
-    | '/konzept/'
     | '/team/'
-    | '/traeger/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -129,9 +99,7 @@ export interface RootRouteChildren {
   TeamVornameRoute: typeof TeamVornameRoute
   BlogIndexRoute: typeof BlogIndexRoute
   ImpressumIndexRoute: typeof ImpressumIndexRoute
-  KonzeptIndexRoute: typeof KonzeptIndexRoute
   TeamIndexRoute: typeof TeamIndexRoute
-  TraegerIndexRoute: typeof TraegerIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -143,25 +111,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/traeger/': {
-      id: '/traeger/'
-      path: '/traeger'
-      fullPath: '/traeger/'
-      preLoaderRoute: typeof TraegerIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/team/': {
       id: '/team/'
       path: '/team'
       fullPath: '/team/'
       preLoaderRoute: typeof TeamIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/konzept/': {
-      id: '/konzept/'
-      path: '/konzept'
-      fullPath: '/konzept/'
-      preLoaderRoute: typeof KonzeptIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/impressum/': {
@@ -201,9 +155,7 @@ const rootRouteChildren: RootRouteChildren = {
   TeamVornameRoute: TeamVornameRoute,
   BlogIndexRoute: BlogIndexRoute,
   ImpressumIndexRoute: ImpressumIndexRoute,
-  KonzeptIndexRoute: KonzeptIndexRoute,
   TeamIndexRoute: TeamIndexRoute,
-  TraegerIndexRoute: TraegerIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

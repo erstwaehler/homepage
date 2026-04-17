@@ -1,6 +1,6 @@
 import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Calendar } from "lucide-react";
+import { ArrowRight, Calendar, Sparkles } from "lucide-react";
 import { useEffect } from "react";
 import { allPosts } from "#cc";
 import * as m from "#p";
@@ -38,42 +38,42 @@ function BlogListPage() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(".blog-hero h1", {
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        ease: "expo.out",
+      const tl = gsap.timeline({
+        defaults: { ease: "expo.out", duration: 0.8 },
       });
-      gsap.from(".blog-hero p", {
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.15,
-        ease: "expo.out",
-      });
-      gsap.from(".featured-post", {
-        y: 60,
-        opacity: 0,
-        duration: 1,
-        delay: 0.3,
-        ease: "expo.out",
-      });
-      gsap.from(".more-stories", {
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.5,
-        ease: "expo.out",
-      });
-      gsap.from(".blog-post", {
-        y: 40,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.1,
-        delay: 0.6,
-        ease: "expo.out",
-      });
+
+      tl.fromTo(".blog-hero h1", { y: 40, opacity: 0 }, { y: 0, opacity: 1 })
+        .fromTo(
+          ".blog-hero p",
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1 },
+          "-=0.6",
+        )
+        .fromTo(
+          ".featured-post",
+          { y: 60, opacity: 0 },
+          { y: 0, opacity: 1 },
+          "-=0.5",
+        )
+        .fromTo(
+          ".more-stories",
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1 },
+          "-=0.4",
+        )
+        .fromTo(
+          ".blog-post",
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.1,
+            duration: 0.7,
+          },
+          "-=1.4",
+        );
     });
+
     return () => ctx.revert();
   }, []);
 
@@ -138,7 +138,8 @@ function BlogListPage() {
                       post_type: "featured",
                     })
                   }
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all duration-300 hover:gap-3 group">
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all duration-300 hover:gap-3 group"
+                >
                   <span className="font-medium">Mehr lesen</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -155,7 +156,8 @@ function BlogListPage() {
                     post_type: "featured",
                   })
                 }
-                className="group relative aspect-4/3 rounded-2xl overflow-hidden bg-linear-to-br from-primary/20 via-primary/10 to-background border border-border hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 hover:scale-[1.02]">
+                className="group relative aspect-4/3 rounded-2xl overflow-hidden bg-linear-to-br from-primary/20 via-primary/10 to-background border border-border hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 hover:scale-[1.02]"
+              >
                 {featuredPost.banner ? (
                   <>
                     <HeroImage
@@ -217,7 +219,8 @@ function BlogListPage() {
                       post_type: "other",
                     })
                   }
-                  className="blog-post group block bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1">
+                  className="blog-post group block bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1"
+                >
                   {/* Card Header with Gradient */}
                   <div className="h-32 bg-linear-to-br from-primary/10 via-primary/5 to-background relative overflow-hidden">
                     <div className="absolute inset-0 bg-linear-to-t from-card to-transparent" />
@@ -261,17 +264,38 @@ function BlogListPage() {
             </div>
           </div>
         )}
-
-        {/* Empty State */}
-        {posts.length === 0 && (
-          <div className="text-center py-20">
-            <Calendar className="w-16 h-16 mx-auto text-muted-foreground/50 mb-4" />
-            <p className="text-xl text-muted-foreground">
-              Noch keine Beiträge vorhanden.
-            </p>
-          </div>
-        )}
       </div>
+
+      {posts.length === 0 && (
+        <div className="empty-state flex min-h-[55vh] items-center justify-center">
+          <div className="text-center space-y-8 max-w-2xl">
+            <div className="flex justify-center">
+              <div className="relative">
+                <Sparkles className="w-24 h-24 text-primary/20 absolute blur-xl" />
+                <Sparkles className="w-24 h-24 text-primary relative" />
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h2 className="text-4xl md:text-6xl font-bold text-foreground">
+                {m.blog_no_posts_title()}
+              </h2>
+              <p className="text-lg md:text-xl text-muted-foreground max-w-md mx-auto leading-relaxed">
+                {m.blog_no_posts_message()}
+              </p>
+            </div>
+
+            <div className="pt-4">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-card hover:bg-card/80 text-foreground rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border border-border"
+              >
+                <span className="font-medium">{m.error_404_cta()}</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

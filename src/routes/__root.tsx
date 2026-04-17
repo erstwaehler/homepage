@@ -20,12 +20,8 @@ import Header from "../components/Header";
 import NoiseOverlay from "../components/NoiseOverlay";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
-import { NotFoundPage } from "./404";
-import { ServerErrorPage } from "./500";
-
-if (typeof window !== "undefined") {
-  initLenis();
-}
+import { NotFoundPage } from "~/components/404";
+import { ServerErrorPage } from "~/components/500";
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -43,7 +39,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
   head: () => {
     const siteUrl = "https://ewf-stade.de";
-    const title = m.site_title();
+    const title = m.site_title_full();
     const description = m.site_description();
     const ogImage = `${siteUrl}/og-image.png`;
 
@@ -129,6 +125,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 function RootDocument({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     scan({ enabled: import.meta.env.DEV });
+    initLenis();
   }, []);
   const organizationSchema = {
     "@context": "https://schema.org",
@@ -187,8 +184,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               "https://eu.posthog.com",
             defaults: "2025-05-24",
             capture_exceptions: true,
-            debug: import.meta.env.DEV,
-          }}>
+            // debug: import.meta.env.DEV,
+            debug: false,
+          }}
+        >
           <NoiseOverlay />
           <CustomCursor />
           <Header />
