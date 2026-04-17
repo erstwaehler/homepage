@@ -115,9 +115,12 @@ export default function Header() {
   const navItems = [
     { to: "/", label: m.nav_home() },
     { to: "/konzept", label: m.nav_konzept() },
+    { to: "/zeitplan", label: m.nav_zeitplan() },
     { to: "/team", label: m.nav_team() },
-    { to: "/traeger", label: m.nav_traeger() },
+    { to: "/schulen", label: m.nav_schulen() },
     { to: "/blog", label: m.nav_blog() },
+    { to: "/presse", label: m.nav_presse() },
+    { to: "/kontakt", label: m.nav_kontakt() },
     { to: "/impressum", label: m.nav_impressum() },
   ];
 

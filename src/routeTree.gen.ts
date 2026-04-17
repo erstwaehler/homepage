@@ -10,7 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ZeitplanIndexRouteImport } from './routes/zeitplan/index'
 import { Route as TeamIndexRouteImport } from './routes/team/index'
+import { Route as SchulenIndexRouteImport } from './routes/schulen/index'
+import { Route as PresseIndexRouteImport } from './routes/presse/index'
+import { Route as KonzeptIndexRouteImport } from './routes/konzept/index'
+import { Route as KontaktIndexRouteImport } from './routes/kontakt/index'
 import { Route as ImpressumIndexRouteImport } from './routes/impressum/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as TeamVornameRouteImport } from './routes/team/$vorname'
@@ -21,9 +26,34 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ZeitplanIndexRoute = ZeitplanIndexRouteImport.update({
+  id: '/zeitplan/',
+  path: '/zeitplan/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeamIndexRoute = TeamIndexRouteImport.update({
   id: '/team/',
   path: '/team/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchulenIndexRoute = SchulenIndexRouteImport.update({
+  id: '/schulen/',
+  path: '/schulen/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PresseIndexRoute = PresseIndexRouteImport.update({
+  id: '/presse/',
+  path: '/presse/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KonzeptIndexRoute = KonzeptIndexRouteImport.update({
+  id: '/konzept/',
+  path: '/konzept/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KontaktIndexRoute = KontaktIndexRouteImport.update({
+  id: '/kontakt/',
+  path: '/kontakt/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ImpressumIndexRoute = ImpressumIndexRouteImport.update({
@@ -53,7 +83,12 @@ export interface FileRoutesByFullPath {
   '/team/$vorname': typeof TeamVornameRoute
   '/blog/': typeof BlogIndexRoute
   '/impressum/': typeof ImpressumIndexRoute
+  '/kontakt/': typeof KontaktIndexRoute
+  '/konzept/': typeof KonzeptIndexRoute
+  '/presse/': typeof PresseIndexRoute
+  '/schulen/': typeof SchulenIndexRoute
   '/team/': typeof TeamIndexRoute
+  '/zeitplan/': typeof ZeitplanIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -61,7 +96,12 @@ export interface FileRoutesByTo {
   '/team/$vorname': typeof TeamVornameRoute
   '/blog': typeof BlogIndexRoute
   '/impressum': typeof ImpressumIndexRoute
+  '/kontakt': typeof KontaktIndexRoute
+  '/konzept': typeof KonzeptIndexRoute
+  '/presse': typeof PresseIndexRoute
+  '/schulen': typeof SchulenIndexRoute
   '/team': typeof TeamIndexRoute
+  '/zeitplan': typeof ZeitplanIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -70,7 +110,12 @@ export interface FileRoutesById {
   '/team/$vorname': typeof TeamVornameRoute
   '/blog/': typeof BlogIndexRoute
   '/impressum/': typeof ImpressumIndexRoute
+  '/kontakt/': typeof KontaktIndexRoute
+  '/konzept/': typeof KonzeptIndexRoute
+  '/presse/': typeof PresseIndexRoute
+  '/schulen/': typeof SchulenIndexRoute
   '/team/': typeof TeamIndexRoute
+  '/zeitplan/': typeof ZeitplanIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -80,9 +125,25 @@ export interface FileRouteTypes {
     | '/team/$vorname'
     | '/blog/'
     | '/impressum/'
+    | '/kontakt/'
+    | '/konzept/'
+    | '/presse/'
+    | '/schulen/'
     | '/team/'
+    | '/zeitplan/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/blog/$slug' | '/team/$vorname' | '/blog' | '/impressum' | '/team'
+  to:
+    | '/'
+    | '/blog/$slug'
+    | '/team/$vorname'
+    | '/blog'
+    | '/impressum'
+    | '/kontakt'
+    | '/konzept'
+    | '/presse'
+    | '/schulen'
+    | '/team'
+    | '/zeitplan'
   id:
     | '__root__'
     | '/'
@@ -90,7 +151,12 @@ export interface FileRouteTypes {
     | '/team/$vorname'
     | '/blog/'
     | '/impressum/'
+    | '/kontakt/'
+    | '/konzept/'
+    | '/presse/'
+    | '/schulen/'
     | '/team/'
+    | '/zeitplan/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -99,7 +165,12 @@ export interface RootRouteChildren {
   TeamVornameRoute: typeof TeamVornameRoute
   BlogIndexRoute: typeof BlogIndexRoute
   ImpressumIndexRoute: typeof ImpressumIndexRoute
+  KontaktIndexRoute: typeof KontaktIndexRoute
+  KonzeptIndexRoute: typeof KonzeptIndexRoute
+  PresseIndexRoute: typeof PresseIndexRoute
+  SchulenIndexRoute: typeof SchulenIndexRoute
   TeamIndexRoute: typeof TeamIndexRoute
+  ZeitplanIndexRoute: typeof ZeitplanIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -111,11 +182,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/zeitplan/': {
+      id: '/zeitplan/'
+      path: '/zeitplan'
+      fullPath: '/zeitplan/'
+      preLoaderRoute: typeof ZeitplanIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/team/': {
       id: '/team/'
       path: '/team'
       fullPath: '/team/'
       preLoaderRoute: typeof TeamIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/schulen/': {
+      id: '/schulen/'
+      path: '/schulen'
+      fullPath: '/schulen/'
+      preLoaderRoute: typeof SchulenIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/presse/': {
+      id: '/presse/'
+      path: '/presse'
+      fullPath: '/presse/'
+      preLoaderRoute: typeof PresseIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/konzept/': {
+      id: '/konzept/'
+      path: '/konzept'
+      fullPath: '/konzept/'
+      preLoaderRoute: typeof KonzeptIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kontakt/': {
+      id: '/kontakt/'
+      path: '/kontakt'
+      fullPath: '/kontakt/'
+      preLoaderRoute: typeof KontaktIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/impressum/': {
@@ -155,7 +261,12 @@ const rootRouteChildren: RootRouteChildren = {
   TeamVornameRoute: TeamVornameRoute,
   BlogIndexRoute: BlogIndexRoute,
   ImpressumIndexRoute: ImpressumIndexRoute,
+  KontaktIndexRoute: KontaktIndexRoute,
+  KonzeptIndexRoute: KonzeptIndexRoute,
+  PresseIndexRoute: PresseIndexRoute,
+  SchulenIndexRoute: SchulenIndexRoute,
   TeamIndexRoute: TeamIndexRoute,
+  ZeitplanIndexRoute: ZeitplanIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

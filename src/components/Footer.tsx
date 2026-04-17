@@ -12,13 +12,16 @@ export default function Footer() {
   const navigationItems = [
     { to: "/", label: m.nav_home() },
     { to: "/konzept", label: m.nav_konzept() },
+    { to: "/zeitplan", label: m.nav_zeitplan() },
     { to: "/blog", label: m.nav_blog() },
     { to: "/impressum", label: m.nav_impressum() },
   ];
 
   const aboutItems = [
     { to: "/team", label: m.nav_team() },
-    { to: "/traeger", label: m.nav_traeger() },
+    { to: "/schulen", label: m.nav_schulen() },
+    { to: "/presse", label: m.nav_presse() },
+    { to: "/kontakt", label: m.nav_kontakt() },
   ];
 
   return (
@@ -86,7 +89,7 @@ export default function Footer() {
                 <Mail className="w-6 h-6" />
               </a>
               <a
-                href="https://github.com/erstwaehlerforum"
+                href="https://github.com/erstwaehler"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-foreground hover:text-primary transition-colors duration-200"
