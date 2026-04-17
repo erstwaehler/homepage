@@ -10,19 +10,20 @@
         "mastodon": "jkxrx@chaos.social",
         "instagram": "jackatdjl"
       },
-      "profile_image": "/team/jack_profile.png",
-      "banner_image": "/team/jack_banner.png"
+      "profile_image": "/team/jack_profile.jpg",
+      "banner_image": "/team/jack_banner.jpg"
     },
     {
       "vorname": "maite",
       "rolle": "Rolle",
       "schule": "Vincent-Lübeck-Gymnasium",
-      "bio": "Rollenbeschreibung Maite",
-      "banner_image": "/team/jack_banner.png"
+      "email": "maite@ewf-stade.de",
+      "bio": "Rollenbeschreibung Maite"
     },
     {
       "vorname": "oskar",
       "rolle": "Rolle",
+      "email": "oskar@ewf-stade.de",
       "schule": "IGS Stade",
       "bio": "Rollenbeschreibung Oskar"
     },
@@ -35,6 +36,7 @@
     {
       "vorname": "joshua",
       "rolle": "Rolle",
+      "email": "joshua@ewf-stade.de",
       "schule": "Gymnasium Athenaeum Stade",
       "bio": "Rollenbeschreibung Joshua"
     },

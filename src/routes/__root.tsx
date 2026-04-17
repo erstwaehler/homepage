@@ -23,10 +23,6 @@ import appCss from "../styles.css?url";
 import { NotFoundPage } from "~/components/404";
 import { ServerErrorPage } from "~/components/500";
 
-if (typeof window !== "undefined") {
-  initLenis();
-}
-
 interface MyRouterContext {
   queryClient: QueryClient;
 }
@@ -129,6 +125,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 function RootDocument({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     scan({ enabled: import.meta.env.DEV });
+    initLenis();
   }, []);
   const organizationSchema = {
     "@context": "https://schema.org",
