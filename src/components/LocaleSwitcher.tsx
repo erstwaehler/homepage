@@ -1,5 +1,6 @@
 "use client";
 
+import { m } from "#p";
 import { Languages } from "lucide-react";
 import {
   Select,
@@ -11,8 +12,8 @@ import {
 import { getLocale, locales, setLocale } from "~/paraglide/runtime";
 
 const languageConfig = {
-  de: { name: "Deutsch", flag: "🇩🇪" },
-  en: { name: "English", flag: "🇬🇧" },
+  de: { name: m.lang_de(), flag: "🇩🇪" },
+  en: { name: m.lang_en(), flag: "🇬🇧" },
 } as const;
 
 const fallbackLanguage = { name: "Unknown", flag: "🌐" };

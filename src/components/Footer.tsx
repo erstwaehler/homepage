@@ -101,11 +101,17 @@ export default function Footer() {
 
         {/* Footer Bottom */}
         <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-          <p>{m.copyright({ currentYear })}</p>
+          <p>
+            {m.copyright({
+              currentYear,
+              site_title_noyear: m.site_title_noyear(),
+            })}
+          </p>
           <div className="flex gap-6">
             <Link
               to="/impressum"
-              className="hover:text-foreground transition-colors">
+              className="hover:text-foreground transition-colors"
+            >
               {m.nav_impressum()}
             </Link>
           </div>

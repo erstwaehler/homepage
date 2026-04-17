@@ -187,7 +187,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               "https://eu.posthog.com",
             defaults: "2025-05-24",
             capture_exceptions: true,
-            debug: import.meta.env.DEV,
+            // debug: import.meta.env.DEV,
+            debug: false,
           }}
         >
           <NoiseOverlay />

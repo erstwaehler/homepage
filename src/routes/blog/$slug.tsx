@@ -39,7 +39,7 @@ export const Route = createFileRoute("/blog/$slug")({
         generateArticleSchema({
           headline: post.title,
           description,
-          author: post.author || "Erstwähler Forum Team",
+          author: post.author || m.team_press(),
           datePublished: post.date,
           dateModified: post.date,
           image,
@@ -68,7 +68,8 @@ function BlogPostPage() {
       <div className="max-w-4xl mx-auto px-6 pt-32 pb-16">
         <Link
           to="/blog"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors"
+        >
           <ArrowLeft className="w-4 h-4" />
           {m.blog_back()}
         </Link>
@@ -109,9 +110,10 @@ function BlogPostPage() {
         <div className="mt-16 pt-8 border-t border-border">
           <Link
             to="/blog"
-            className="inline-flex items-center gap-2 text-primary hover:underline">
+            className="inline-flex items-center gap-2 text-primary hover:underline"
+          >
             <ArrowLeft className="w-4 h-4" />
-            Alle Beiträge ansehen
+            {m.blog_back_to_list()}
           </Link>
         </div>
       </div>

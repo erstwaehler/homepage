@@ -41,13 +41,15 @@ export function OptimizedImage({
   layout = "constrained",
   priority = false,
   loading,
+  aspectRatio,
   ...props
 }: OptimizedImageProps) {
   const imageProps: any = {
     ...props,
     layout,
+    aspectRatio,
     loading: priority ? "eager" : (loading ?? "lazy"),
-    ...(priority && { fetchpriority: "high" as const }),
+    ...(priority && { fetchpriority: "high" }),
   };
 
   return <UnpicImage {...imageProps} />;

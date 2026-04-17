@@ -5,6 +5,7 @@ import {
 } from "@content-collections/core";
 import { compileMDX } from "@content-collections/mdx";
 import { z } from "zod";
+import remarkGfm from "remark-gfm";
 
 const posts = defineCollection({
   name: "posts",
@@ -17,6 +18,30 @@ const posts = defineCollection({
     author: z.string().optional(),
     banner: z.string().optional(),
     content: z.string().optional(),
+  }),
+  transform: async (document, context) => {
+    const mdx = await compileMDX(context, document, {
+      remarkPlugins: [remarkGfm],
+    });
+    return {
+      ...document,
+      slug: document._meta.path,
+      mdx,
+    };
+  },
+});
+
+const pms = defineCollection({
+  name: "Pressemitteilungen",
+  directory: "content/pms",
+  include: "**/*.mdx",
+  schema: z.object({
+    title: z.string(),
+    date: z.string(),
+    description: z.string().optional(),
+    banner: z.string().optional(),
+    url: z.string(), // Link to the original PM.
+    content: z.string().optional(), // Soll nur ein Snippet sein.
   }),
   transform: async (document, context) => {
     const mdx = await compileMDX(context, document);
@@ -38,7 +63,9 @@ const pages = defineCollection({
     content: z.string().optional(),
   }),
   transform: async (document, context) => {
-    const mdx = await compileMDX(context, document);
+    const mdx = await compileMDX(context, document, {
+      remarkPlugins: [remarkGfm],
+    });
     return {
       ...document,
       slug: document._meta.path,
@@ -85,5 +112,5 @@ const team = defineSingleton({
 });
 
 export default defineConfig({
-  content: [posts, pages, team],
+  content: [posts, pages, team, pms],
 });
