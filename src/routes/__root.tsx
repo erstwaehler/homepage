@@ -20,8 +20,8 @@ import Header from "../components/Header";
 import NoiseOverlay from "../components/NoiseOverlay";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
-import { NotFoundPage } from "./404";
-import { ServerErrorPage } from "./500";
+import { NotFoundPage } from "~/components/404";
+import { ServerErrorPage } from "~/components/500";
 
 if (typeof window !== "undefined") {
   initLenis();
@@ -188,7 +188,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             defaults: "2025-05-24",
             capture_exceptions: true,
             debug: import.meta.env.DEV,
-          }}>
+          }}
+        >
           <NoiseOverlay />
           <CustomCursor />
           <Header />

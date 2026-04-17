@@ -7,10 +7,10 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { nitro } from "nitro-nightly/vite";
 import { defineConfig } from "vite";
-import viteTsConfigPaths from "vite-tsconfig-paths";
 
 const config = defineConfig({
   resolve: {
+    tsconfigPaths: true,
     alias: {
       "#cc": fileURLToPath(
         new URL("./.content-collections/generated", import.meta.url),
@@ -31,10 +31,6 @@ const config = defineConfig({
     }),
     contentCollections(),
     nitro(),
-    // this is the plugin that enables path aliases
-    viteTsConfigPaths({
-      projects: ["./tsconfig.json"],
-    }),
     tailwindcss(),
     tanstackStart({
       sitemap: {

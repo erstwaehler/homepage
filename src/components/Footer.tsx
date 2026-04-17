@@ -46,7 +46,8 @@ export default function Footer() {
                 <Link
                   key={item.to}
                   to={item.to}
-                  className="block text-foreground hover:text-primary transition-colors duration-200">
+                  className="block text-foreground hover:text-primary transition-colors duration-200"
+                >
                   {item.label}
                 </Link>
               ))}
@@ -63,7 +64,8 @@ export default function Footer() {
                 <Link
                   key={item.to}
                   to={item.to}
-                  className="block text-foreground hover:text-primary transition-colors duration-200">
+                  className="block text-foreground hover:text-primary transition-colors duration-200"
+                >
                   {item.label}
                 </Link>
               ))}
@@ -79,7 +81,8 @@ export default function Footer() {
               <a
                 href="mailto:info@ewf-stade.de"
                 className="text-foreground hover:text-primary transition-colors duration-200"
-                aria-label="E-Mail">
+                aria-label="E-Mail"
+              >
                 <Mail className="w-6 h-6" />
               </a>
               <a
@@ -87,7 +90,8 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-foreground hover:text-primary transition-colors duration-200"
-                aria-label="GitHub">
+                aria-label="GitHub"
+              >
                 <FaGithub className="w-6 h-6" />
               </a>
             </div>

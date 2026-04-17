@@ -26,7 +26,7 @@ export default function LocaleSwitcher() {
 
   return (
     <Select value={currentLocale} onValueChange={handleLocaleChange}>
-      <SelectTrigger className="w-[180px] gap-2">
+      <SelectTrigger className="w-45 gap-2">
         <Languages className="w-4 h-4" />
         <SelectValue>
           <span className="flex items-center gap-2">

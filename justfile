@@ -24,3 +24,9 @@ build:
 
 preview:
     bun run preview
+
+add PACKAGE:
+    bun add {{ PACKAGE }}
+
+remove PACKAGE:
+    bun remove {{ PACKAGE }}
