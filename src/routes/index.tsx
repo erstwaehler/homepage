@@ -9,7 +9,7 @@ import { generateMetaTags, generateWebSiteSchema } from "~/lib/meta";
 export const Route = createFileRoute("/")({
   component: HomePage,
   head: () => {
-    const title = m.site_title();
+    const title = m.site_title_full();
     const description = m.site_description();
 
     return {

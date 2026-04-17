@@ -43,7 +43,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
   head: () => {
     const siteUrl = "https://ewf-stade.de";
-    const title = m.site_title();
+    const title = m.site_title_full();
     const description = m.site_description();
     const ogImage = `${siteUrl}/og-image.png`;
 

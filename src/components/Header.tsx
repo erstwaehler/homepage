@@ -136,7 +136,7 @@ export default function Header() {
               {m.site_title()}
             </span>
             <span className="font-bold text-xl sm:hidden text-white">
-              EWF'26
+              {m.site_title_short()}
             </span>
           </Link>
 
@@ -149,7 +149,7 @@ export default function Header() {
               +
             </span>
             <span className="text-sm font-medium uppercase tracking-wider">
-              MENU
+              {m.nav_menu()}
             </span>
           </button>
         </div>
@@ -172,7 +172,7 @@ export default function Header() {
                   {m.site_title()}
                 </span>
                 <span className="font-bold text-xl sm:hidden text-foreground">
-                  EWF'26
+                  {m.site_title_short()}
                 </span>
               </Link>
 
@@ -183,7 +183,7 @@ export default function Header() {
                 aria-label="Close menu">
                 <X className="w-6 h-6" />
                 <span className="text-sm font-medium uppercase tracking-wider">
-                  CLOSE
+                  {m.nav_close()}
                 </span>
               </button>
             </div>
@@ -216,9 +216,17 @@ export default function Header() {
             {/* Menu Footer */}
             <div className="h-20 flex items-center justify-between text-sm text-muted-foreground">
               <p>
-                © {new Date().getFullYear()} {m.site_title()}
+                {m.copyright_nonprofit({
+                  currentYear: new Date().getFullYear(),
+                  site_title_noyear: m.site_title_noyear(),
+                })}
               </p>
-              <p className="hidden md:block">Erstwähler Forum 2026 – Stade</p>
+              <p className="hidden md:block">
+                {m.copyright({
+                  currentYear: new Date().getFullYear(),
+                  site_title_noyear: m.site_title_noyear(),
+                })}
+              </p>
             </div>
           </div>
         </div>
