@@ -4,6 +4,9 @@ install:
 update:
     bun update --latest
 
+sfw:
+    sfw bun update --latest
+
 dev:
     bun run dev
 
