@@ -1,35 +1,85 @@
-install:
-    bun install
+# Quick Install and Development Setup
+[default]
+[private]
+install-dev: install dev
 
-update:
-    bun update --latest
+alias i := install
 
-sfw:
-    sfw bun update --latest
+[no-cd]
+[private]
+@sfw_wrap mode command:
+    if [ "{{ mode }}" = "safe" ] || [ "{{ mode }}" = "--safe" ]; then \
+        sfw {{ command }}; \
+    else \
+        @{{ command }}; \
+    fi
 
-dev:
-    bun run dev
+# Install dependencies (protected)
+[group('Bun Recipies')]
+install mode="safe":
+    @just sfw_wrap {{ mode }} "bun install"
 
+# Update to latest dependencies (protected)
+[group('Bun Recipies')]
+[group('Featured')]
+update mode="safe":
+    @just sfw_wrap {{ mode }} "bun update"
+
+# Add a new package (protected)
+[group('Bun Recipies')]
+add PACKAGE mode="safe":
+    @just sfw_wrap {{ mode }} "bun add {{ PACKAGE }}"
+
+# Remove a package (protected)
+[group('Bun Recipies')]
+remove PACKAGE mode="safe":
+    @just sfw_wrap {{ mode }} "bun remove {{ PACKAGE }}"
+
+# Start Vite development server
+[group('Featured')]
+[group('Web')]
+dev port="3000":
+    bun run dev -- --port {{ port }}
+
+# Run type checking and linting
+[group('Code Quality')]
 check:
-    bun run check
+    biome check
 
-format:
-    bun run format
+# Run code formatting
+[group('Code Quality')]
+format +mode="write":
+    @if [ "{{ mode }}" = "write" ]; then \
+        biome format --write; \
+    elif [ "{{ mode }}" = "check" ]; then \
+        biome format; \
+    else \
+        biome format {{ mode }}; \
+    fi
 
+# Run linting
+[group('Code Quality')]
 lint:
-    bun run lint
+    biome lint
 
-test:
-    bun run test
+# Run Code Quality Suite
+[group('Code Quality')]
+[group('Featured')]
+quality: format lint
 
+# Run tests with Vitest - Note: there are currently no tests
+[group('Testing')]
+vitest:
+    vitest run
+
+# Run Vite build
+[group('Testing')]
+[group('Web')]
 build:
     bun run build
 
-preview:
+# Start build in preview mode - Automatically builds the server
+[group('Testing')]
+[group('Web')]
+preview: build
     bun run preview
-
-add PACKAGE:
-    bun add {{ PACKAGE }}
-
-remove PACKAGE:
-    bun remove {{ PACKAGE }}
