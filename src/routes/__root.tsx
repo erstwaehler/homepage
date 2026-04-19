@@ -2,6 +2,8 @@
 
 import { PostHogProvider } from "@posthog/react";
 import { TanStackDevtools } from "@tanstack/react-devtools";
+import { HotkeysProvider } from "@tanstack/react-hotkeys";
+import { HotkeysDevtoolsPanel } from "@tanstack/react-hotkeys-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 import {
   createRootRouteWithContext,
@@ -188,23 +190,31 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             debug: false,
           }}
         >
-          <NoiseOverlay />
-          <CustomCursor />
-          <Header />
-          <main data-transition-container>{children}</main>
-          <Footer />
-          <TanStackDevtools
-            config={{
-              position: "bottom-right",
-            }}
-            plugins={[
-              {
-                name: "Tanstack Router",
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-              TanStackQueryDevtools,
-            ]}
-          />
+          <HotkeysProvider>
+            <NoiseOverlay />
+            <CustomCursor />
+            <Header />
+            <main data-transition-container>{children}</main>
+            <Footer />
+            <TanStackDevtools
+              config={{
+                position: "bottom-right",
+              }}
+              plugins={[
+                {
+                  name: "Tanstack Router",
+                  render: <TanStackRouterDevtoolsPanel />,
+                },
+                TanStackQueryDevtools,
+                {
+                  name: "Tanstack Hotkeys",
+                  render: (
+                    <HotkeysDevtoolsPanel theme="dark" devtoolsOpen={false} />
+                  ),
+                },
+              ]}
+            />
+          </HotkeysProvider>
         </PostHogProvider>
         <Scripts />
       </body>

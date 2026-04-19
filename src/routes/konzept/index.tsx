@@ -107,21 +107,29 @@ function KonzeptPage() {
           },
           "-=0.45",
         )
-        .from(
+        .fromTo(
           ".concept-card",
           {
             y: 50,
             opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
             duration: 0.7,
             stagger: 0.08,
           },
           "-=0.3",
         )
-        .from(
+        .fromTo(
           ".focus-item",
           {
             x: -24,
             opacity: 0,
+          },
+          {
+            x: 0,
+            opacity: 1,
             duration: 0.6,
             stagger: 0.08,
           },

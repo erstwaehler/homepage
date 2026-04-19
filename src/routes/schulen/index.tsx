@@ -74,6 +74,22 @@ function SchulenPage() {
         opacity: 0,
         duration: 0.8,
       })
+        .to(
+          ".schools-hero p",
+          {
+            y: 24,
+            opacity: 0,
+          },
+          "0",
+        )
+        .to(
+          ".school-card",
+          {
+            y: 40,
+            opacity: 0,
+          },
+          "0",
+        )
         .from(
           ".schools-hero p",
           {
@@ -83,15 +99,19 @@ function SchulenPage() {
           },
           "-=0.5",
         )
-        .from(
+        .fromTo(
           ".school-card",
           {
             y: 40,
             opacity: 0,
-            duration: 0.7,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.5,
             stagger: 0.12,
           },
-          "-=0.2",
+          "0.25",
         );
     });
 

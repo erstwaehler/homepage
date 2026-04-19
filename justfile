@@ -3,21 +3,23 @@
 [private]
 install-dev: install dev
 
-alias i := install
-
 [no-cd]
 [private]
 @sfw_wrap mode command:
     if [ "{{ mode }}" = "safe" ] || [ "{{ mode }}" = "--safe" ]; then \
         sfw {{ command }}; \
     else \
-        @{{ command }}; \
+        {{ command }}; \
     fi
+
+alias i := install
 
 # Install dependencies (protected)
 [group('Bun Recipies')]
 install mode="safe":
     @just sfw_wrap {{ mode }} "bun install"
+
+alias up := update
 
 # Update to latest dependencies (protected)
 [group('Bun Recipies')]
@@ -25,10 +27,14 @@ install mode="safe":
 update mode="safe":
     @just sfw_wrap {{ mode }} "bun update"
 
+alias a := add
+
 # Add a new package (protected)
 [group('Bun Recipies')]
 add PACKAGE mode="safe":
     @just sfw_wrap {{ mode }} "bun add {{ PACKAGE }}"
+
+alias rm := remove
 
 # Remove a package (protected)
 [group('Bun Recipies')]

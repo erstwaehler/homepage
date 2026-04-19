@@ -42,25 +42,10 @@ function BlogListPage() {
         defaults: { ease: "expo.out", duration: 0.8 },
       });
 
-      tl.fromTo(".blog-hero h1", { y: 40, opacity: 0 }, { y: 0, opacity: 1 })
-        .fromTo(
-          ".blog-hero p",
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1 },
-          "-=0.6",
-        )
-        .fromTo(
-          ".featured-post",
-          { y: 60, opacity: 0 },
-          { y: 0, opacity: 1 },
-          "-=0.5",
-        )
-        .fromTo(
-          ".more-stories",
-          { y: 40, opacity: 0 },
-          { y: 0, opacity: 1 },
-          "-=0.4",
-        )
+      tl.from(".blog-hero h1", { y: 40, opacity: 0 })
+        .from(".blog-hero p", { y: 30, opacity: 0 }, "-=0.6")
+        .from(".featured-post", { y: 60, opacity: 0 }, "-=0.5")
+        .from(".more-stories", { y: 40, opacity: 0 }, "-=0.4")
         .fromTo(
           ".blog-post",
           { y: 40, opacity: 0 },

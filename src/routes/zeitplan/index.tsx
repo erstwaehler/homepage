@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { randomInt } from "crypto";
 import { ChevronDown, Clock3, MapPin, Sparkles } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { gsap } from "~/lib/gsap";
 import { generateMetaTags } from "~/lib/meta";
 
@@ -37,13 +36,6 @@ type TimelineRow =
 const timeline: TimelineRow[] = [
   {
     kind: "section",
-    time: "6:45",
-    room: "Foyer & Hansesaal",
-    title: "Antreffen Team",
-    details: "Aufbau, letzte Abstimmungen und Start in den Veranstaltungstag.",
-  },
-  {
-    kind: "section",
     time: "7:00",
     room: "Foyer & Hansesaal",
     title: "Einlass Externe & Motivationsrunde",
@@ -55,8 +47,6 @@ const timeline: TimelineRow[] = [
     time: "8:00",
     room: "Foyer & Hansesaal",
     title: "Einlass Schüler & Lehrkräfte",
-    details:
-      "Die Lehrkräfte sorgen dafür, dass die Lerngruppen pünktlich und vollständig anwesend sind.",
   },
   {
     kind: "section",
@@ -64,7 +54,7 @@ const timeline: TimelineRow[] = [
     room: "Hansesaal",
     title: "Einführung",
     details:
-      "Begrüßung, Vorstellung des Forums und Einordnung des Tages in den politischen Kontext.",
+      "Einführung inklusive Rede des ersten Kreisrats über die Bedeutung deiner Wahl!",
   },
   {
     kind: "section",
@@ -194,14 +184,6 @@ export const Route = createFileRoute("/zeitplan/")({
 function RouteComponent() {
   const [openCycle, setOpenCycle] = useState<number | null>(null);
 
-  const cycleRows = useMemo(
-    () =>
-      timeline
-        .map((row, index) => ({ row, index }))
-        .filter(({ row }) => row.kind === "cycle"),
-    [],
-  );
-
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(".timeline-hero", {
@@ -285,143 +267,114 @@ function RouteComponent() {
         </section>
 
         <section className="rounded-3xl border border-border bg-card overflow-hidden shadow-sm">
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
-              <thead className="bg-muted/40">
-                <tr className="text-left text-sm uppercase tracking-wider text-muted-foreground">
-                  <th className="px-6 py-4 font-medium">Uhrzeit</th>
-                  <th className="px-6 py-4 font-medium">Raum</th>
-                  <th className="px-6 py-4 font-medium">Anlass</th>
-                  <th className="px-6 py-4 font-medium hidden md:table-cell">
-                    Hinweise
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {timeline.map((row, idx) => {
-                  const isOpen = row.kind === "cycle" && openCycle === idx;
+          <div className="divide-y divide-border/60">
+            {timeline.map((row, idx) => {
+              const isOpen = row.kind === "cycle" && openCycle === idx;
 
-                  if (row.kind === "cycle") {
-                    return (
-                      <tr key={`cycle-group-${randomInt(1, 1000)}`}>
-                        <td colSpan={4} className="p-0">
-                          <div className="border-t border-border/60">
-                            <button
-                              type="button"
-                              onClick={() =>
-                                setOpenCycle((current) =>
-                                  current === idx ? null : idx,
-                                )
-                              }
-                              className={[
-                                "timeline-row w-full grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_220px]",
-                                "gap-0 text-left transition-colors hover:bg-accent/40",
-                                isOpen ? "bg-accent/50" : "",
-                              ].join(" ")}
-                            >
-                              <span className="px-6 py-5 align-top whitespace-nowrap font-medium">
-                                {row.time}
-                              </span>
-                              <span className="px-6 py-5 align-top text-muted-foreground">
-                                {row.room}
-                              </span>
-                              <span className="px-6 py-5 align-top">
-                                <div className="flex items-center gap-3">
-                                  <span className="font-medium">
-                                    {row.title}
-                                  </span>
-                                  <ChevronDown
-                                    className={[
-                                      "w-4 h-4 text-muted-foreground transition-transform duration-300",
-                                      isOpen ? "rotate-180" : "",
-                                    ].join(" ")}
-                                  />
-                                </div>
-                              </span>
-                              <span className="px-6 py-5 align-top hidden md:block text-muted-foreground">
-                                Aufklappbare Details
-                              </span>
-                            </button>
-
-                            <div
-                              className={[
-                                "grid transition-all duration-300 overflow-hidden",
-                                isOpen
-                                  ? "grid-rows-[1fr] opacity-100"
-                                  : "grid-rows-[0fr] opacity-0",
-                              ].join(" ")}
-                            >
-                              <div className="min-h-0">
-                                <div className="px-6 pb-5 pt-0 bg-muted/20">
-                                  <div className="grid gap-3 md:grid-cols-2">
-                                    {row.details.map((detail) => (
-                                      <div
-                                        key={detail.label}
-                                        className="rounded-2xl border border-border bg-background p-4"
-                                      >
-                                        <div className="flex items-center justify-between gap-3 mb-2">
-                                          <h4 className="font-semibold">
-                                            {detail.label}
-                                          </h4>
-                                          <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">
-                                            {detail.duration}
-                                          </span>
-                                        </div>
-                                        <p className="text-sm text-muted-foreground leading-relaxed">
-                                          {detail.description}
-                                        </p>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  }
-
-                  return (
-                    <tr
-                      key={`${row.kind}-${row.title}`}
-                      className="timeline-row border-t border-border/60 hover:bg-accent/30 transition-colors"
+              if (row.kind === "cycle") {
+                return (
+                  <div
+                    key={`cycle-group-${row.title}`}
+                    className="timeline-row"
+                  >
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setOpenCycle((current) =>
+                          current === idx ? null : idx,
+                        )
+                      }
+                      className={[
+                        "w-full grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_220px]",
+                        "gap-0 text-left transition-colors hover:bg-accent/40",
+                        isOpen ? "bg-accent/50" : "",
+                      ].join(" ")}
                     >
-                      <td className="px-6 py-5 align-top whitespace-nowrap font-medium">
+                      <span className="px-6 py-5 align-top whitespace-nowrap font-medium">
                         {row.time}
-                      </td>
-                      <td className="px-6 py-5 align-top text-muted-foreground">
+                      </span>
+                      <span className="px-6 py-5 align-top text-muted-foreground">
                         {row.room}
-                      </td>
-                      <td className="px-6 py-5 align-top">
-                        <span
-                          className={[
-                            "font-medium",
-                            row.kind === "end"
-                              ? "text-primary"
-                              : "text-foreground",
-                          ].join(" ")}
-                        >
-                          {row.title}
-                        </span>
-                      </td>
-                      <td className="px-6 py-5 align-top hidden md:table-cell text-muted-foreground">
-                        {row.details ?? "—"}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </section>
+                      </span>
+                      <span className="px-6 py-5 align-top">
+                        <div className="flex items-center gap-3">
+                          <span className="font-medium">{row.title}</span>
+                          <ChevronDown
+                            className={[
+                              "w-4 h-4 text-muted-foreground transition-transform duration-300",
+                              isOpen ? "rotate-180" : "",
+                            ].join(" ")}
+                          />
+                        </div>
+                      </span>
+                      <span className="px-6 py-5 align-top hidden md:block text-muted-foreground">
+                        Aufklappbare Details
+                      </span>
+                    </button>
 
-        <section className="mt-10 rounded-2xl border border-border bg-card p-6">
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            <span className="font-medium text-foreground">Hinweis:</span> Bei
-            der Zeitplanung ist stets eine ausreichende „Herdenlauf-Zeit“ für
-            Übergänge einzukalkulieren.
-          </p>
+                    <div
+                      className={[
+                        "grid transition-all duration-300 overflow-hidden",
+                        isOpen
+                          ? "grid-rows-[1fr] opacity-100"
+                          : "grid-rows-[0fr] opacity-0",
+                      ].join(" ")}
+                    >
+                      <div className="min-h-0 bg-muted/20">
+                        <div className="px-6 pb-5 pt-0 grid gap-3 md:grid-cols-2">
+                          {row.details.map((detail) => (
+                            <div
+                              key={detail.label}
+                              className="rounded-2xl border border-border bg-background p-4"
+                            >
+                              <div className="flex items-center justify-between gap-3 mb-2">
+                                <h4 className="font-semibold">
+                                  {detail.label}
+                                </h4>
+                                <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">
+                                  {detail.duration}
+                                </span>
+                              </div>
+                              <p className="text-sm text-muted-foreground leading-relaxed">
+                                {detail.description}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <div
+                  key={`${row.kind}-${row.title}`}
+                  className="timeline-row grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_220px] gap-0 hover:bg-accent/30 transition-colors"
+                >
+                  <div className="px-6 py-5 align-top whitespace-nowrap font-medium">
+                    {row.time}
+                  </div>
+                  <div className="px-6 py-5 align-top text-muted-foreground">
+                    {row.room}
+                  </div>
+                  <div className="px-6 py-5 align-top">
+                    <span
+                      className={[
+                        "font-medium",
+                        row.kind === "end" ? "text-primary" : "text-foreground",
+                      ].join(" ")}
+                    >
+                      {row.title}
+                    </span>
+                  </div>
+                  <div className="px-6 py-5 align-top hidden md:block text-muted-foreground">
+                    {row.details ?? "—"}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </section>
       </div>
     </div>
