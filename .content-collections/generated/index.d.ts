@@ -13,4 +13,7 @@ export declare const team: Team;
 export type Pressemitteilungen = GetTypeByName<typeof configuration, "Pressemitteilungen">;
 export declare const allPressemitteilungens: Array<Pressemitteilungen>;
 
+export type Partner = GetTypeByName<typeof configuration, "partner">;
+export declare const partner: Partner;
+
 export {};

@@ -14,12 +14,13 @@ export default function Footer() {
     { to: "/konzept", label: m.nav_konzept() },
     { to: "/zeitplan", label: m.nav_zeitplan() },
     { to: "/blog", label: m.nav_blog() },
+    { to: "/partner", label: "Partner" },
     { to: "/impressum", label: m.nav_impressum() },
   ];
 
   const aboutItems = [
     { to: "/team", label: m.nav_team() },
-    { to: "/schulen", label: m.nav_schulen() },
+    { to: "/partner", label: "Partner" },
     { to: "/presse", label: m.nav_presse() },
     { to: "/kontakt", label: m.nav_kontakt() },
   ];
@@ -28,7 +29,6 @@ export default function Footer() {
     <footer className="bg-linear-to-b from-card via-card to-background border-t border-border mt-20">
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
-          {/* Brand Section */}
           <div className="md:col-span-4 space-y-6">
             <div className="flex items-center gap-3">
               <Vote className="w-10 h-10 text-primary" />
@@ -39,7 +39,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Navigation Section */}
           <div className="md:col-span-3">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-6">
               {m.nav_navigation()}
@@ -57,7 +56,6 @@ export default function Footer() {
             </nav>
           </div>
 
-          {/* About Section */}
           <div className="md:col-span-3">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-6">
               {m.nav_whoweare()}
@@ -75,7 +73,6 @@ export default function Footer() {
             </nav>
           </div>
 
-          {/* Social & Language Section */}
           <div className="md:col-span-2">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-6">
               {m.nav_socials()}
@@ -87,6 +84,13 @@ export default function Footer() {
                 aria-label="E-Mail"
               >
                 <Mail className="w-6 h-6" />
+              </a>
+              <a
+                href="mailto:partner@ewf-stade.de"
+                className="text-foreground hover:text-primary transition-colors duration-200"
+                aria-label="Partner E-Mail"
+              >
+                <span className="text-sm font-medium">Partner</span>
               </a>
               <a
                 href="https://github.com/erstwaehler"
@@ -102,7 +106,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Footer Bottom */}
         <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>
             {m.copyright({

@@ -1,1 +1,0 @@
-notiz für die zukunft: ich möchte keine spezifische /schulen seite haben sondern lieber eine /partner seite, da auf jeden fall den KJR mit rein und am rande eine liste der teilnehmenden schulen, mit den teilnehmenden schülerzahlen. mit link!

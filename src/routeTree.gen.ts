@@ -12,8 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ZeitplanIndexRouteImport } from './routes/zeitplan/index'
 import { Route as TeamIndexRouteImport } from './routes/team/index'
-import { Route as SchulenIndexRouteImport } from './routes/schulen/index'
 import { Route as PresseIndexRouteImport } from './routes/presse/index'
+import { Route as PartnerIndexRouteImport } from './routes/partner/index'
 import { Route as KonzeptIndexRouteImport } from './routes/konzept/index'
 import { Route as KontaktIndexRouteImport } from './routes/kontakt/index'
 import { Route as ImpressumIndexRouteImport } from './routes/impressum/index'
@@ -36,14 +36,14 @@ const TeamIndexRoute = TeamIndexRouteImport.update({
   path: '/team/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SchulenIndexRoute = SchulenIndexRouteImport.update({
-  id: '/schulen/',
-  path: '/schulen/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PresseIndexRoute = PresseIndexRouteImport.update({
   id: '/presse/',
   path: '/presse/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnerIndexRoute = PartnerIndexRouteImport.update({
+  id: '/partner/',
+  path: '/partner/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KonzeptIndexRoute = KonzeptIndexRouteImport.update({
@@ -85,8 +85,8 @@ export interface FileRoutesByFullPath {
   '/impressum/': typeof ImpressumIndexRoute
   '/kontakt/': typeof KontaktIndexRoute
   '/konzept/': typeof KonzeptIndexRoute
+  '/partner/': typeof PartnerIndexRoute
   '/presse/': typeof PresseIndexRoute
-  '/schulen/': typeof SchulenIndexRoute
   '/team/': typeof TeamIndexRoute
   '/zeitplan/': typeof ZeitplanIndexRoute
 }
@@ -98,8 +98,8 @@ export interface FileRoutesByTo {
   '/impressum': typeof ImpressumIndexRoute
   '/kontakt': typeof KontaktIndexRoute
   '/konzept': typeof KonzeptIndexRoute
+  '/partner': typeof PartnerIndexRoute
   '/presse': typeof PresseIndexRoute
-  '/schulen': typeof SchulenIndexRoute
   '/team': typeof TeamIndexRoute
   '/zeitplan': typeof ZeitplanIndexRoute
 }
@@ -112,8 +112,8 @@ export interface FileRoutesById {
   '/impressum/': typeof ImpressumIndexRoute
   '/kontakt/': typeof KontaktIndexRoute
   '/konzept/': typeof KonzeptIndexRoute
+  '/partner/': typeof PartnerIndexRoute
   '/presse/': typeof PresseIndexRoute
-  '/schulen/': typeof SchulenIndexRoute
   '/team/': typeof TeamIndexRoute
   '/zeitplan/': typeof ZeitplanIndexRoute
 }
@@ -127,8 +127,8 @@ export interface FileRouteTypes {
     | '/impressum/'
     | '/kontakt/'
     | '/konzept/'
+    | '/partner/'
     | '/presse/'
-    | '/schulen/'
     | '/team/'
     | '/zeitplan/'
   fileRoutesByTo: FileRoutesByTo
@@ -140,8 +140,8 @@ export interface FileRouteTypes {
     | '/impressum'
     | '/kontakt'
     | '/konzept'
+    | '/partner'
     | '/presse'
-    | '/schulen'
     | '/team'
     | '/zeitplan'
   id:
@@ -153,8 +153,8 @@ export interface FileRouteTypes {
     | '/impressum/'
     | '/kontakt/'
     | '/konzept/'
+    | '/partner/'
     | '/presse/'
-    | '/schulen/'
     | '/team/'
     | '/zeitplan/'
   fileRoutesById: FileRoutesById
@@ -167,8 +167,8 @@ export interface RootRouteChildren {
   ImpressumIndexRoute: typeof ImpressumIndexRoute
   KontaktIndexRoute: typeof KontaktIndexRoute
   KonzeptIndexRoute: typeof KonzeptIndexRoute
+  PartnerIndexRoute: typeof PartnerIndexRoute
   PresseIndexRoute: typeof PresseIndexRoute
-  SchulenIndexRoute: typeof SchulenIndexRoute
   TeamIndexRoute: typeof TeamIndexRoute
   ZeitplanIndexRoute: typeof ZeitplanIndexRoute
 }
@@ -196,18 +196,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/schulen/': {
-      id: '/schulen/'
-      path: '/schulen'
-      fullPath: '/schulen/'
-      preLoaderRoute: typeof SchulenIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/presse/': {
       id: '/presse/'
       path: '/presse'
       fullPath: '/presse/'
       preLoaderRoute: typeof PresseIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partner/': {
+      id: '/partner/'
+      path: '/partner'
+      fullPath: '/partner/'
+      preLoaderRoute: typeof PartnerIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/konzept/': {
@@ -263,8 +263,8 @@ const rootRouteChildren: RootRouteChildren = {
   ImpressumIndexRoute: ImpressumIndexRoute,
   KontaktIndexRoute: KontaktIndexRoute,
   KonzeptIndexRoute: KonzeptIndexRoute,
+  PartnerIndexRoute: PartnerIndexRoute,
   PresseIndexRoute: PresseIndexRoute,
-  SchulenIndexRoute: SchulenIndexRoute,
   TeamIndexRoute: TeamIndexRoute,
   ZeitplanIndexRoute: ZeitplanIndexRoute,
 }

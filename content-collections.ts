@@ -40,8 +40,8 @@ const pms = defineCollection({
     date: z.string(),
     description: z.string().optional(),
     banner: z.string().optional(),
-    url: z.string(), // Link to the original PM.
-    content: z.string().optional(), // Soll nur ein Snippet sein.
+    url: z.string(),
+    content: z.string().optional(),
   }),
   transform: async (document, context) => {
     const mdx = await compileMDX(context, document);
@@ -74,6 +74,45 @@ const pages = defineCollection({
   },
 });
 
+const partnerSupporters = z.object({
+  name: z.string(),
+  kind: z.enum(["schule", "foerderverein", "partner", "presse", "sonstiges"]),
+  description: z.string().optional(),
+  amount: z.number().optional(),
+  status: z.enum(["confirmed", "pending", "declined"]).default("confirmed"),
+});
+
+const partnerSchools = z.object({
+  name: z.string(),
+  studentsSent: z.number(),
+  note: z.string().optional(),
+});
+
+const partnerPolicy = z.object({
+  noPrivateDonations: z.literal(true),
+  noAdsOrTitleSponsors: z.literal(true),
+  noDonationReceipts: z.literal(true),
+  backgroundCheckRequired: z.literal(true),
+  responseTimeBusinessDays: z.literal(2),
+  replyEmail: z.string(),
+  contactEmail: z.string(),
+  contactDescription: z.string().optional(),
+});
+
+const partner = defineSingleton({
+  name: "partner",
+  filePath: "content/partner/partner.json",
+  parser: "json",
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    schools: z.array(partnerSchools),
+    supporters: z.array(partnerSupporters),
+    policy: partnerPolicy,
+    publicNotes: z.array(z.string()).optional(),
+  }),
+});
+
 const team = defineSingleton({
   name: "team",
   filePath: "content/team/team.json",
@@ -91,6 +130,7 @@ const team = defineSingleton({
         ]),
         bio: z.string(),
         email: z
+          .string()
           .email()
           .regex(/(@ewf-stade\.de|@erstwaehler\.[a-z]+)$/)
           .optional(),
@@ -101,7 +141,6 @@ const team = defineSingleton({
               .regex(/^[^@]+@[^@]+\.[^@]+$/)
               .optional(),
             instagram: z.string().optional(),
-            // option to add more social media
           })
           .optional(),
         profile_image: z.string().optional(),
@@ -112,5 +151,5 @@ const team = defineSingleton({
 });
 
 export default defineConfig({
-  content: [posts, pages, team, pms],
+  content: [posts, pages, team, pms, partner],
 });

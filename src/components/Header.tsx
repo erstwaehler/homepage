@@ -34,7 +34,7 @@ export default function Header() {
       { to: "/konzept", label: m.nav_konzept() },
       { to: "/zeitplan", label: m.nav_zeitplan() },
       { to: "/team", label: m.nav_team() },
-      { to: "/schulen", label: m.nav_schulen() },
+      { to: "/partner", label: "Partner" },
       { to: "/blog", label: m.nav_blog() },
       { to: "/presse", label: m.nav_presse() },
       { to: "/kontakt", label: m.nav_kontakt() },
@@ -483,7 +483,9 @@ export default function Header() {
                 aria-label="Close menu"
               >
                 <X className="w-6 h-6 transition-transform duration-200 group-hover:rotate-90" />
-                <span className="text-sm font-medium uppercase tracking-wider">
+                <span
+                  className={"text-sm font-medium uppercase tracking-wider"}
+                >
                   {m.nav_close()}
                 </span>
               </button>
