@@ -29,7 +29,7 @@ const schools = [
     description:
       "Ein zentraler Mitinitiator des Projekts mit engagierten Schüler:innen aus der Ober- und Mittelstufe.",
     highlight:
-      "Schulübergreifende Mitgestaltung von Konzept, Organisation und Kommunikation.",
+      "Schülervertreter sowie Finanzierungspartner für die Umsetzung des Forums.",
     status: "Kooperationsschule",
   },
   {
@@ -39,7 +39,7 @@ const schools = [
     description:
       "Bringt eine große und vielfältige Schülerschaft in das Forum ein und stärkt den praxisnahen Austausch.",
     highlight:
-      "Wichtiger Partner für Beteiligung, Rückmeldungen und die schulische Umsetzung.",
+      "Schülervertreter sowie Finanzierungspartner für die Umsetzung des Forums.",
     status: "Kooperationsschule",
   },
   {
@@ -49,18 +49,17 @@ const schools = [
     description:
       "Unterstützt das Erstwählerforum als dritte große weiterführende Schule in Stade.",
     highlight:
-      "Sorgt gemeinsam mit den anderen Schulen für eine breite schulische Verankerung.",
+      "Schülervertreter sowie Finanzierungspartner für die Umsetzung des Forums.",
     status: "Kooperationsschule",
   },
   {
     name: "Realschule Camper Höhe",
-    short: "RCH",
+    short: "Rs Camper Höhe",
     icon: Users2,
     description:
       "Wird perspektivisch in die Teilnehmenden- und Informationsstruktur einbezogen.",
-    highlight:
-      "Wichtiger Baustein für die Erweiterung des schulischen Netzwerks und der Reichweite.",
-    status: "Interessierte Partnerschule",
+    highlight: "Finanzierungspartner",
+    status: "Kooperationsschule",
   },
 ];
 

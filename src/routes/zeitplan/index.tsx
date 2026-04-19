@@ -1,37 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ChevronDown, Clock3, MapPin, Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Clock3, MapPin, Sparkles } from "lucide-react";
+import { useEffect } from "react";
 import { gsap } from "~/lib/gsap";
 import { generateMetaTags } from "~/lib/meta";
-
-type CycleDetail = {
-  label: string;
-  duration: string;
-  description: string;
-};
-
-type TimelineRow =
-  | {
-      kind: "section";
-      time: string;
-      room: string;
-      title: string;
-      details?: string;
-    }
-  | {
-      kind: "cycle";
-      time: string;
-      room: string;
-      title: string;
-      details: CycleDetail[];
-    }
-  | {
-      kind: "end";
-      time: string;
-      room: string;
-      title: string;
-      details?: string;
-    };
+import InfoCard from "~/components/timeline/InfoCard";
+import TimelineRowItem from "~/components/timeline/TimelineRowItem";
+import CycleRow from "~/components/timeline/CycleRow";
+import type { TimelineRow } from "~/components/timeline/types";
 
 const timeline: TimelineRow[] = [
   {
@@ -182,8 +157,6 @@ export const Route = createFileRoute("/zeitplan/")({
 });
 
 function RouteComponent() {
-  const [openCycle, setOpenCycle] = useState<number | null>(null);
-
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(".timeline-hero", {
@@ -210,170 +183,48 @@ function RouteComponent() {
     <div className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-6 pt-32 pb-16">
         <section className="timeline-hero mb-12">
-          <div
-            className={
-              "inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-primary text-xs font-medium uppercase tracking-wider mb-5"
-            }
-          >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-primary text-xs font-medium uppercase tracking-wider mb-5">
             <Clock3 className="w-4 h-4" />
             Pflichtveranstaltung
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-5">Der Zeitplan</h1>
-          <p className={"text-xl text-muted-foreground max-w-3xl"}>
+          <p className="text-xl text-muted-foreground max-w-3xl">
             Ein klarer Überblick über den Veranstaltungstag — inklusive Einlass,
             Einführung, Zyklen, Marktphasen und Abschluss.
           </p>
         </section>
 
         <section className="mb-10 grid gap-4 md:grid-cols-3">
-          <div className="rounded-2xl border border-border bg-card p-5">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                <Clock3 className="w-5 h-5" />
-              </div>
-              <h2 className="font-semibold">Struktur</h2>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Der Tag ist in Einlass, Einführung, drei Zyklen und einen
-              gemeinsamen Abschluss gegliedert.
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-border bg-card p-5">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                <MapPin className="w-5 h-5" />
-              </div>
-              <h2 className="font-semibold">Orte</h2>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Foyer, Hansesaal und Konferenzräume werden je nach Programmpunkt
-              parallel genutzt.
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-border bg-card p-5">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <h2 className="font-semibold">Zyklen</h2>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Die Zyklen sind interaktiv und bieten aufklappbare Detailinfos zu
-              Diskussions- und Wechselphasen.
-            </p>
-          </div>
+          <InfoCard
+            icon={<Clock3 className="w-5 h-5" />}
+            title="Struktur"
+            description="Der Tag ist in Einlass, Einführung, drei Zyklen und einen gemeinsamen Abschluss gegliedert."
+          />
+          <InfoCard
+            icon={<MapPin className="w-5 h-5" />}
+            title="Orte"
+            description="Foyer, Hansesaal und Konferenzräume werden je nach Programmpunkt parallel genutzt."
+          />
+          <InfoCard
+            icon={<Sparkles className="w-5 h-5" />}
+            title="Zyklen"
+            description="Die Zyklen sind interaktiv und bieten aufklappbare Detailinfos zu Diskussions- und Wechselphasen."
+          />
         </section>
 
         <section className="rounded-3xl border border-border bg-card overflow-hidden shadow-sm">
           <div className="divide-y divide-border/60">
-            {timeline.map((row, idx) => {
-              const isOpen = row.kind === "cycle" && openCycle === idx;
-
-              if (row.kind === "cycle") {
-                return (
-                  <div
-                    key={`cycle-group-${row.title}`}
-                    className="timeline-row"
-                  >
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setOpenCycle((current) =>
-                          current === idx ? null : idx,
-                        )
-                      }
-                      className={[
-                        "w-full grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_220px]",
-                        "gap-0 text-left transition-colors hover:bg-accent/40",
-                        isOpen ? "bg-accent/50" : "",
-                      ].join(" ")}
-                    >
-                      <span className="px-6 py-5 align-top whitespace-nowrap font-medium">
-                        {row.time}
-                      </span>
-                      <span className="px-6 py-5 align-top text-muted-foreground">
-                        {row.room}
-                      </span>
-                      <span className="px-6 py-5 align-top">
-                        <div className="flex items-center gap-3">
-                          <span className="font-medium">{row.title}</span>
-                          <ChevronDown
-                            className={[
-                              "w-4 h-4 text-muted-foreground transition-transform duration-300",
-                              isOpen ? "rotate-180" : "",
-                            ].join(" ")}
-                          />
-                        </div>
-                      </span>
-                      <span className="px-6 py-5 align-top hidden md:block text-muted-foreground">
-                        Aufklappbare Details
-                      </span>
-                    </button>
-
-                    <div
-                      className={[
-                        "grid transition-all duration-300 overflow-hidden",
-                        isOpen
-                          ? "grid-rows-[1fr] opacity-100"
-                          : "grid-rows-[0fr] opacity-0",
-                      ].join(" ")}
-                    >
-                      <div className="min-h-0 bg-muted/20">
-                        <div className="px-6 pb-5 pt-0 grid gap-3 md:grid-cols-2">
-                          {row.details.map((detail) => (
-                            <div
-                              key={detail.label}
-                              className="rounded-2xl border border-border bg-background p-4"
-                            >
-                              <div className="flex items-center justify-between gap-3 mb-2">
-                                <h4 className="font-semibold">
-                                  {detail.label}
-                                </h4>
-                                <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">
-                                  {detail.duration}
-                                </span>
-                              </div>
-                              <p className="text-sm text-muted-foreground leading-relaxed">
-                                {detail.description}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              }
-
-              return (
-                <div
+            {timeline.map((row) =>
+              row.kind === "cycle" ? (
+                <CycleRow key={`cycle-group-${row.title}`} row={row} />
+              ) : (
+                <TimelineRowItem
                   key={`${row.kind}-${row.title}`}
-                  className="timeline-row grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_220px] gap-0 hover:bg-accent/30 transition-colors"
-                >
-                  <div className="px-6 py-5 align-top whitespace-nowrap font-medium">
-                    {row.time}
-                  </div>
-                  <div className="px-6 py-5 align-top text-muted-foreground">
-                    {row.room}
-                  </div>
-                  <div className="px-6 py-5 align-top">
-                    <span
-                      className={[
-                        "font-medium",
-                        row.kind === "end" ? "text-primary" : "text-foreground",
-                      ].join(" ")}
-                    >
-                      {row.title}
-                    </span>
-                  </div>
-                  <div className="px-6 py-5 align-top hidden md:block text-muted-foreground">
-                    {row.details ?? "—"}
-                  </div>
-                </div>
-              );
-            })}
+                  row={row}
+                  isEnd={row.kind === "end"}
+                />
+              ),
+            )}
           </div>
         </section>
       </div>

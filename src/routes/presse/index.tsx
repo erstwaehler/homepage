@@ -1,6 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import {
-  ArrowRight,
   FileText,
   ImageIcon,
   Mail,
@@ -12,6 +11,9 @@ import { useEffect } from "react";
 import { gsap } from "~/lib/gsap";
 import * as m from "#p";
 import { generateMetaTags } from "~/lib/meta";
+import ContactInfoCard from "~/components/contact/ContactInfoCard";
+import NewsList, { type NewsItem } from "~/components/NewsList";
+import NoteCard from "~/components/NoteCard";
 
 export const Route = createFileRoute("/presse/")({
   component: PressePage,
@@ -29,13 +31,14 @@ export const Route = createFileRoute("/presse/")({
   },
 });
 
-const releases = [
+const releases: NewsItem[] = [
   {
     title: "Erstwählerforum 2026 angekündigt",
     date: "2026-03-01",
     category: "Mitteilung",
     excerpt:
       "Das schulübergreifende Forum bringt Jugendliche, Schulen und lokale Akteure zusammen.",
+    to: "/presse",
   },
   {
     title: "Stadeum als Veranstaltungsort bestätigt",
@@ -43,6 +46,7 @@ const releases = [
     category: "Update",
     excerpt:
       "Die Organisation hat sich für das Stadeum als zentrale Location entschieden.",
+    to: "/presse",
   },
   {
     title: "Konzeptphase geht in die Detailplanung",
@@ -50,6 +54,7 @@ const releases = [
     category: "Hintergrund",
     excerpt:
       "Die Formate Markt, Podien und Impulsrunden werden aktuell ausformuliert.",
+    to: "/presse",
   },
 ];
 
@@ -103,53 +108,14 @@ function PressePage() {
                 <h2 className="text-2xl font-bold">Aktuelle Mitteilungen</h2>
               </div>
 
-              <div className="space-y-4">
-                {releases.map((release) => (
-                  <article
-                    key={release.title}
-                    className="group rounded-xl border border-border/70 bg-background/50 hover:bg-background transition-colors duration-300 overflow-hidden"
-                  >
-                    <Link
-                      to="/presse"
-                      className="block p-5 md:p-6"
-                      aria-label={release.title}
-                    >
-                      <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground mb-3">
-                        <span className="px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
-                          {release.category}
-                        </span>
-                        <time dateTime={release.date}>
-                          {new Date(release.date).toLocaleDateString("de-DE", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
-                        </time>
-                      </div>
-
-                      <div className="flex items-start justify-between gap-6">
-                        <div className="space-y-2">
-                          <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
-                            {release.title}
-                          </h3>
-                          <p className="text-muted-foreground leading-relaxed">
-                            {release.excerpt}
-                          </p>
-                        </div>
-                        <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0 mt-1" />
-                      </div>
-                    </Link>
-                  </article>
-                ))}
-              </div>
+              <NewsList items={releases} />
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="press-card bg-card border border-border rounded-2xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <FileText className="w-5 h-5 text-primary" />
-                  <h2 className="text-xl font-bold">Pressemappe</h2>
-                </div>
+              <ContactInfoCard
+                icon={<FileText className="w-5 h-5" />}
+                title="Pressemappe"
+              >
                 <p className="text-muted-foreground mb-5 leading-relaxed">
                   Kompakte Hintergrundinfos, Kurzbeschreibung des Projekts und
                   Eckdaten zur Veranstaltung.
@@ -159,36 +125,29 @@ function PressePage() {
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
                 >
                   Download
-                  <ArrowRight className="w-4 h-4" />
                 </a>
-              </div>
+              </ContactInfoCard>
 
-              <div className="press-card bg-card border border-border rounded-2xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <ImageIcon className="w-5 h-5 text-primary" />
-                  <h2 className="text-xl font-bold">Bildmaterial</h2>
-                </div>
+              <ContactInfoCard
+                icon={<ImageIcon className="w-5 h-5" />}
+                title="Bildmaterial"
+              >
                 <p className="text-muted-foreground mb-5 leading-relaxed">
                   Auf Anfrage stellen wir Logo, Bilder und weitere Materialien
                   für Berichterstattung und Ankündigungen bereit.
                 </p>
-                <Link
-                  to="/kontakt"
+                <a
+                  href="/kontakt"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:bg-accent transition-colors"
                 >
                   Anfrage senden
-                </Link>
-              </div>
+                </a>
+              </ContactInfoCard>
             </div>
           </section>
 
           <aside className="space-y-6">
-            <div className="press-card sticky top-28 bg-card border border-border rounded-2xl p-6 md:p-7">
-              <div className="flex items-center gap-3 mb-5">
-                <Mail className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold">Pressekontakt</h2>
-              </div>
-
+            <NoteCard icon={<Mail className="w-5 h-5" />} title="Pressekontakt">
               <div className="space-y-4 text-sm">
                 <div className="rounded-xl border border-border/70 bg-background/50 p-4">
                   <p className="text-muted-foreground mb-1">E-Mail</p>
@@ -202,23 +161,31 @@ function PressePage() {
 
                 <div className="rounded-xl border border-border/70 bg-background/50 p-4">
                   <p className="text-muted-foreground mb-1">Ansprechpartner</p>
-                  <p className="font-medium">
-                    Organisationsteam Erstwählerforum 2026
-                  </p>
+                  <p className="font-medium">Jack Ruder</p>
+                </div>
+
+                <div className="rounded-xl border border-border/70 bg-background/50 p-4 text-muted-foreground leading-relaxed">
+                  Verifizierte Pressevertreterinnen und Pressevertreter, die
+                  sich bereits bei uns gemeldet haben, erhalten auf Wunsch eine
+                  Telefonnummer für den direkten Austausch.
+                </div>
+
+                <div className="rounded-xl border border-border/70 bg-background/50 p-4 text-muted-foreground leading-relaxed">
+                  In dringenden Fällen erreicht ihr unseren Partner, den
+                  Kreisjugendring, unter 04141placeholder.
+                </div>
+
+                <div className="rounded-xl border border-border/70 bg-background/50 p-4 text-muted-foreground leading-relaxed">
+                  Verifizierte Pressekontakte erhalten außerdem PMs bereits fünf
+                  Tage vor Veröffentlichung auf unserer Presseseite.
                 </div>
               </div>
+            </NoteCard>
 
-              <div className="mt-6 rounded-xl bg-primary/10 border border-primary/20 p-4 text-sm text-muted-foreground leading-relaxed">
-                Bitte Anfragen mit Medium, Thema und gewünschtem Zeitrahmen
-                senden. Wir melden uns so schnell wie möglich zurück.
-              </div>
-            </div>
-
-            <div className="press-card bg-card border border-border rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <Quote className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold">Hinweise für Medien</h2>
-              </div>
+            <NoteCard
+              icon={<Quote className="w-5 h-5" />}
+              title="Hinweise für Medien"
+            >
               <ul className="space-y-3 text-sm text-muted-foreground leading-relaxed">
                 <li>
                   • Offizielle Mitteilungen werden hier nach und nach ergänzt.
@@ -229,7 +196,7 @@ function PressePage() {
                   aktualisiert.
                 </li>
               </ul>
-            </div>
+            </NoteCard>
           </aside>
         </div>
       </div>

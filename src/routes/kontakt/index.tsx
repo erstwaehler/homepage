@@ -1,20 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-  AlertCircle,
   Mail,
   MapPin,
   MessageSquare,
-  Phone,
-  Send,
-  ShieldCheck,
   Sparkles,
   Users,
   Vote,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import * as m from "#p";
 import { gsap } from "~/lib/gsap";
 import { generateMetaTags } from "~/lib/meta";
+import ContactForm from "~/components/contact/ContactForm";
+import ContactInfoCard from "~/components/contact/ContactInfoCard";
+import SimpleAccordion from "~/components/SimpleAccordion";
 
 export const Route = createFileRoute("/kontakt/")({
   component: ContactPage,
@@ -38,16 +37,6 @@ type FAQItem = {
 };
 
 function ContactPage() {
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const [formState, setFormState] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    category: "allgemein",
-    message: "",
-    honeypot: "",
-  });
-
   const faqs: FAQItem[] = useMemo(
     () => [
       {
@@ -70,7 +59,7 @@ function ContactPage() {
       {
         question: "Gibt es eine zentrale E-Mail-Adresse?",
         answer:
-          "Ja, ihr könnt uns unter info@ewf-stade.de erreichen. Für Presseanfragen und schulische Abstimmungen ist das die schnellste erste Anlaufstelle.",
+          "Ja, ihr könnt uns unter info@ewf-stade.de erreichen. Für Presseanfragen ist das die schnellste erste Anlaufstelle.",
       },
       {
         question: "Kann man Fragen für die Diskussionen einreichen?",
@@ -93,11 +82,15 @@ function ContactPage() {
       tl.from(".contact-hero-badge", { y: 20, opacity: 0, duration: 0.6 })
         .from(".contact-hero h1", { y: 40, opacity: 0, duration: 0.8 }, "-=0.2")
         .from(".contact-hero p", { y: 30, opacity: 0, duration: 0.7 }, "-=0.4")
-        .from(
+        .fromTo(
           ".contact-card",
           {
             y: 40,
             opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
             duration: 0.7,
             stagger: 0.12,
           },
@@ -108,30 +101,23 @@ function ContactPage() {
     return () => ctx.revert();
   }, []);
 
-  const handleInputChange = (
-    event: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
-    const { name, value } = event.target;
-    setFormState((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (formState.honeypot) return;
-
+  const handleSubmit = (state: {
+    name: string;
+    email: string;
+    subject: string;
+    category: string;
+    message: string;
+  }) => {
     const subject = encodeURIComponent(
-      formState.subject || `Kontaktanfrage (${formState.category})`,
+      state.subject || `Kontaktanfrage (${state.category})`,
     );
     const body = encodeURIComponent(
       [
-        `Name: ${formState.name}`,
-        `E-Mail: ${formState.email}`,
-        `Kategorie: ${formState.category}`,
+        `Name: ${state.name}`,
+        `E-Mail: ${state.email}`,
+        `Kategorie: ${state.category}`,
         "",
-        formState.message,
+        state.message,
       ].join("\n"),
     );
 
@@ -142,11 +128,7 @@ function ContactPage() {
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-6 pt-32 pb-20">
         <section className="contact-hero mb-16 max-w-3xl">
-          <div
-            className={
-              "contact-hero-badge inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/10 text-primary text-sm font-medium mb-6"
-            }
-          >
+          <div className="contact-hero-badge inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/10 text-primary text-sm font-medium mb-6">
             <Sparkles className="w-4 h-4" />
             Kontakt & Unterstützung
           </div>
@@ -163,41 +145,41 @@ function ContactPage() {
         </section>
 
         <section className="grid lg:grid-cols-3 gap-6 mb-16">
-          <div className="contact-card bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">
-              <Mail className="w-6 h-6" />
-            </div>
-            <h2 className="text-lg font-semibold mb-2">Zentrale E-Mail</h2>
+          <ContactInfoCard
+            icon={<Mail className="w-6 h-6" />}
+            title="Zentrale E-Mail"
+          >
             <a
               href="mailto:info@ewf-stade.de"
               className="text-muted-foreground hover:text-primary transition-colors break-all"
             >
               info@ewf-stade.de
             </a>
-          </div>
+          </ContactInfoCard>
 
-          <div className="contact-card bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">
-              <Phone className="w-6 h-6" />
-            </div>
-            <h2 className="text-lg font-semibold mb-2">Schnellkontakt</h2>
-            <p className="text-muted-foreground">
+          <ContactInfoCard
+            icon={<MessageSquare className="w-6 h-6" />}
+            title="Schnellkontakt"
+          >
+            <p className="text-muted-foreground leading-relaxed">
               Für dringende Schulabstimmungen oder organisatorische Rückfragen
-              meldet euch am besten per Mail mit Betreff.
+              meldet euch am besten per Mail mit Betreff. Verifizierte
+              Pressekontakte erhalten auf Wunsch auch eine Telefonnummer für den
+              direkten Austausch.
             </p>
-          </div>
+          </ContactInfoCard>
 
-          <div className="contact-card bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">
-              <MapPin className="w-6 h-6" />
-            </div>
-            <h2 className="text-lg font-semibold mb-2">Ort</h2>
-            <p className="text-muted-foreground">
-              Stade, Metropolregion Hamburg
+          <ContactInfoCard icon={<MapPin className="w-6 h-6" />} title="Ort">
+            <p className="text-muted-foreground leading-relaxed">
+              Veranstaltung: Stadeum
               <br />
-              Zusammenarbeit mit Schulen und Partnern vor Ort
+              Postadresse: Kreisjugendring
+              <br />
+              Harsefelder Straße 44a
+              <br />
+              21680 Stade
             </p>
-          </div>
+          </ContactInfoCard>
         </section>
 
         <section className="grid lg:grid-cols-2 gap-8 items-start">
@@ -214,101 +196,7 @@ function ContactPage() {
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="grid md:grid-cols-2 gap-4">
-                <label className="space-y-2">
-                  <span className="text-sm font-medium">Name</span>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formState.name}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full rounded-xl border border-border bg-background px-4 py-3 outline-none transition-colors focus:border-primary"
-                    placeholder="Dein Name"
-                  />
-                </label>
-
-                <label className="space-y-2">
-                  <span className="text-sm font-medium">E-Mail</span>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formState.email}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full rounded-xl border border-border bg-background px-4 py-3 outline-none transition-colors focus:border-primary"
-                    placeholder="name@example.de"
-                  />
-                </label>
-              </div>
-
-              <label className="space-y-2 block">
-                <span className="text-sm font-medium">Kategorie</span>
-                <select
-                  name="category"
-                  value={formState.category}
-                  onChange={handleInputChange}
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 outline-none transition-colors focus:border-primary"
-                >
-                  <option value="allgemein">Allgemeine Anfrage</option>
-                  <option value="schule">Schulische Abstimmung</option>
-                  <option value="presse">Presseanfrage</option>
-                  <option value="politik">Partei / Kandidatur</option>
-                  <option value="frage">Frage für Diskussionen</option>
-                </select>
-              </label>
-
-              <label className="space-y-2 block">
-                <span className="text-sm font-medium">Betreff</span>
-                <input
-                  type="text"
-                  name="subject"
-                  value={formState.subject}
-                  onChange={handleInputChange}
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 outline-none transition-colors focus:border-primary"
-                  placeholder="Worum geht es?"
-                />
-              </label>
-
-              <label className="space-y-2 block">
-                <span className="text-sm font-medium">Nachricht</span>
-                <textarea
-                  name="message"
-                  value={formState.message}
-                  onChange={handleInputChange}
-                  required
-                  rows={7}
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 outline-none transition-colors focus:border-primary resize-none"
-                  placeholder="Schreib uns hier deine Nachricht..."
-                />
-              </label>
-
-              <input
-                type="text"
-                name="honeypot"
-                value={formState.honeypot}
-                onChange={handleInputChange}
-                className="hidden"
-                tabIndex={-1}
-                autoComplete="off"
-              />
-
-              <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-                <p className="text-sm text-muted-foreground flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-primary" />
-                  Deine Daten werden nur zur Bearbeitung deiner Anfrage genutzt.
-                </p>
-
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 hover:gap-3"
-                >
-                  <Send className="w-4 h-4" />
-                  Nachricht senden
-                </button>
-              </div>
-            </form>
+            <ContactForm onSubmit={handleSubmit} />
           </div>
 
           <div className="space-y-6">
@@ -325,71 +213,45 @@ function ContactPage() {
                 </div>
               </div>
 
-              <div className="space-y-3">
-                {faqs.map((item, index) => {
-                  const isOpen = openFaq === index;
-
-                  return (
-                    <button
-                      key={item.question}
-                      type="button"
-                      onClick={() =>
-                        setOpenFaq((current) =>
-                          current === index ? null : index,
-                        )
-                      }
-                      className="w-full text-left rounded-xl border border-border p-4 hover:border-primary/50 transition-all duration-300"
-                    >
-                      <div className="flex items-center justify-between gap-4">
-                        <span className="font-medium">{item.question}</span>
-                        <AlertCircle
-                          className={`w-4 h-4 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180 text-primary" : "text-muted-foreground"}`}
-                        />
-                      </div>
-
-                      <div
-                        className={`grid transition-all duration-300 ${isOpen ? "grid-rows-[1fr] opacity-100 mt-3" : "grid-rows-[0fr] opacity-0 mt-0"}`}
-                      >
-                        <div className="overflow-hidden">
-                          <p className="text-sm text-muted-foreground leading-relaxed">
-                            {item.answer}
-                          </p>
-                        </div>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
+              <SimpleAccordion
+                items={faqs.map((item, index) => ({
+                  id: item.question,
+                  title: item.question,
+                  content: (
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {item.answer}
+                    </p>
+                  ),
+                  defaultOpen: index === 0,
+                }))}
+                className="space-y-3"
+              />
             </div>
 
-            <div className="contact-card bg-linear-to-br from-primary/10 via-card to-card border border-border rounded-2xl p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <Vote className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold">
-                  Für wen ist das Formular gedacht?
-                </h2>
-              </div>
-
+            <ContactInfoCard
+              icon={<Vote className="w-5 h-5" />}
+              title="Für wen ist das Formular gedacht?"
+            >
               <ul className="space-y-3 text-muted-foreground">
                 <li className="flex gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-primary shrink-0" />
+                  <span className="mt-1 h-2 w-2 rounded-full bg-primary shrink-0"></span>
                   Schulen, die organisatorische Details abstimmen möchten
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-primary shrink-0" />
+                  <span className="mt-1 h-2 w-2 rounded-full bg-primary shrink-0"></span>
                   Presse und Medien für Anfragen zu Material und Terminen
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-primary shrink-0" />
+                  <span className="mt-1 h-2 w-2 rounded-full bg-primary shrink-0"></span>
                   Parteien und Kandidierende für Teilnahme- und Rückfragen
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-primary shrink-0" />
+                  <span className="mt-1 h-2 w-2 rounded-full bg-primary shrink-0"></span>
                   Schülerinnen und Schüler mit Ideen oder Fragen für die
                   Debatten
                 </li>
               </ul>
-            </div>
+            </ContactInfoCard>
           </div>
         </section>
       </div>
