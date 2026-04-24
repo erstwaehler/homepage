@@ -13,6 +13,7 @@ import { gsap } from "~/lib/gsap";
 import { generateMetaTags } from "~/lib/meta";
 import ContactForm from "~/components/contact/ContactForm";
 import ContactInfoCard from "~/components/contact/ContactInfoCard";
+import PageHero from "~/components/PageHero";
 import SimpleAccordion from "~/components/SimpleAccordion";
 
 export const Route = createFileRoute("/kontakt/")({
@@ -62,9 +63,9 @@ function ContactPage() {
           "Ja, ihr könnt uns unter info@ewf-stade.de erreichen. Für Presseanfragen ist das die schnellste erste Anlaufstelle.",
       },
       {
-        question: "Kann man Fragen für die Diskussionen einreichen?",
+        question: "Kann man Fragen für die Diskussionen stellen?",
         answer:
-          "Ja. Wir sammeln Fragen und Thesen für die Diskussionsrunden im Vorfeld. Dafür eignet sich das Kontaktformular oder der dafür vorgesehene Link auf der Startseite.",
+          "Ja. Schülerinnen und Schüler dürfen Fragen für die Diskussionsrunden stellen. Dafür eignet sich das Kontaktformular oder der dafür vorgesehene Link auf der Startseite.",
       },
       {
         question: "Wer steckt hinter dem Projekt?",
@@ -127,22 +128,23 @@ function ContactPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-6 pt-32 pb-20">
-        <section className="contact-hero mb-16 max-w-3xl">
-          <div className="contact-hero-badge inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/10 text-primary text-sm font-medium mb-6">
-            <Sparkles className="w-4 h-4" />
-            Kontakt & Unterstützung
-          </div>
-
-          <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6 bg-linear-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
-            Kontakt, FAQ und Anfragen
-          </h1>
-
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl leading-relaxed">
-            Hier findet ihr die wichtigsten Antworten und könnt uns direkt für
-            Rückfragen, Presseanfragen, schulische Abstimmungen oder allgemeine
-            Hinweise erreichen.
-          </p>
-        </section>
+        <PageHero
+          className="contact-hero"
+          badge={
+            <div className="contact-hero-badge inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/10 text-primary text-sm font-medium">
+              <Sparkles className="w-4 h-4" />
+              Kontakt & Unterstützung
+            </div>
+          }
+          title="Kontakt, FAQ und Anfragen"
+          subtitle={
+            <>
+              Hier findet ihr die wichtigsten Antworten und könnt uns direkt für
+              Rückfragen, Presseanfragen, schulische Abstimmungen oder
+              allgemeine Hinweise erreichen.
+            </>
+          }
+        />
 
         <section className="grid lg:grid-cols-3 gap-6 mb-16">
           <ContactInfoCard

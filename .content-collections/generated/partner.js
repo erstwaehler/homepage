@@ -64,19 +64,11 @@ export default {
     "contactEmail": "partner@ewf-stade.de",
     "contactDescription": "Anfragen zu Kooperationen, Förderungen und Unterstützungsformen"
   },
-  "publicNotes": [
-    "Wir sind aktuell eine Schülerinitiative und kein eingetragener Verein. Deshalb können wir keine Spendenquittungen ausstellen.",
-    "Für die diesjährige Veranstaltung nehmen wir keine Werbepartner oder Titelsponsoren an.",
-    "Unterstützer erscheinen weder auf der Veranstaltung noch in unseren Materialien; sichtbar ist nur die Web-Liste sowie ggf. ein dedizierter Blogpost oder eine Pressemitteilung nach Absprache.",
-    "Partner und Unterstützer werden vor Aufnahme geprüft, damit sie mit unseren Grundsätzen zu Demokratie und Rechtsstaatlichkeit übereinstimmen.",
-    "Pressemitteilungen mit Partnerbezug werden vor Veröffentlichung zur Freigabe versendet; die Rückmeldung muss innerhalb von maximal 2 Werktagen erfolgen.",
-    "Private Spenden nehmen wir in diesem Jahr aus infrastrukturellen und steuerlichen Gründen nicht an."
-  ],
   "_meta": {
-    "filePath": "partner.json",
-    "fileName": "partner.json",
+    "filePath": "partner.toml",
+    "fileName": "partner.toml",
     "directory": ".",
-    "extension": "json",
+    "extension": "toml",
     "path": "partner"
   }
 }

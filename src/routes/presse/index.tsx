@@ -11,9 +11,9 @@ import { useEffect } from "react";
 import { gsap } from "~/lib/gsap";
 import * as m from "#p";
 import { generateMetaTags } from "~/lib/meta";
-import ContactInfoCard from "~/components/contact/ContactInfoCard";
 import NewsList, { type NewsItem } from "~/components/NewsList";
-import NoteCard from "~/components/NoteCard";
+import SharedNoteCard from "~/components/SharedNoteCard";
+import PageHero from "~/components/PageHero";
 
 export const Route = createFileRoute("/presse/")({
   component: PressePage,
@@ -53,7 +53,7 @@ const releases: NewsItem[] = [
     date: "2026-02-11",
     category: "Hintergrund",
     excerpt:
-      "Die Formate Markt, Podien und Impulsrunden werden aktuell ausformuliert.",
+      "Die Formate Markt, Podien und Gesprächsrunden werden aktuell ausformuliert.",
     to: "/presse",
   },
 ];
@@ -84,21 +84,22 @@ function PressePage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-6 pt-32 pb-20">
-        <section className="press-hero mb-16 max-w-4xl">
-          <div className="press-badge inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/10 text-primary text-sm font-medium mb-6">
-            <Megaphone className="w-4 h-4" />
-            Pressebereich
-          </div>
-
-          <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6 bg-linear-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
-            Presse, Mitteilungen und Material
-          </h1>
-
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl leading-relaxed">
-            Hier finden sich Pressetexte, Hintergrundinfos und der direkte Weg
-            zum Pressekontakt des Erstwählerforums 2026.
-          </p>
-        </section>
+        <PageHero
+          className="press-hero"
+          badge={
+            <div className="press-badge inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/10 text-primary text-sm font-medium">
+              <Megaphone className="w-4 h-4" />
+              Pressebereich
+            </div>
+          }
+          title="Presse, Mitteilungen und Material"
+          subtitle={
+            <>
+              Hier finden sich Pressetexte, Hintergrundinfos und der direkte Weg
+              zum Pressekontakt des Erstwählerforums 2026.
+            </>
+          }
+        />
 
         <div className="grid lg:grid-cols-[1.6fr_0.9fr] gap-8 items-start">
           <section className="space-y-6">
@@ -112,7 +113,7 @@ function PressePage() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-              <ContactInfoCard
+              <SharedNoteCard
                 icon={<FileText className="w-5 h-5" />}
                 title="Pressemappe"
               >
@@ -126,9 +127,9 @@ function PressePage() {
                 >
                   Download
                 </a>
-              </ContactInfoCard>
+              </SharedNoteCard>
 
-              <ContactInfoCard
+              <SharedNoteCard
                 icon={<ImageIcon className="w-5 h-5" />}
                 title="Bildmaterial"
               >
@@ -142,12 +143,15 @@ function PressePage() {
                 >
                   Anfrage senden
                 </a>
-              </ContactInfoCard>
+              </SharedNoteCard>
             </div>
           </section>
 
           <aside className="space-y-6">
-            <NoteCard icon={<Mail className="w-5 h-5" />} title="Pressekontakt">
+            <SharedNoteCard
+              icon={<Mail className="w-5 h-5" />}
+              title="Pressekontakt"
+            >
               <div className="space-y-4 text-sm">
                 <div className="rounded-xl border border-border/70 bg-background/50 p-4">
                   <p className="text-muted-foreground mb-1">E-Mail</p>
@@ -180,9 +184,9 @@ function PressePage() {
                   Tage vor Veröffentlichung auf unserer Presseseite.
                 </div>
               </div>
-            </NoteCard>
+            </SharedNoteCard>
 
-            <NoteCard
+            <SharedNoteCard
               icon={<Quote className="w-5 h-5" />}
               title="Hinweise für Medien"
             >
@@ -196,7 +200,7 @@ function PressePage() {
                   aktualisiert.
                 </li>
               </ul>
-            </NoteCard>
+            </SharedNoteCard>
           </aside>
         </div>
       </div>

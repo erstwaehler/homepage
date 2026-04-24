@@ -213,5 +213,5 @@ html {
 }
 
 body {
-  scroll-snap-type: y proximity;
+  scroll-snap-type: none;
 }

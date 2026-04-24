@@ -16,4 +16,7 @@ export declare const allPressemitteilungens: Array<Pressemitteilungen>;
 export type Partner = GetTypeByName<typeof configuration, "partner">;
 export declare const partner: Partner;
 
+export type HeroImage = GetTypeByName<typeof configuration, "hero-images">;
+export declare const heroImage: HeroImage;
+
 export {};

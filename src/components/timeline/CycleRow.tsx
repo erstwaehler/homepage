@@ -38,6 +38,9 @@ const CycleRow = memo(function CycleRow({ row }: CycleRowProps) {
             />
           </div>
         </span>
+        <span className="px-6 py-5 align-top hidden md:block text-muted-foreground">
+          Aufklappbare Details
+        </span>
       </button>
 
       <div

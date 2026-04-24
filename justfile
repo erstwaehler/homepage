@@ -5,7 +5,7 @@ install-dev: install dev
 
 [no-cd]
 [private]
-@sfw_wrap mode command:
+@sfw_wrap mode +command:
     if [ "{{ mode }}" = "safe" ] || [ "{{ mode }}" = "--safe" ]; then \
         sfw {{ command }}; \
     else \
@@ -25,7 +25,7 @@ alias up := update
 [group('Bun Recipies')]
 [group('Featured')]
 update mode="safe":
-    @just sfw_wrap {{ mode }} "bun update"
+    @just sfw_wrap {{ mode }} bun update --latest
 
 alias a := add
 
@@ -45,7 +45,7 @@ remove PACKAGE mode="safe":
 [group('Featured')]
 [group('Web')]
 dev port="3000":
-    bun run dev -- --port {{ port }}
+    bunx --bun vite dev --port {{ port }}
 
 # Run type checking and linting
 [group('Code Quality')]

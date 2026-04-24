@@ -4,9 +4,10 @@ import { ArrowLeft, Mail } from "lucide-react";
 import { useEffect } from "react";
 import { team } from "#cc";
 import * as m from "#p";
-import { FaMastodon } from "react-icons/fa";
 import { CiInstagram } from "react-icons/ci";
+import { FaMastodon } from "react-icons/fa";
 import { AvatarImage, HeroImage } from "~/components/OptimizedImage";
+import SectionCard from "~/components/SectionCard";
 import { gsap } from "~/lib/gsap";
 import {
   generateMetaTags,
@@ -132,7 +133,11 @@ function TeamMemberPage() {
           {m.team_back_to_overview()}
         </Link>
 
-        <div className="member-profile-card bg-card border border-border rounded-2xl p-8 mb-8">
+        <SectionCard
+          className="member-profile-card mb-8"
+          title={member.vorname}
+          icon={member.profile_image ? null : <UsersFallback />}
+        >
           <div className="flex flex-col md:flex-row gap-8 items-start">
             {member.profile_image && (
               <AvatarImage
@@ -144,10 +149,7 @@ function TeamMemberPage() {
             )}
 
             <div className="flex-1">
-              <h1 className="text-4xl font-bold capitalize mb-2">
-                {member.vorname}
-              </h1>
-              <p className="text-xl text-primary mb-4">{member.rolle}</p>
+              <h2 className="text-xl text-primary mb-4">{member.rolle}</h2>
 
               <div className="space-y-2 text-muted-foreground mb-6">
                 <div className="flex items-center gap-2">
@@ -201,19 +203,25 @@ function TeamMemberPage() {
               </div>
             </div>
           </div>
-        </div>
+        </SectionCard>
 
-        <div className="member-bio-card bg-card border border-border rounded-2xl p-8">
-          <h2 className="text-2xl font-bold mb-4">Über {member.vorname}</h2>
+        <SectionCard
+          className="member-bio-card"
+          title={`Über ${member.vorname}`}
+        >
           <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
             <p className="text-muted-foreground leading-relaxed">
               {member.bio}
             </p>
           </div>
-        </div>
+        </SectionCard>
       </div>
 
       <div className="h-24" />
     </div>
   );
+}
+
+function UsersFallback() {
+  return null;
 }

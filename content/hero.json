@@ -1,0 +1,20 @@
+{
+  "images": [
+    {
+      "src": "/hero/stadeum.png",
+      "credit": "© Erstwählerforum Stade"
+    },
+    {
+      "src": "/hero/team1.png",
+      "credit": "© Erstwählerforum Stade"
+    },
+    {
+      "src": "/hero/team2.png",
+      "credit": "© Erstwählerforum Stade"
+    },
+    {
+      "src": "/hero/team_beim_stadeum.png",
+      "credit": "© Erstwählerforum Stade"
+    }
+  ]
+}

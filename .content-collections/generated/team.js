@@ -55,10 +55,10 @@ export default {
     }
   ],
   "_meta": {
-    "filePath": "team.json",
-    "fileName": "team.json",
+    "filePath": "team.toml",
+    "fileName": "team.toml",
     "directory": ".",
-    "extension": "json",
+    "extension": "toml",
     "path": "team"
   }
 }

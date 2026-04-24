@@ -35,9 +35,9 @@ const timeline: TimelineRow[] = [
     kind: "section",
     time: "9:15",
     room: "Foyer",
-    title: "Eröffnung des Marktes",
+    title: "Eröffnung des Marktplatzes",
     details:
-      "Der politische Markt öffnet; ab 9:30 Uhr bleibt er dauerhaft zugänglich.",
+      "Der politische Marktplatz öffnet; ab 9:30 Uhr bleibt er dauerhaft zugänglich.",
   },
   {
     kind: "cycle",
@@ -55,7 +55,7 @@ const timeline: TimelineRow[] = [
         label: "Wechsel- & Laufzeit",
         duration: "15 min",
         description:
-          "Zeit für den Weg zwischen Markt, Saal und Konferenzräumen sowie für kurze Übergaben.",
+          "Zeit für den Weg zwischen Marktplatz, Saal und Konferenzräumen sowie für kurze Übergaben.",
       },
     ],
   },
@@ -75,7 +75,7 @@ const timeline: TimelineRow[] = [
         label: "Wechsel- & Laufzeit",
         duration: "15 min",
         description:
-          "Übergänge zwischen Markt und Diskussionsformaten mit bewusst eingeplanter Pufferzeit.",
+          "Übergänge zwischen Marktplatz und Diskussionsformaten mit bewusst eingeplanter Pufferzeit.",
       },
     ],
   },
@@ -150,7 +150,7 @@ export const Route = createFileRoute("/zeitplan/")({
     generateMetaTags({
       title: "Zeitplan - Erstwählerforum 2026",
       description:
-        "Der Tagesablauf des Erstwählerforums 2026 mit Einführung, Zyklen und Abschluss.",
+        "Der Tagesablauf des Erstwählerforums 2026 mit Einführung, Marktplatz, Zyklen und Abschluss.",
       url: "/zeitplan",
       type: "website",
     }),
@@ -190,7 +190,7 @@ function RouteComponent() {
           <h1 className="text-5xl md:text-6xl font-bold mb-5">Der Zeitplan</h1>
           <p className="text-xl text-muted-foreground max-w-3xl">
             Ein klarer Überblick über den Veranstaltungstag — inklusive Einlass,
-            Einführung, Zyklen, Marktphasen und Abschluss.
+            Einführung, Marktplatz, Zyklen und Abschluss.
           </p>
         </section>
 
