@@ -9,6 +9,8 @@ const INTERACTIVE_SELECTOR =
 export function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
 
+  const isNotPC = window.innerWidth < 1024;
+
   useEffect(() => {
     if (typeof window === "undefined" || !cursorRef.current) return;
 
@@ -76,6 +78,7 @@ export function CustomCursor() {
     };
   }, []);
 
+  if (isNotPC) return;
   return (
     <div
       ref={cursorRef}
