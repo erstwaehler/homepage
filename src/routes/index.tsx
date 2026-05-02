@@ -379,7 +379,7 @@ function HomePage() {
 
             <h1
               ref={titleRef}
-              className="max-sm:text-4xl text-6xl md:text-8xl lg:flex lg:items-center lg:justify-center font-black tracking-tight leading-[0.92] text-white gap-8"
+              className="max-sm:text-5xl text-6xl md:text-8xl lg:flex lg:items-center lg:justify-center font-black tracking-tight leading-[0.92] text-white gap-8"
             >
               {heroWords.map((word) => (
                 <span key={word} className="word block lg:inline-block py-1">
