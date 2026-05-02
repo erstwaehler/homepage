@@ -227,12 +227,19 @@ function BlogPostPage() {
 
           {post.banner && (
             <div className="article-banner relative mb-12 overflow-hidden rounded-3xl border border-border bg-card shadow-xl shadow-primary/5">
-              <div className="aspect-video w-full bg-muted">
+              <div className="aspect-video w-full bg-muted relative">
                 <img
                   src={post.banner}
                   alt={post.title}
                   className="h-full w-full object-cover"
                 />
+                {post.bannerCredit && (
+                  <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
+                    <p className="inline-flex max-w-[90%] rounded-full bg-black/50 px-3 py-1.5 text-xs leading-relaxed text-white/80 backdrop-blur-sm">
+                      {post.bannerCredit}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           )}

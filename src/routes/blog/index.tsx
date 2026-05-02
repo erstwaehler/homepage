@@ -42,7 +42,6 @@ function BlogListPage() {
       tl.from(".blog-badge", { y: 18, opacity: 0, duration: 0.6 })
         .from(".blog-hero h1", { y: 40, opacity: 0, duration: 0.8 }, "-=0.2")
         .from(".blog-hero p", { y: 24, opacity: 0, duration: 0.7 }, "-=0.45")
-        .from(".blog-meta", { y: 18, opacity: 0, duration: 0.6 }, "-=0.4")
         .from(".featured-post", { y: 40, opacity: 0, duration: 0.8 }, "-=0.3")
         .from(".more-stories", { y: 32, opacity: 0, duration: 0.7 }, "-=0.4")
         .from(
@@ -76,17 +75,6 @@ function BlogListPage() {
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl leading-relaxed">
             {m.blog_subtitle()}
           </p>
-
-          <div className="blog-meta mt-8 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-2">
-              <Clock3 className="w-4 h-4 text-primary" />
-              <span>Aktuelle Updates und Einblicke</span>
-            </div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-2">
-              <Calendar className="w-4 h-4 text-primary" />
-              <span>Chronologisch sortiert</span>
-            </div>
-          </div>
         </section>
 
         {featuredPost && (
@@ -168,7 +156,7 @@ function BlogListPage() {
                   <>
                     <HeroImage
                       src={featuredPost.banner}
-                      alt={featuredPost.title}
+                      alt={featuredPost.bannerCredit || featuredPost.title}
                       aspectRatio={1}
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
@@ -180,6 +168,11 @@ function BlogListPage() {
                       <p className="text-white/90 text-lg md:text-xl font-medium">
                         {featuredPost.description || featuredPost.title}
                       </p>
+                      {featuredPost.bannerCredit && (
+                        <p className="text-white/60 text-xs leading-relaxed max-w-xs">
+                          {featuredPost.bannerCredit}
+                        </p>
+                      )}
                     </div>
                   </>
                 ) : (

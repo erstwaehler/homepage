@@ -19,6 +19,7 @@ const posts = defineCollection({
     description: z.string().optional(),
     author: z.string().optional(),
     banner: z.string().optional(),
+    bannerCredit: z.string().optional(),
     content: z.string().optional(),
   }),
   transform: async (document, context) => {

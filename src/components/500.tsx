@@ -2,6 +2,7 @@ import { m } from "#p";
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./logo";
 import { useEffect, useRef } from "react";
+import { gsap } from "~/lib/gsap";
 
 export function ServerErrorPage() {
   const logoRef = useRef<HTMLDivElement>(null);
