@@ -9,11 +9,12 @@ import { FaMastodon } from "react-icons/fa";
 import { AvatarImage, ThumbnailImage } from "~/components/OptimizedImage";
 import { gsap } from "~/lib/gsap";
 import { generateMetaTags } from "~/lib/meta";
-import { ForbiddenPage } from "~/components/401";
+import { PreLaunchErrorPage } from "~/components/pre-launch-errorpage";
+import { RedactEventData } from "~/lib/constants";
 
 export const Route = createFileRoute("/team/")({
   loader: () => team.members,
-  component: ForbiddenPage, // Platzhalter bis zur Veranstaltung
+  component: RedactEventData ? PreLaunchErrorPage : TeamListPage,
   head: () => {
     const title = `${m.team_title()} - ${m.site_title()}`;
     const description = m.team_description();

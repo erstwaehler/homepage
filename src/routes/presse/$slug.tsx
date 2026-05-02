@@ -95,13 +95,15 @@ function PresseMitteilungPage() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-6">
-            <a
-              href={release.pdf}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-            >
-              <Download className="w-5 h-5" />
-              Pressemitteilung als PDF
-            </a>
+            {release.pdf && (
+              <a
+                href={release.pdf}
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+              >
+                <Download className="w-5 h-5" />
+                Pressemitteilung als PDF
+              </a>
+            )}
 
             <Link
               to="/presse"

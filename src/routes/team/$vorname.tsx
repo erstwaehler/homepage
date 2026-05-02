@@ -14,6 +14,8 @@ import {
   generatePersonSchema,
   SITE_BASE_URL,
 } from "~/lib/meta";
+import { RedactEventData } from "~/lib/constants";
+import { PreLaunchErrorPage } from "~/components/pre-launch-errorpage";
 
 export const Route = createFileRoute("/team/$vorname")({
   loader: ({ params }) => {
@@ -21,7 +23,7 @@ export const Route = createFileRoute("/team/$vorname")({
     if (!member) throw notFound();
     return member;
   },
-  component: TeamMemberPage,
+  component: RedactEventData ? PreLaunchErrorPage : TeamMemberPage,
   head: ({ loaderData: member }) => {
     if (!member) {
       return generateMetaTags({

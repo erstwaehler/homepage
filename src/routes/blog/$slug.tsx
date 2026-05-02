@@ -200,7 +200,7 @@ function BlogPostPage() {
                 className="inline-flex items-center gap-2 hover:text-foreground transition-colors"
               >
                 <ExternalLink className="w-4 h-4" />
-                Quelle
+                Mehr erfahren
               </a>
 
               {canShare && (

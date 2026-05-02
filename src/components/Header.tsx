@@ -8,6 +8,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as m from "#p";
 import { gsap } from "~/lib/gsap";
 import { Logo } from "./logo";
+import { RedactEventData } from "~/lib/constants";
 
 type NavItem = {
   to: string;
@@ -33,10 +34,10 @@ export default function Header() {
   const navItems = useMemo<NavItem[]>(
     () => [
       { to: "/", label: m.nav_home() },
-      { to: "/konzept", label: m.nav_konzept(), hidden: true },
-      { to: "/zeitplan", label: m.nav_zeitplan(), hidden: true },
-      { to: "/team", label: m.nav_team(), hidden: true },
-      { to: "/partner", label: "Partner", hidden: true },
+      { to: "/konzept", label: m.nav_konzept(), hidden: RedactEventData },
+      { to: "/zeitplan", label: m.nav_zeitplan(), hidden: RedactEventData },
+      { to: "/team", label: m.nav_team(), hidden: RedactEventData },
+      { to: "/partner", label: m.nav_partner(), hidden: RedactEventData },
       { to: "/blog", label: m.nav_blog() },
       { to: "/presse", label: m.nav_presse() },
       { to: "/kontakt", label: m.nav_kontakt() },
@@ -518,7 +519,7 @@ export default function Header() {
                     >
                       <div className="flex items-center justify-between py-6 px-8 border-b border-border/50 hover:border-primary/50 transition-all duration-300 ">
                         <span
-                          className={`text-4xl md:text-6xl font-bold group-hover:text-primary group-hover:translate-x-4 transition-all duration-300 ${item.hidden ? "blurhide line-through decoration-double decoration-10" : ""}`}
+                          className={`text-4xl md:text-6xl font-bold group-hover:text-primary group-hover:translate-x-4 transition-all duration-300 ${item.hidden ? "blurhide decoration-10" : ""}`}
                         >
                           {item.label}
                         </span>

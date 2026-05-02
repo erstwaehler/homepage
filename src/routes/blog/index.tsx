@@ -1,6 +1,6 @@
 import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Calendar, Clock3, Sparkles } from "lucide-react";
+import { ArrowRight, Calendar, Sparkles } from "lucide-react";
 import { useEffect } from "react";
 import { allPosts } from "#cc";
 import * as m from "#p";

@@ -7,8 +7,7 @@ export function ServerErrorPage() {
       tailwindGradientBlurSourceColour="destructive"
       title={m.error_500_title()}
       description={m.error_500_message()}
-      cta={m.error_500_cta()}
-      ctaHref="/"
+      backToHomepageCta
     />
   );
 }

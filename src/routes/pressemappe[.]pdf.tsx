@@ -13,6 +13,7 @@ function RouteComponent() {
       description={m.pressemappe_error_message()}
       cta={m.pressemappe_error_cta()}
       ctaHref="/kontakt"
+      backToHomepageCta
       tailwindGradientBlurSourceColour="destructive"
     />
   );

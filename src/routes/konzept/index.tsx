@@ -15,10 +15,11 @@ import { useEffect } from "react";
 import * as m from "#p";
 import { gsap } from "~/lib/gsap";
 import { generateMetaTags } from "~/lib/meta";
-import { ForbiddenPage } from "~/components/401";
+import { PreLaunchErrorPage } from "~/components/pre-launch-errorpage";
+import { RedactEventData } from "~/lib/constants";
 
 export const Route = createFileRoute("/konzept/")({
-  component: ForbiddenPage, // Platzhalter bis zur Veranstaltung
+  component: RedactEventData ? PreLaunchErrorPage : KonzeptPage,
   head: () => {
     const title = `Konzept - ${m.site_title()}`;
     const description =

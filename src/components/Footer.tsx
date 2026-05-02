@@ -6,25 +6,39 @@ import { FaGithub } from "react-icons/fa";
 import * as m from "~/paraglide/messages";
 import LocaleSwitcher from "./LocaleSwitcher";
 import { Logo } from "./logo";
+import { useMemo } from "react";
+import { RedactEventData } from "~/lib/constants";
+
+type NavItem = {
+  to: string;
+  label: string;
+  hidden?: boolean;
+};
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const navigationItems = [
-    { to: "/", label: m.nav_home() },
-    { to: "/konzept", label: m.nav_konzept() },
-    { to: "/zeitplan", label: m.nav_zeitplan() },
-    { to: "/blog", label: m.nav_blog() },
-    { to: "/partner", label: "Partner" },
-    { to: "/impressum", label: m.nav_impressum() },
-  ];
+  const navigationItems = useMemo<NavItem[]>(
+    () => [
+      { to: "/", label: m.nav_home() },
+      { to: "/konzept", label: m.nav_konzept(), hidden: RedactEventData },
+      { to: "/zeitplan", label: m.nav_zeitplan(), hidden: RedactEventData },
+      { to: "/blog", label: m.nav_blog() },
+      { to: "/partner", label: m.nav_partner(), hidden: RedactEventData },
+      { to: "/impressum", label: m.nav_impressum() },
+    ],
+    [],
+  );
 
-  const aboutItems = [
-    { to: "/team", label: m.nav_team() },
-    { to: "/partner", label: "Partner" },
-    { to: "/presse", label: m.nav_presse() },
-    { to: "/kontakt", label: m.nav_kontakt() },
-  ];
+  const aboutItems = useMemo<NavItem[]>(
+    () => [
+      { to: "/team", label: m.nav_team(), hidden: RedactEventData },
+      { to: "/partner", label: m.nav_partner(), hidden: RedactEventData },
+      { to: "/presse", label: m.nav_presse() },
+      { to: "/kontakt", label: m.nav_kontakt() },
+    ],
+    [],
+  );
 
   return (
     <footer className="bg-linear-to-b from-card via-card to-background border-t border-border mt-20">
@@ -49,7 +63,7 @@ export default function Footer() {
                 <Link
                   key={item.to}
                   to={item.to}
-                  className="block text-foreground hover:text-primary transition-colors duration-200"
+                  className={`block text-foreground hover:text-primary transition-colors duration-200 ${item.hidden ? "blurhide" : ""}`}
                 >
                   {item.label}
                 </Link>
@@ -66,7 +80,7 @@ export default function Footer() {
                 <Link
                   key={item.to}
                   to={item.to}
-                  className="block text-foreground hover:text-primary transition-colors duration-200"
+                  className={`block text-foreground hover:text-primary transition-colors duration-200 ${item.hidden ? "blurhide" : ""}`}
                 >
                   {item.label}
                 </Link>

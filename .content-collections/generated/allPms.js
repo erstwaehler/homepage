@@ -1,21 +1,20 @@
 
 export default [
   {
-    "title": "Erstwählerforum 2026: Auftakt der Pressearbeit",
-    "date": "2026-03-18",
-    "description": "Das Erstwählerforum 2026 startet mit der offiziellen Pressekommunikation und ersten Einblicken in das Programm.",
-    "banner": "/images/press/beispiel-banner.jpg",
-    "bannerCredit": "Foto: Erstwählerforum 2026",
-    "pdf": "/pressemitteilung.pdf",
-    "content": "Das Erstwählerforum 2026 informiert ab sofort regelmäßig über den Stand der Planung, die beteiligten Schulen und die nächsten Termine.\n\nMit der ersten Pressemitteilung startet der offizielle Pressebereich. Medienvertreterinnen und Medienvertreter finden hier künftig kompakte Informationen, Hintergründe und Materialien zum Download.",
+    "title": "PM-EWF'26 - Informationen für Pressevertreter",
+    "date": "2026-05-02",
+    "description": "Pressemitteilungen werden erst nach der Veranstaltung veröffentlicht. Sie können aber gerne Teilnehmen, kontaktieren sie uns einfach.",
+    "banner": "https://upload.wikimedia.org/wikipedia/commons/d/de/Apollo_razi_grotami_pomoru.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original",
+    "bannerCredit": "Stanisław Wyspiański, Public domain, via Wikimedia Commons",
+    "content": "# Informationen für Pressevertreter*innen\n\nAus Sicherheitsgründen veröffentlichen wir vor dem Erstwähler Forum 2026 keine weiterführenden Informationen oder Pressemitteilungen zur Veranstaltung. \n\nPressevertreter*innen können sich bei Rückfragen oder für eine Anmeldung zur Teilnahme jederzeit an [presse@ewf-stade.de](mailto:presse@ewf-stade.de) wenden.",
     "_meta": {
-      "filePath": "beispiel-pressemitteilung.mdx",
-      "fileName": "beispiel-pressemitteilung.mdx",
+      "filePath": "PM-EWF26-publish-information-banner.mdx",
+      "fileName": "PM-EWF26-publish-information-banner.mdx",
       "directory": ".",
       "extension": "mdx",
-      "path": "beispiel-pressemitteilung"
+      "path": "PM-EWF26-publish-information-banner"
     },
-    "slug": "beispiel-pressemitteilung",
-    "mdx": "var Component=(()=>{var u=Object.create;var o=Object.defineProperty;var f=Object.getOwnPropertyDescriptor;var g=Object.getOwnPropertyNames;var h=Object.getPrototypeOf,x=Object.prototype.hasOwnProperty;var p=(e,n)=>()=>(n||e((n={exports:{}}).exports,n),n.exports),M=(e,n)=>{for(var r in n)o(e,r,{get:n[r],enumerable:!0})},d=(e,n,r,s)=>{if(n&&typeof n==\"object\"||typeof n==\"function\")for(let i of g(n))!x.call(e,i)&&i!==r&&o(e,i,{get:()=>n[i],enumerable:!(s=f(n,i))||s.enumerable});return e};var _=(e,n,r)=>(r=e!=null?u(h(e)):{},d(n||!e||!e.__esModule?o(r,\"default\",{value:e,enumerable:!0}):r,e)),j=e=>d(o({},\"__esModule\",{value:!0}),e);var m=p((k,a)=>{a.exports=_jsx_runtime});var b={};M(b,{default:()=>l});var t=_(m());function c(e){let n={p:\"p\",...e.components};return(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)(n.p,{children:\"Das Erstw\\xE4hlerforum 2026 informiert ab sofort regelm\\xE4\\xDFig \\xFCber den Stand der Planung, die beteiligten Schulen und die n\\xE4chsten Termine.\"}),`\n`,(0,t.jsx)(n.p,{children:\"Mit der ersten Pressemitteilung startet der offizielle Pressebereich. Medienvertreterinnen und Medienvertreter finden hier k\\xFCnftig kompakte Informationen, Hintergr\\xFCnde und Materialien zum Download.\"})]})}function l(e={}){let{wrapper:n}=e.components||{};return n?(0,t.jsx)(n,{...e,children:(0,t.jsx)(c,{...e})}):c(e)}return j(b);})();\n;return Component;"
+    "slug": "PM-EWF26-publish-information-banner",
+    "mdx": "var Component=(()=>{var f=Object.create;var i=Object.defineProperty;var l=Object.getOwnPropertyDescriptor;var u=Object.getOwnPropertyNames;var p=Object.getPrototypeOf,x=Object.prototype.hasOwnProperty;var g=(n,e)=>()=>(e||n((e={exports:{}}).exports,e),e.exports),w=(n,e)=>{for(var t in e)i(n,t,{get:e[t],enumerable:!0})},a=(n,e,t,o)=>{if(e&&typeof e==\"object\"||typeof e==\"function\")for(let s of u(e))!x.call(n,s)&&s!==t&&i(n,s,{get:()=>e[s],enumerable:!(o=l(e,s))||o.enumerable});return n};var _=(n,e,t)=>(t=n!=null?f(p(n)):{},a(e||!n||!n.__esModule?i(t,\"default\",{value:n,enumerable:!0}):t,n)),j=n=>a(i({},\"__esModule\",{value:!0}),n);var c=g((z,d)=>{d.exports=_jsx_runtime});var v={};w(v,{default:()=>m});var r=_(c());function h(n){let e={a:\"a\",h1:\"h1\",p:\"p\",...n.components};return(0,r.jsxs)(r.Fragment,{children:[(0,r.jsx)(e.h1,{children:\"Informationen f\\xFCr Pressevertreter*innen\"}),`\n`,(0,r.jsx)(e.p,{children:\"Aus Sicherheitsgr\\xFCnden ver\\xF6ffentlichen wir vor dem Erstw\\xE4hler Forum 2026 keine weiterf\\xFChrenden Informationen oder Pressemitteilungen zur Veranstaltung.\"}),`\n`,(0,r.jsxs)(e.p,{children:[\"Pressevertreter*innen k\\xF6nnen sich bei R\\xFCckfragen oder f\\xFCr eine Anmeldung zur Teilnahme jederzeit an \",(0,r.jsx)(e.a,{href:\"mailto:presse@ewf-stade.de\",children:\"presse@ewf-stade.de\"}),\" wenden.\"]})]})}function m(n={}){let{wrapper:e}=n.components||{};return e?(0,r.jsx)(e,{...n,children:(0,r.jsx)(h,{...n})}):h(n)}return j(v);})();\n;return Component;"
   }
 ]

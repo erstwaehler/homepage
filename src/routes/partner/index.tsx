@@ -14,7 +14,8 @@ import { generateMetaTags } from "~/lib/meta";
 import HeroBadge from "~/components/HeroBadge";
 import PageHero from "~/components/PageHero";
 import SectionCard from "~/components/SectionCard";
-import { ForbiddenPage } from "~/components/401";
+import { PreLaunchErrorPage } from "~/components/pre-launch-errorpage";
+import { RedactEventData } from "~/lib/constants";
 
 type PartnerData = {
   title: string;
@@ -137,7 +138,7 @@ function getPartnerData(): PartnerData {
 }
 
 export const Route = createFileRoute("/partner/")({
-  component: ForbiddenPage, // Platzhalter bis zur Veranstaltung
+  component: RedactEventData ? PreLaunchErrorPage : PartnerPage,
   head: () => {
     const title = `Partner & Unterstützer - ${m.site_title()}`;
     const description =

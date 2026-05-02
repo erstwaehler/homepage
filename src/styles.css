@@ -207,7 +207,7 @@ code {
   }
 
   .blurhide {
-    @apply blur-sm opacity-50 pointer-events-none;
+    @apply blur-sm opacity-50 pointer-events-none line-through decoration-double;
   }
 }
 

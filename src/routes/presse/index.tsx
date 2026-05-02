@@ -154,7 +154,7 @@ function PressePage() {
           badge={
             <div className="press-badge inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/10 text-primary text-sm font-medium">
               <Megaphone className="w-4 h-4" />
-              Pressemitteilungen & 
+              Pressemitteilungen & Meldungen
             </div>
           }
           title="Pressemitteilungen"

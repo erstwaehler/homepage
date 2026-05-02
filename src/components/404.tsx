@@ -7,8 +7,7 @@ export function NotFoundPage() {
       tailwindGradientBlurSourceColour="primary"
       title={m.error_404_title()}
       description={m.error_404_message()}
-      cta={m.error_404_cta()}
-      ctaHref="/"
+      backToHomepageCta
     />
   );
 }

@@ -5,6 +5,7 @@ import * as cc from "#cc";
 import * as m from "#p";
 import { gsap } from "~/lib/gsap";
 import { generateMetaTags, generateWebSiteSchema } from "~/lib/meta";
+import { RedactEventData } from "~/lib/constants";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -390,11 +391,21 @@ function HomePage() {
             >
               <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-sm">
                 <Calendar className="w-5 h-5 text-primary" />
-                <span className="text-white/85">{m.hero_date()}</span>
+                <span
+                  className={`text-white/85 ${RedactEventData ? "blurhide" : ""}`}
+                >
+                  {RedactEventData ? m.hero_date_censored() : m.hero_date()}
+                </span>
               </div>
               <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-sm">
                 <MapPin className="w-5 h-5 text-primary" />
-                <span className="text-white/85">{m.hero_location()}</span>
+                <span
+                  className={`text-white/85 ${RedactEventData ? "blurhide" : ""}`}
+                >
+                  {RedactEventData
+                    ? m.hero_location_censored()
+                    : m.hero_location()}
+                </span>
               </div>
             </div>
 

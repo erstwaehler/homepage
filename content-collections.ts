@@ -44,7 +44,7 @@ const pms = defineCollection({
     description: z.string().optional(),
     banner: z.string().optional(),
     bannerCredit: z.string().optional(),
-    pdf: z.string().default("/pressemitteilung.pdf"),
+    pdf: z.string().optional(),
     content: z.string().optional(),
   }),
   transform: async (document, context) => {
