@@ -29,7 +29,7 @@ const config = defineConfig({
     paraglideVitePlugin({
       project: "./project.inlang",
       outdir: "./src/paraglide",
-      strategy: ["url"],
+      strategy: ["url", "cookie", "baseLocale"],
     }),
     contentCollections(),
     nitro(),
