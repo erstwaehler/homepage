@@ -5,7 +5,6 @@ import {
   MessageSquare,
   Sparkles,
   Users,
-  Vote,
 } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import * as m from "#p";
@@ -15,6 +14,7 @@ import ContactForm from "~/components/contact/ContactForm";
 import ContactInfoCard from "~/components/contact/ContactInfoCard";
 import PageHero from "~/components/PageHero";
 import SimpleAccordion from "~/components/SimpleAccordion";
+import { Logo } from "~/components/logo";
 
 export const Route = createFileRoute("/kontakt/")({
   component: ContactPage,
@@ -231,7 +231,7 @@ function ContactPage() {
             </div>
 
             <ContactInfoCard
-              icon={<Vote className="w-5 h-5" />}
+              icon={<Logo />}
               title="Für wen ist das Formular gedacht?"
             >
               <ul className="space-y-3 text-muted-foreground">

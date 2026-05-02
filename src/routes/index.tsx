@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Calendar, MapPin, Vote } from "lucide-react";
+import { ArrowRight, Calendar, MapPin } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import * as cc from "#cc";
 import * as m from "#p";
@@ -106,6 +106,8 @@ function HomePage() {
     return () => ctx.revert();
   }, []);
 
+  const animationTuner = 50; // Percent
+
   useEffect(() => {
     if (typeof window === "undefined" || !containerRef.current) return;
 
@@ -122,7 +124,7 @@ function HomePage() {
           scrollTrigger: {
             trigger: heroRef.current,
             start: "top top",
-            end: "120% top",
+            end: `${100 + animationTuner}% top`,
             scrub: 2,
           },
         });
@@ -220,8 +222,8 @@ function HomePage() {
           manifestoRef.current,
           {
             opacity: 0,
-            y: 120,
-            scale: 0.96,
+            scale: 0.86,
+            y: 220,
           },
           {
             opacity: 1,
@@ -230,8 +232,10 @@ function HomePage() {
             ease,
             scrollTrigger: {
               trigger: manifestoRef.current,
-              start: "top 35%",
-              end: "center center",
+              start: `-${animationTuner}% bottom`,
+              end: "top top",
+              // start: "top top",
+              // end: "120% top",
               scrub: 1.5,
             },
           },
@@ -420,7 +424,7 @@ function HomePage() {
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(168,139,250,0.18)_0%,transparent_45%),linear-gradient(180deg,rgba(7,7,8,0)_0%,rgba(255,255,255,0.03)_45%,rgba(7,7,8,0)_100%)]" />
         <div className="relative mx-auto flex min-h-[120vh] max-w-5xl flex-col justify-center">
-          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-8 md:p-12 backdrop-blur-xl shadow-2xl shadow-black/20">
+          <div className="rounded-4xl border border-white/10 bg-white/5 p-8 md:p-12 backdrop-blur-xl shadow-2xl shadow-black/20">
             <p className="mb-4 text-sm uppercase tracking-[0.28em] text-white/55">
               Hinweis
             </p>

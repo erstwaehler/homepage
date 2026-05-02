@@ -1,6 +1,6 @@
 import { m } from "#p";
 import { Link } from "@tanstack/react-router";
-import { Vote } from "lucide-react";
+import { Logo } from "./logo";
 
 export function ServerErrorPage() {
   return (
@@ -9,8 +9,8 @@ export function ServerErrorPage() {
         {/* Icon */}
         <div className="flex justify-center">
           <div className="relative">
-            <Vote className="w-24 h-24 text-destructive/20 absolute blur-xl" />
-            <Vote className="w-24 h-24 text-destructive relative" />
+            <Logo className="w-24 h-24 text-destructive/20 absolute blur-xl dark:invert" />
+            <Logo className="w-24 h-24 text-destructive relative dark:invert" />
           </div>
         </div>
 

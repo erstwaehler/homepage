@@ -18,6 +18,7 @@ const config = defineConfig({
       "#p": fileURLToPath(new URL("./src/paraglide/messages", import.meta.url)),
       "#env": fileURLToPath(new URL("./src/env.ts", import.meta.url)),
       "#flags": fileURLToPath(new URL("./src/lib/flags.ts", import.meta.url)),
+      "~pub": fileURLToPath(new URL("./public", import.meta.url)),
       "~": fileURLToPath(new URL("./src", import.meta.url)),
       "@": fileURLToPath(new URL("./", import.meta.url)),
     },

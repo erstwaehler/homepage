@@ -27,6 +27,7 @@
       "#env": ["./src/env.ts"],
       "#flags": ["./src/lib/flags.ts"],
       "~/*": ["./src/*"],
+      "~pub/*": ["./public/*"],
       "@/*": ["./*"],
     },
   },

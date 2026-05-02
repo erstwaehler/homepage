@@ -3,10 +3,11 @@
 import { usePostHog } from "@posthog/react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useHotkeys } from "@tanstack/react-hotkeys";
-import { Vote, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as m from "#p";
 import { gsap } from "~/lib/gsap";
+import { Logo } from "./logo";
 
 type NavItem = {
   to: string;
@@ -413,7 +414,7 @@ export default function Header() {
             to="/"
             className="flex items-center gap-3 hover:opacity-80 transition-opacity magnetic-target group"
           >
-            <Vote className="w-8 h-8 text-white group-hover:scale-110 transition-transform" />
+            <Logo className="w-8 h-8 text-white group-hover:scale-110 transition-transform dark:invert" />
             <span className="font-bold text-xl hidden sm:inline text-white">
               {m.site_title()}
             </span>
@@ -467,7 +468,7 @@ export default function Header() {
                 }}
                 className="flex items-center gap-3 hover:opacity-80 transition-opacity group"
               >
-                <Vote className="w-8 h-8 text-foreground group-hover:scale-110 transition-transform" />
+                <Logo className="w-8 h-8 text-foreground group-hover:scale-110 transition-transform dark:invert" />
                 <span className="font-bold text-xl hidden sm:inline text-foreground">
                   {m.site_title()}
                 </span>
