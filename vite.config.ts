@@ -9,6 +9,11 @@ import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
 import { cloudflare } from "@cloudflare/vite-plugin";
 
+const deployment =
+  process.env.ENVIRONMENT === "development"
+    ? nitro()
+    : cloudflare({ viteEnvironment: { name: "ssr" } });
+
 const config = defineConfig({
   resolve: {
     tsconfigPaths: true,
@@ -32,8 +37,7 @@ const config = defineConfig({
       strategy: ["url", "cookie", "baseLocale"],
     }),
     contentCollections(),
-    nitro(),
-    cloudflare({ viteEnvironment: { name: "ssr" } }),
+    deployment,
     tailwindcss(),
     tanstackStart({
       sitemap: {

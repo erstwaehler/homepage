@@ -1,7 +1,7 @@
 # Quick Install and Development Setup
 [default]
 [private]
-install-dev: install dev
+install-dev: install env dev
 
 [no-cd]
 [private]
@@ -41,11 +41,15 @@ alias rm := remove
 remove PACKAGE mode="safe":
     @just sfw_wrap {{ mode }} "bun remove {{ PACKAGE }}"
 
-# Start Vite development server
+# Start Development server
 [group('Featured')]
 [group('Web')]
 dev port="3000":
-    bunx --bun vite dev --port {{ port }}
+    @if [ "${ENVIRONMENT:-development}" = "development" ]; then \
+        bunx --bun vite dev --port {{ port }}; \
+    else \
+        wrangler dev --port {{ port }}; \
+    fi
 
 # Run type checking and linting
 [group('Code Quality')]
@@ -82,10 +86,22 @@ vitest:
 [group('Testing')]
 [group('Web')]
 build:
-    bun run build
+    bunx --bun vite build;
 
 # Start build in preview mode - Automatically builds the server
 [group('Testing')]
 [group('Web')]
 preview: build
-    bun run preview
+    @if [ "${ENVIRONMENT:-development}" = "development" ]; then \
+      bunx --bun vite preview; \
+    else \
+      wrangler preview; \
+    fi
+
+[group('Tools')]
+env env="development":
+    @if grep -q '^ENVIRONMENT=' .env.local 2>/dev/null; then \
+        sed -i 's/^ENVIRONMENT=.*/ENVIRONMENT={{ env }}/' .env.local; \
+    else \
+        echo 'ENVIRONMENT={{ env }}' >> .env.local; \
+    fi
