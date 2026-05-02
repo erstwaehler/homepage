@@ -222,7 +222,8 @@ function HomePage() {
           manifestoRef.current,
           {
             opacity: 0,
-            scale: 0.86,
+            // scale: 0.86, //
+            scale: 0.86 * 0.75,
             y: 220,
           },
           {
@@ -433,21 +434,17 @@ function HomePage() {
               ref={manifestoTitleRef}
               className="max-w-4xl text-4xl md:text-6xl font-black tracking-tight text-white leading-[0.95]"
             >
-              Dieses Jahr müssen wir die Projektseite nicht auf Werbe-Modus
-              stellen.
+              Keine Daten vor der Veranstaltung
             </h2>
 
             <p
               ref={manifestoTextRef}
               className="mt-6 max-w-3xl text-lg md:text-2xl leading-relaxed text-white/72"
             >
-              Wir hosten die Seite bewusst vor allem für SEO und Domain-Age,
-              damit Sie uns online gut finden können. Unser Fokus liegt gerade
-              nicht darauf, unser Projekt mit einer klassischen Werbe-Webseite
-              zu pushen. Wenn Sie aber Pressevertreter sind oder sich einfach
-              für uns interessieren, lesen Sie sich gerne unseren Blog oder die
-              Presseseite durch. Für eine Kontaktaufnahme sind wir jederzeit
-              offen.
+              Sorry. Aber aus Sicherheitsgründen können wir nichts vor der
+              Veranstaltung veröffentlichen. Dennoch könnt ihr rund um die
+              Veranstaltung in unseren Blog schauen, oder falls ihr
+              Pressevertreter:innen seit, gerne Kontakt mit uns aufnehmen.
             </p>
 
             <div

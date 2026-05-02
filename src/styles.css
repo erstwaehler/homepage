@@ -205,6 +205,10 @@ code {
   .scroll-smooth {
     scroll-behavior: smooth;
   }
+
+  .blurhide {
+    @apply blur-sm opacity-50 pointer-events-none;
+  }
 }
 
 /* Main scroll container for root page */

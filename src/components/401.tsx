@@ -1,9 +1,9 @@
 import { m } from "#p";
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./logo";
-import { useEffect, useRef } from "react";
+import { useRef, useEffect } from "react";
 
-export function ServerErrorPage() {
+export function ForbiddenPage() {
   const logoRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const messageRef = useRef<HTMLParagraphElement>(null);
@@ -27,12 +27,12 @@ export function ServerErrorPage() {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-destructive/20 via-background to-destructive/10 px-6">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-accent/20 via-background to-accent/10 px-6">
       <div className="text-center space-y-8 max-w-2xl">
         {/* Icon */}
         <div className="flex justify-center" ref={logoRef}>
           <div className="relative">
-            <Logo className="w-24 h-24 text-destructive/20 absolute blur-xl opacity-50 dark:invert" />
+            <Logo className="w-24 h-24 text-destructive/20 absolute blur-xl dark:invert" />
             <Logo className="w-24 h-24 text-destructive relative dark:invert" />
           </div>
         </div>
@@ -43,13 +43,13 @@ export function ServerErrorPage() {
             className="text-5xl md:text-7xl font-bold text-foreground"
             ref={titleRef}
           >
-            {m.error_500_title()}
+            {m.error_401_title()}
           </h1>
           <p
             className="text-lg md:text-xl text-muted-foreground max-w-md mx-auto leading-relaxed"
             ref={messageRef}
           >
-            {m.error_500_message()}
+            {m.error_401_message()}
           </p>
         </div>
 
@@ -59,7 +59,7 @@ export function ServerErrorPage() {
             to="/"
             className="inline-flex items-center gap-2 px-8 py-4 bg-card hover:bg-card/80 text-foreground rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border border-border"
           >
-            <span className="font-medium">{m.error_500_cta()}</span>
+            <span className="font-medium">{m.error_401_cta()}</span>
           </Link>
         </div>
       </div>

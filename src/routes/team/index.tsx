@@ -9,10 +9,11 @@ import { FaMastodon } from "react-icons/fa";
 import { AvatarImage, ThumbnailImage } from "~/components/OptimizedImage";
 import { gsap } from "~/lib/gsap";
 import { generateMetaTags } from "~/lib/meta";
+import { ForbiddenPage } from "~/components/401";
 
 export const Route = createFileRoute("/team/")({
   loader: () => team.members,
-  component: TeamListPage,
+  component: ForbiddenPage, // Platzhalter bis zur Veranstaltung
   head: () => {
     const title = `${m.team_title()} - ${m.site_title()}`;
     const description = m.team_description();

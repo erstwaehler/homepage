@@ -7,6 +7,7 @@ import InfoCard from "~/components/timeline/InfoCard";
 import TimelineRowItem from "~/components/timeline/TimelineRowItem";
 import CycleRow from "~/components/timeline/CycleRow";
 import type { TimelineRow } from "~/components/timeline/types";
+import { ForbiddenPage } from "~/components/401";
 
 const timeline: TimelineRow[] = [
   {
@@ -145,7 +146,7 @@ const timeline: TimelineRow[] = [
 ];
 
 export const Route = createFileRoute("/zeitplan/")({
-  component: RouteComponent,
+  component: ForbiddenPage, // Platzhalter bis zur Veranstaltung
   head: () =>
     generateMetaTags({
       title: "Zeitplan - Erstwählerforum 2026",
