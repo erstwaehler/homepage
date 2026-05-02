@@ -23,7 +23,7 @@ export default function LocaleSwitcher() {
 
   const handleLocaleChange = (newLocale: string) => {
     if (!locales.includes(newLocale as (typeof locales)[number])) return;
-    setLocale(newLocale as (typeof locales)[number], { reload: false });
+    setLocale(newLocale as (typeof locales)[number]);
   };
 
   return (
