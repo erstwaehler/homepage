@@ -22,7 +22,8 @@ export default function LocaleSwitcher() {
   const currentLocale = getLocale();
 
   const handleLocaleChange = (newLocale: string) => {
-    setLocale(newLocale as typeof currentLocale);
+    if (!locales.includes(newLocale as (typeof locales)[number])) return;
+    setLocale(newLocale as (typeof locales)[number], { reload: false });
   };
 
   return (
