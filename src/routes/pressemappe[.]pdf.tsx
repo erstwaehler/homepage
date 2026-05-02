@@ -1,6 +1,19 @@
+import { m } from "#p";
 import { createFileRoute } from "@tanstack/react-router";
-import { ForbiddenPage } from "~/components/401";
+import { ErrorPage } from "~/components/errorPage";
 
 export const Route = createFileRoute("/pressemappe.pdf")({
-  component: ForbiddenPage,
+  component: RouteComponent,
 });
+
+function RouteComponent() {
+  return (
+    <ErrorPage
+      title={m.pressemappe_error_title()}
+      description={m.pressemappe_error_message()}
+      cta={m.pressemappe_error_cta()}
+      ctaHref="/kontakt"
+      tailwindGradientBlurSourceColour="destructive"
+    />
+  );
+}
