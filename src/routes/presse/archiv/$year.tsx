@@ -25,7 +25,7 @@ export const Route = createFileRoute("/presse/archiv/$year")({
     const year = loaderData?.year ?? currentYear;
 
     return generateMetaTags({
-      title: `Pressearchiv ${year} - ${m.site_title()}`,
+      title: `${m.press_archive()} ${year} - ${m.site_title()}`,
       description: `Alle Pressemitteilungen aus dem Jahr ${year}.`,
       url: `/presse/archiv/${year}`,
       type: "website",
@@ -43,9 +43,9 @@ function PresseArchivYearPage() {
     to: `/presse/${release.slug}`,
   }));
 
-  const years = [...new Set(allPms.map((entry) => new Date(entry.date).getFullYear()))].sort(
-    (a, b) => b - a,
-  );
+  const years = [
+    ...new Set(allPms.map((entry) => new Date(entry.date).getFullYear())),
+  ].sort((a, b) => b - a);
   const currentIndex = years.indexOf(year);
   const prevYear = years[currentIndex + 1];
   const nextYear = years[currentIndex - 1];
@@ -58,13 +58,13 @@ function PresseArchivYearPage() {
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-10 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Zurück zum Archiv
+          {m.press_back_to_overview()}
         </Link>
 
         <div className="mb-10 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-primary text-xs font-medium uppercase tracking-[0.2em]">
             <Calendar className="w-4 h-4" />
-            Pressearchiv
+            {m.press_archive()}
           </div>
           <h1 className="text-4xl md:text-5xl font-bold">{year}</h1>
         </div>
@@ -76,7 +76,7 @@ function PresseArchivYearPage() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:bg-accent transition-colors disabled:opacity-50"
           >
             <ChevronLeft className="w-4 h-4" />
-            Älter
+            {m.press_archive_nav_older()}
           </Link>
 
           <Link
@@ -84,7 +84,7 @@ function PresseArchivYearPage() {
             params={nextYear ? { year: String(nextYear) } : undefined}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:bg-accent transition-colors disabled:opacity-50"
           >
-            Neuer
+            {m.press_archive_nav_newer()}
             <ChevronRight className="w-4 h-4" />
           </Link>
         </div>

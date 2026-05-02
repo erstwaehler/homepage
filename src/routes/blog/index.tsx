@@ -1,6 +1,6 @@
 import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Calendar, Sparkles } from "lucide-react";
+import { ArrowRight, Calendar, Newspaper, Sparkles } from "lucide-react";
 import { useEffect } from "react";
 import { allPosts } from "#cc";
 import * as m from "#p";
@@ -64,8 +64,8 @@ function BlogListPage() {
       <div className="max-w-7xl mx-auto px-6 pt-32 pb-16">
         <section className="blog-hero mb-16 max-w-4xl">
           <div className="blog-badge inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/10 text-primary text-sm font-medium mb-6">
-            <Sparkles className="w-4 h-4" />
-            Blog
+            <Newspaper className="w-4 h-4" />
+            {m.blog_kicker()}
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6 bg-linear-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
@@ -84,7 +84,7 @@ function BlogListPage() {
                 <div className="space-y-6">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium uppercase tracking-wider">
                     <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                    Neuester Beitrag
+                    {m.blog_newest()}
                   </div>
 
                   <h2 className="text-4xl md:text-6xl font-bold leading-[0.95] tracking-tight">
@@ -203,8 +203,7 @@ function BlogListPage() {
             <div className="flex items-end justify-between gap-4 mb-8">
               <h2 className="text-3xl font-bold">Weitere Beiträge</h2>
               <p className="text-sm text-muted-foreground max-w-md hidden md:block">
-                Ein Blick hinter die Kulissen, Updates und Einordnungen rund um
-                das Erstwählerforum.
+                {m.blog_other_kicker()}
               </p>
             </div>
 
@@ -281,11 +280,10 @@ function BlogListPage() {
 
             <div className="space-y-4">
               <h2 className="text-3xl md:text-4xl font-bold">
-                Noch keine Beiträge vorhanden
+                {m.blog_empty_title()}
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Hier erscheinen bald aktuelle Informationen, Berichte und
-                Einblicke rund um das Erstwählerforum 2026.
+                {m.blog_empty_message({ site_title: m.site_title() })}
               </p>
             </div>
 
@@ -293,7 +291,7 @@ function BlogListPage() {
               to="/"
               className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all duration-300 hover:gap-3"
             >
-              <span>Zur Startseite</span>
+              <span>{m.nav_to_home()}</span>
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>

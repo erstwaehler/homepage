@@ -2,6 +2,8 @@
  * Meta tag utilities for SEO and social media sharing
  */
 
+import { m } from "#p";
+
 export interface MetaTagsConfig {
   title: string;
   description: string;
@@ -42,7 +44,7 @@ export function generateMetaTags(config: MetaTagsConfig) {
       { property: "og:url", content: fullUrl },
       { property: "og:image", content: image },
       { property: "og:type", content: type },
-      { property: "og:site_name", content: "Erstwähler Forum 2026" },
+      { property: "og:site_name", content: m.site_title_full() },
       { property: "og:locale", content: "de_DE" },
 
       // Twitter Card

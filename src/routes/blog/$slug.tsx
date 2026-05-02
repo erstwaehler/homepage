@@ -169,7 +169,7 @@ function BlogPostPage() {
           <header className="mb-10">
             <div className="article-kicker inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-primary text-xs font-medium uppercase tracking-[0.2em] mb-6">
               <span className="w-2 h-2 rounded-full bg-primary" />
-              Blog
+              {m.blog_post()}
             </div>
 
             <h1 className="article-title max-w-4xl text-4xl md:text-6xl font-bold leading-[0.95] tracking-tight mb-6 bg-linear-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
@@ -200,7 +200,7 @@ function BlogPostPage() {
                 className="inline-flex items-center gap-2 hover:text-foreground transition-colors"
               >
                 <ExternalLink className="w-4 h-4" />
-                Mehr erfahren
+                {m.blog_learn_more()}
               </a>
 
               {canShare && (
@@ -218,7 +218,7 @@ function BlogPostPage() {
                     className="inline-flex items-center gap-2 hover:text-foreground transition-colors"
                   >
                     <Share2 className="w-4 h-4" />
-                    Teilen
+                    {m.blog_share()}
                   </button>
                 </>
               )}
@@ -265,7 +265,10 @@ function BlogPostPage() {
           </Link>
 
           <div className="text-sm text-muted-foreground">
-            Erstwähler Forum 2026
+            {m.copyright({
+              currentYear: new Date().getFullYear(),
+              site_title_noyear: m.site_title_noyear(),
+            })}
           </div>
         </div>
       </div>

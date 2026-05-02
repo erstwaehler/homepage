@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Mail, MapPin, MessageSquare, Sparkles, Users } from "lucide-react";
+import { Mail, MailQuestion, MapPin, MessageSquare, Users } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import * as m from "#p";
 import { gsap } from "~/lib/gsap";
@@ -14,9 +14,8 @@ import { RedactEventData, RedactPostadresse } from "~/lib/constants";
 export const Route = createFileRoute("/kontakt/")({
   component: ContactPage,
   head: () => {
-    const title = `Kontakt & FAQ - ${m.site_title()}`;
-    const description =
-      "Kontakt, FAQ und Anfrageformular für das Erstwählerforum 2026.";
+    const title = `${m.contact_title()} - ${m.site_title()}`;
+    const description = m.contact_meta_description();
 
     return generateMetaTags({
       title,
@@ -127,24 +126,18 @@ function ContactPage() {
           className="contact-hero"
           badge={
             <div className="contact-hero-badge inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/10 text-primary text-sm font-medium">
-              <Sparkles className="w-4 h-4" />
-              Kontakt & Unterstützung
+              <MailQuestion className="w-4 h-4" />
+              {m.contact_kicker()}
             </div>
           }
-          title="Kontakt, FAQ und Anfragen"
-          subtitle={
-            <>
-              Hier findet ihr die wichtigsten Antworten und könnt uns direkt für
-              Rückfragen, Presseanfragen, schulische Abstimmungen oder
-              allgemeine Hinweise erreichen.
-            </>
-          }
+          title={m.contact_title()}
+          subtitle={m.contact_description()}
         />
 
         <section className="grid lg:grid-cols-3 gap-6 mb-16">
           <ContactInfoCard
             icon={<Mail className="w-6 h-6" />}
-            title="Zentrale E-Mail"
+            title={m.contact_centralmail()}
           >
             <a
               href="mailto:info@ewf-stade.de"
@@ -156,25 +149,22 @@ function ContactPage() {
 
           <ContactInfoCard
             icon={<MessageSquare className="w-6 h-6" />}
-            title="Schnellkontakt"
+            title={m.contact_quickcontact()}
           >
             <p className="text-muted-foreground leading-relaxed">
-              Für dringende Schulabstimmungen oder organisatorische Rückfragen
-              meldet euch am besten per Mail mit Betreff. Verifizierte
-              Pressekontakte erhalten auf Wunsch auch eine Telefonnummer für den
-              direkten Austausch.
+              {m.contact_quickcontact_description()}
             </p>
           </ContactInfoCard>
 
           <ContactInfoCard icon={<MapPin className="w-6 h-6" />} title="Ort">
             <p className="text-muted-foreground leading-relaxed">
-              Veranstaltung:{" "}
+              {m.trans_event()}:{" "}
               <p className={`${RedactEventData ? "blurhide" : ""}`}>
                 {RedactEventData
                   ? m.contact_location_stadeum_redacted()
                   : m.contact_location_stadeum()}
               </p>
-              Postadresse:{" "}
+              {m.trans_postal_address()}:{" "}
               <p className={`${RedactPostadresse ? "blurhide" : ""}`}>
                 {RedactPostadresse
                   ? m.contact_location_postal_redacted()
@@ -191,9 +181,9 @@ function ContactPage() {
                 <MessageSquare className="w-5 h-5" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold">Kontaktformular</h2>
+                <h2 className="text-2xl font-bold">{m.contact_form()}</h2>
                 <p className="text-sm text-muted-foreground">
-                  Wir antworten so schnell wie möglich.
+                  {m.contact_asap()}
                 </p>
               </div>
             </div>
@@ -211,7 +201,7 @@ function ContactPage() {
                   <div>
                     <h2 className="text-2xl font-bold">Häufige Fragen</h2>
                     <p className="text-sm text-muted-foreground">
-                      Kurz erklärt, was oft gefragt wird.
+                      {m.contact_faq_kicker()}
                     </p>
                   </div>
                 </div>
@@ -234,21 +224,20 @@ function ContactPage() {
 
             <ContactInfoCard
               icon={<Logo />}
-              title="Für wen ist das Formular gedacht?"
+              title={m.contact_formforwhoom_title()}
             >
               <ul className="space-y-3 text-muted-foreground">
                 <li className="flex gap-3">
                   <span className="mt-1 h-2 w-2 rounded-full bg-primary shrink-0"></span>
-                  Presse und Medien für Anfragen zu Material und Terminen
+                  {m.contact_formforwhoom_press()}
                 </li>
                 <li className="flex gap-3">
                   <span className="mt-1 h-2 w-2 rounded-full bg-primary shrink-0"></span>
-                  Parteien und Kandidierende für Teilnahme- und Rückfragen
+                  {m.contact_formforwhoom_parties()}
                 </li>
                 <li className="flex gap-3">
                   <span className="mt-1 h-2 w-2 rounded-full bg-primary shrink-0"></span>
-                  Schülerinnen und Schüler mit Ideen oder Fragen für die
-                  Debatten
+                  {m.contact_formforwhoom_students()}
                 </li>
               </ul>
             </ContactInfoCard>

@@ -148,18 +148,26 @@ function HomePage() {
       }
 
       if (overTitleRef.current) {
-        gsap.to(overTitleRef.current, {
-          y: -200,
-          opacity: 0,
-          scale: 0.92,
-          ease,
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "100% top",
-            scrub: 2,
+        gsap.fromTo(
+          overTitleRef.current,
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
           },
-        });
+          {
+            y: -200,
+            opacity: 0,
+            scale: 0.92,
+            ease,
+            scrollTrigger: {
+              trigger: heroRef.current,
+              start: "top top",
+              end: "100% top",
+              scrub: 2,
+            },
+          },
+        );
       }
 
       if (titleRef.current) {
@@ -363,7 +371,7 @@ function HomePage() {
               className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-sm"
             >
               <span className="text-xs uppercase tracking-[0.24em] text-white/75">
-                Kommunalwahl 2026
+                {m.hero_overtitle()}
               </span>
             </div>
 
@@ -445,17 +453,14 @@ function HomePage() {
               ref={manifestoTitleRef}
               className="max-w-4xl text-4xl md:text-6xl font-black tracking-tight text-white leading-[0.95]"
             >
-              Keine Daten vor der Veranstaltung
+              {m.root_manifesto_title()}
             </h2>
 
             <p
               ref={manifestoTextRef}
               className="mt-6 max-w-3xl text-lg md:text-2xl leading-relaxed text-white/72"
             >
-              Sorry. Aber aus Sicherheitsgründen können wir nichts vor der
-              Veranstaltung veröffentlichen. Dennoch könnt ihr rund um die
-              Veranstaltung in unseren Blog schauen, oder falls ihr
-              Pressevertreter:innen seit, gerne Kontakt mit uns aufnehmen.
+              {m.root_manifesto_text()}
             </p>
 
             <div
@@ -466,20 +471,20 @@ function HomePage() {
                 to="/blog"
                 className="inline-flex items-center justify-center rounded-2xl bg-primary px-6 py-4 font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90"
               >
-                Zum Blog
+                {m.nav_to_blog()}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
               <Link
                 to="/presse"
                 className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-6 py-4 font-medium text-white/90 transition-colors hover:bg-white/10"
               >
-                Presse
+                {m.nav_to_presse()}
               </Link>
               <Link
                 to="/kontakt"
                 className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-6 py-4 font-medium text-white/90 transition-colors hover:bg-white/10"
               >
-                Kontakt aufnehmen
+                {m.nav_cta_kontakt()}
               </Link>
             </div>
           </div>

@@ -9,7 +9,7 @@ export const Route = createFileRoute("/presse/archiv/")({
   component: PresseArchivIndexPage,
   head: () =>
     generateMetaTags({
-      title: `Pressearchiv - ${m.site_title()}`,
+      title: `${m.press_archive()} - ${m.site_title()}`,
       description: "Alle Pressemitteilungen nach Jahr sortiert.",
       url: "/presse/archiv",
       type: "website",
@@ -17,9 +17,9 @@ export const Route = createFileRoute("/presse/archiv/")({
 });
 
 function PresseArchivIndexPage() {
-  const years = [...new Set(allPms.map((entry) => new Date(entry.date).getFullYear()))].sort(
-    (a, b) => b - a,
-  );
+  const years = [
+    ...new Set(allPms.map((entry) => new Date(entry.date).getFullYear())),
+  ].sort((a, b) => b - a);
   const currentYear = years[0];
   const releases = allPms
     .filter((entry) => new Date(entry.date).getFullYear() === currentYear)
@@ -39,12 +39,11 @@ function PresseArchivIndexPage() {
         <div className="mb-10 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-primary text-xs font-medium uppercase tracking-[0.2em]">
             <Newspaper className="w-4 h-4" />
-            Pressearchiv
+            {m.press_archive()}
           </div>
           <h1 className="text-4xl md:text-5xl font-bold">{currentYear}</h1>
           <p className="text-muted-foreground max-w-2xl">
-            Wähle ein Jahr aus oder lies die aktuellen Mitteilungen aus dem
-            Archiv.
+            {m.press_archive_explainer()}
           </p>
         </div>
 

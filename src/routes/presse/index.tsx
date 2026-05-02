@@ -24,9 +24,8 @@ export const Route = createFileRoute("/presse/")({
     ),
   component: PressePage,
   head: () => {
-    const title = `Presse - ${m.site_title()}`;
-    const description =
-      "Pressebereich des Erstwählerforums 2026 mit Mitteilungen, Kontakt und Hinweisen für Medien.";
+    const title = `${m.press_title()} - ${m.site_title()}`;
+    const description = m.press_description();
 
     return generateMetaTags({
       title,
@@ -154,16 +153,11 @@ function PressePage() {
           badge={
             <div className="press-badge inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/10 text-primary text-sm font-medium">
               <Megaphone className="w-4 h-4" />
-              Pressemitteilungen & Meldungen
+              {m.press_hero_badge()}
             </div>
           }
-          title="Pressemitteilungen"
-          subtitle={
-            <>
-              Hier findest du die neuesten Mitteilungen, Hintergrundinfos und
-              den direkten Zugang zum Pressearchiv.
-            </>
-          }
+          title={m.press_hero_title()}
+          subtitle={m.press_hero_description()}
         />
 
         <div className="grid lg:grid-cols-[1.6fr_0.9fr] gap-8 items-start">
@@ -171,7 +165,9 @@ function PressePage() {
             <div className="press-card bg-card border border-border rounded-2xl p-6 md:p-8 shadow-lg">
               <div className="flex items-center gap-3 mb-6">
                 <Newspaper className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold">Aktuelle Mitteilungen</h2>
+                <h2 className="text-2xl font-bold">
+                  {m.press_current_releases()}
+                </h2>
               </div>
 
               <NewsList items={newsItems} className="press-release-item" />
@@ -181,7 +177,7 @@ function PressePage() {
                   to="/presse/archiv"
                   className="press-link-item inline-flex items-center gap-2 text-primary hover:underline"
                 >
-                  Zum Archiv
+                  {m.press_to_archive()}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -190,35 +186,33 @@ function PressePage() {
             <div className="grid md:grid-cols-2 gap-6">
               <SharedNoteCard
                 icon={<FileText className="w-5 h-5" />}
-                title="Pressemappe"
+                title={m.press_media_kit()}
                 className="press-info-card"
               >
                 <p className="text-muted-foreground leading-relaxed">
-                  Kompakte Hintergrundinfos, Kurzbeschreibung des Projekts und
-                  Eckdaten zur Veranstaltung.
+                  {m.press_media_kit_description()}
                 </p>
                 <a
                   href="/pressemappe.pdf"
                   className="press-link-item inline-flex items-center gap-2 px-4 py-2 my-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
                 >
-                  Download
+                  {m.press_download_kit()}
                 </a>
               </SharedNoteCard>
 
               <SharedNoteCard
                 icon={<ImageIcon className="w-5 h-5" />}
-                title="Bildmaterial"
+                title={m.press_media_materials()}
                 className="press-info-card"
               >
                 <p className="text-muted-foreground mb-5 leading-relaxed">
-                  Auf Anfrage stellen wir Logo, Bilder und weitere Materialien
-                  für Berichterstattung und Ankündigungen bereit.
+                  {m.press_media_materials_description()}
                 </p>
                 <a
                   href="/kontakt"
                   className="press-link-item inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:bg-accent transition-colors"
                 >
-                  Anfrage senden
+                  {m.press_media_contact_cta()}
                 </a>
               </SharedNoteCard>
             </div>
@@ -227,7 +221,7 @@ function PressePage() {
           <aside className="space-y-6">
             <SharedNoteCard
               icon={<Mail className="w-5 h-5" />}
-              title="Pressekontakt"
+              title={m.press_contact()}
               className="press-info-card"
             >
               <div className="space-y-4 text-sm">
@@ -245,14 +239,17 @@ function PressePage() {
 
             <SharedNoteCard
               icon={<Quote className="w-5 h-5" />}
-              title="Hinweise für Medien"
+              title={m.press_for_journalists()}
               className="press-info-card"
             >
               <ul className="space-y-3 text-sm text-muted-foreground leading-relaxed">
-                <li>• Die neuesten 3 Mitteilungen stehen hier direkt oben.</li>
-                <li>• Das Pressearchiv ist nach Jahr sortiert.</li>
+                <li>• {m.press_for_journalists_verified()}</li>
+                <li>• {m.press_for_journalists_archive()}</li>
                 <li>
-                  • PDF-Download jeder Mitteilung erfolgt über die Detailseite.
+                  •{" "}
+                  <a href="https://news.google.com">
+                    {m.press_for_journalists_news_google()}
+                  </a>
                 </li>
               </ul>
             </SharedNoteCard>

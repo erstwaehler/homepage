@@ -43,14 +43,14 @@ function PresseMitteilungPage() {
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-10 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Zurück zur Presse
+          {m.press_back_to_overview()}
         </Link>
 
         <article className="space-y-10">
           <header className="space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-primary text-xs font-medium uppercase tracking-[0.2em]">
               <span className="w-2 h-2 rounded-full bg-primary" />
-              Pressemitteilung
+              {m.press_release()}
             </div>
 
             <h1 className="text-4xl md:text-6xl font-bold leading-[0.95] tracking-tight bg-linear-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
@@ -101,7 +101,7 @@ function PresseMitteilungPage() {
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
               >
                 <Download className="w-5 h-5" />
-                Pressemitteilung als PDF
+                {m.press_release_download()}
               </a>
             )}
 
@@ -110,7 +110,7 @@ function PresseMitteilungPage() {
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-border hover:bg-accent transition-colors"
             >
               <FileText className="w-5 h-5" />
-              Zur Presseübersicht
+              {m.press_to_overview()}
             </Link>
           </div>
         </article>

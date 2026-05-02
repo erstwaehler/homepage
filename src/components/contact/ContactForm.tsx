@@ -1,5 +1,6 @@
 "use client";
 
+import { m } from "#p";
 import { Send, ShieldCheck } from "lucide-react";
 import { useForm } from "react-hook-form";
 
@@ -21,7 +22,6 @@ type ContactFormProps = {
 export default function ContactForm({
   onSubmit,
   initialCategory = "allgemein",
-  submitLabel = "Nachricht senden",
 }: ContactFormProps) {
   const {
     register,
@@ -57,57 +57,61 @@ export default function ContactForm({
     <form onSubmit={submitHandler} className="space-y-5">
       <div className="grid md:grid-cols-2 gap-4">
         <label className="space-y-2">
-          <span className="text-sm font-medium">Name</span>
+          <span className="text-sm font-medium">{m.contact_form_name()}</span>
           <input
             type="text"
             {...register("name", { required: true })}
             className="w-full rounded-xl border border-border bg-background px-4 py-3 outline-none transition-colors focus:border-primary"
-            placeholder="Dein Name"
+            placeholder={m.contact_form_name_placeholder()}
           />
         </label>
 
         <label className="space-y-2">
-          <span className="text-sm font-medium">E-Mail</span>
+          <span className="text-sm font-medium">{m.contact_form_email()}</span>
           <input
             type="email"
             {...register("email", { required: true })}
             className="w-full rounded-xl border border-border bg-background px-4 py-3 outline-none transition-colors focus:border-primary"
-            placeholder="name@example.de"
+            placeholder={m.contact_form_email_placeholder()}
           />
         </label>
       </div>
 
       <label className="space-y-2 block">
-        <span className="text-sm font-medium">Kategorie</span>
+        <span className="text-sm font-medium">
+          {m.contact_form_cathegory()}
+        </span>
         <select
           {...register("category")}
           className="w-full rounded-xl border border-border bg-background px-4 py-3 outline-none transition-colors focus:border-primary"
         >
-          <option value="allgemein">Allgemeine Anfrage</option>
-          <option value="schule">Schulische Abstimmung</option>
-          <option value="presse">Presseanfrage</option>
-          <option value="politik">Partei / Kandidatur</option>
-          <option value="frage">Frage für Diskussionen</option>
+          <option value="allgemein">
+            {m.contact_form_cathegory_allgemein()}
+          </option>
+          <option value="schule">{m.contact_form_cathegory_schule()}</option>
+          <option value="presse">{m.contact_form_cathegory_presse()}</option>
+          <option value="politik">{m.contact_form_cathegory_politik()}</option>
+          <option value="frage">{m.contact_form_cathegory_frage()}</option>
         </select>
       </label>
 
       <label className="space-y-2 block">
-        <span className="text-sm font-medium">Betreff</span>
+        <span className="text-sm font-medium">{m.contact_form_subject()}</span>
         <input
           type="text"
           {...register("subject")}
           className="w-full rounded-xl border border-border bg-background px-4 py-3 outline-none transition-colors focus:border-primary"
-          placeholder="Worum geht es?"
+          placeholder={m.contact_form_subject_placeholder()}
         />
       </label>
 
       <label className="space-y-2 block">
-        <span className="text-sm font-medium">Nachricht</span>
+        <span className="text-sm font-medium">{m.contact_form_message()}</span>
         <textarea
           {...register("message", { required: true })}
           rows={7}
           className="w-full rounded-xl border border-border bg-background px-4 py-3 outline-none transition-colors focus:border-primary resize-none"
-          placeholder="Schreib uns hier deine Nachricht..."
+          placeholder={m.contact_form_message_placeholder()}
         />
       </label>
 
@@ -122,7 +126,7 @@ export default function ContactForm({
       <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
         <p className="text-sm text-muted-foreground flex items-center gap-2">
           <ShieldCheck className="w-4 h-4 text-primary" />
-          Deine Daten werden nur zur Bearbeitung deiner Anfrage genutzt.
+          {m.contact_form_no_processing()}
         </p>
 
         <button
@@ -131,7 +135,7 @@ export default function ContactForm({
           className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 hover:gap-3 disabled:opacity-60 disabled:pointer-events-none"
         >
           <Send className="w-4 h-4" />
-          {submitLabel}
+          {m.contact_form_submit()}
         </button>
       </div>
     </form>
