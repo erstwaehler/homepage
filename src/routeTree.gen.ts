@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PressemappeDotpdfRouteImport } from './routes/pressemappe[.]pdf'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ZeitplanIndexRouteImport } from './routes/zeitplan/index'
 import { Route as TeamIndexRouteImport } from './routes/team/index'
@@ -19,8 +20,16 @@ import { Route as KontaktIndexRouteImport } from './routes/kontakt/index'
 import { Route as ImpressumIndexRouteImport } from './routes/impressum/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as TeamVornameRouteImport } from './routes/team/$vorname'
+import { Route as PresseSlugRouteImport } from './routes/presse/$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
+import { Route as PresseArchivIndexRouteImport } from './routes/presse/archiv/index'
+import { Route as PresseArchivYearRouteImport } from './routes/presse/archiv/$year'
 
+const PressemappeDotpdfRoute = PressemappeDotpdfRouteImport.update({
+  id: '/pressemappe.pdf',
+  path: '/pressemappe.pdf',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -71,15 +80,32 @@ const TeamVornameRoute = TeamVornameRouteImport.update({
   path: '/team/$vorname',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PresseSlugRoute = PresseSlugRouteImport.update({
+  id: '/presse/$slug',
+  path: '/presse/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog/$slug',
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PresseArchivIndexRoute = PresseArchivIndexRouteImport.update({
+  id: '/presse/archiv/',
+  path: '/presse/archiv/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PresseArchivYearRoute = PresseArchivYearRouteImport.update({
+  id: '/presse/archiv/$year',
+  path: '/presse/archiv/$year',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/pressemappe.pdf': typeof PressemappeDotpdfRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/presse/$slug': typeof PresseSlugRoute
   '/team/$vorname': typeof TeamVornameRoute
   '/blog/': typeof BlogIndexRoute
   '/impressum/': typeof ImpressumIndexRoute
@@ -89,10 +115,14 @@ export interface FileRoutesByFullPath {
   '/presse/': typeof PresseIndexRoute
   '/team/': typeof TeamIndexRoute
   '/zeitplan/': typeof ZeitplanIndexRoute
+  '/presse/archiv/$year': typeof PresseArchivYearRoute
+  '/presse/archiv/': typeof PresseArchivIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/pressemappe.pdf': typeof PressemappeDotpdfRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/presse/$slug': typeof PresseSlugRoute
   '/team/$vorname': typeof TeamVornameRoute
   '/blog': typeof BlogIndexRoute
   '/impressum': typeof ImpressumIndexRoute
@@ -102,11 +132,15 @@ export interface FileRoutesByTo {
   '/presse': typeof PresseIndexRoute
   '/team': typeof TeamIndexRoute
   '/zeitplan': typeof ZeitplanIndexRoute
+  '/presse/archiv/$year': typeof PresseArchivYearRoute
+  '/presse/archiv': typeof PresseArchivIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/pressemappe.pdf': typeof PressemappeDotpdfRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/presse/$slug': typeof PresseSlugRoute
   '/team/$vorname': typeof TeamVornameRoute
   '/blog/': typeof BlogIndexRoute
   '/impressum/': typeof ImpressumIndexRoute
@@ -116,12 +150,16 @@ export interface FileRoutesById {
   '/presse/': typeof PresseIndexRoute
   '/team/': typeof TeamIndexRoute
   '/zeitplan/': typeof ZeitplanIndexRoute
+  '/presse/archiv/$year': typeof PresseArchivYearRoute
+  '/presse/archiv/': typeof PresseArchivIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/pressemappe.pdf'
     | '/blog/$slug'
+    | '/presse/$slug'
     | '/team/$vorname'
     | '/blog/'
     | '/impressum/'
@@ -131,10 +169,14 @@ export interface FileRouteTypes {
     | '/presse/'
     | '/team/'
     | '/zeitplan/'
+    | '/presse/archiv/$year'
+    | '/presse/archiv/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/pressemappe.pdf'
     | '/blog/$slug'
+    | '/presse/$slug'
     | '/team/$vorname'
     | '/blog'
     | '/impressum'
@@ -144,10 +186,14 @@ export interface FileRouteTypes {
     | '/presse'
     | '/team'
     | '/zeitplan'
+    | '/presse/archiv/$year'
+    | '/presse/archiv'
   id:
     | '__root__'
     | '/'
+    | '/pressemappe.pdf'
     | '/blog/$slug'
+    | '/presse/$slug'
     | '/team/$vorname'
     | '/blog/'
     | '/impressum/'
@@ -157,11 +203,15 @@ export interface FileRouteTypes {
     | '/presse/'
     | '/team/'
     | '/zeitplan/'
+    | '/presse/archiv/$year'
+    | '/presse/archiv/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PressemappeDotpdfRoute: typeof PressemappeDotpdfRoute
   BlogSlugRoute: typeof BlogSlugRoute
+  PresseSlugRoute: typeof PresseSlugRoute
   TeamVornameRoute: typeof TeamVornameRoute
   BlogIndexRoute: typeof BlogIndexRoute
   ImpressumIndexRoute: typeof ImpressumIndexRoute
@@ -171,10 +221,19 @@ export interface RootRouteChildren {
   PresseIndexRoute: typeof PresseIndexRoute
   TeamIndexRoute: typeof TeamIndexRoute
   ZeitplanIndexRoute: typeof ZeitplanIndexRoute
+  PresseArchivYearRoute: typeof PresseArchivYearRoute
+  PresseArchivIndexRoute: typeof PresseArchivIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/pressemappe.pdf': {
+      id: '/pressemappe.pdf'
+      path: '/pressemappe.pdf'
+      fullPath: '/pressemappe.pdf'
+      preLoaderRoute: typeof PressemappeDotpdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -245,6 +304,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamVornameRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/presse/$slug': {
+      id: '/presse/$slug'
+      path: '/presse/$slug'
+      fullPath: '/presse/$slug'
+      preLoaderRoute: typeof PresseSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/$slug': {
       id: '/blog/$slug'
       path: '/blog/$slug'
@@ -252,12 +318,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/presse/archiv/': {
+      id: '/presse/archiv/'
+      path: '/presse/archiv'
+      fullPath: '/presse/archiv/'
+      preLoaderRoute: typeof PresseArchivIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/presse/archiv/$year': {
+      id: '/presse/archiv/$year'
+      path: '/presse/archiv/$year'
+      fullPath: '/presse/archiv/$year'
+      preLoaderRoute: typeof PresseArchivYearRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PressemappeDotpdfRoute: PressemappeDotpdfRoute,
   BlogSlugRoute: BlogSlugRoute,
+  PresseSlugRoute: PresseSlugRoute,
   TeamVornameRoute: TeamVornameRoute,
   BlogIndexRoute: BlogIndexRoute,
   ImpressumIndexRoute: ImpressumIndexRoute,
@@ -267,6 +349,8 @@ const rootRouteChildren: RootRouteChildren = {
   PresseIndexRoute: PresseIndexRoute,
   TeamIndexRoute: TeamIndexRoute,
   ZeitplanIndexRoute: ZeitplanIndexRoute,
+  PresseArchivYearRoute: PresseArchivYearRoute,
+  PresseArchivIndexRoute: PresseArchivIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

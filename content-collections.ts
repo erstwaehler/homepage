@@ -35,7 +35,7 @@ const posts = defineCollection({
 });
 
 const pms = defineCollection({
-  name: "Pressemitteilungen",
+  name: "pms",
   directory: "content/pms",
   include: "**/*.mdx",
   schema: z.object({
@@ -43,11 +43,14 @@ const pms = defineCollection({
     date: z.string(),
     description: z.string().optional(),
     banner: z.string().optional(),
-    url: z.string(),
+    bannerCredit: z.string().optional(),
+    pdf: z.string().default("/pressemitteilung.pdf"),
     content: z.string().optional(),
   }),
   transform: async (document, context) => {
-    const mdx = await compileMDX(context, document);
+    const mdx = await compileMDX(context, document, {
+      remarkPlugins: [remarkGfm],
+    });
     return {
       ...document,
       slug: document._meta.path,

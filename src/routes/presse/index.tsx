@@ -1,5 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
+  ArrowRight,
   FileText,
   ImageIcon,
   Mail,
@@ -8,14 +9,19 @@ import {
   Quote,
 } from "lucide-react";
 import { useEffect } from "react";
-import { gsap } from "~/lib/gsap";
+import { allPms } from "#cc";
 import * as m from "#p";
+import { gsap } from "~/lib/gsap";
 import { generateMetaTags } from "~/lib/meta";
 import NewsList, { type NewsItem } from "~/components/NewsList";
 import SharedNoteCard from "~/components/SharedNoteCard";
 import PageHero from "~/components/PageHero";
 
 export const Route = createFileRoute("/presse/")({
+  loader: () =>
+    [...allPms].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+    ),
   component: PressePage,
   head: () => {
     const title = `Presse - ${m.site_title()}`;
@@ -31,34 +37,10 @@ export const Route = createFileRoute("/presse/")({
   },
 });
 
-const releases: NewsItem[] = [
-  {
-    title: "Erstwählerforum 2026 angekündigt",
-    date: "2026-03-01",
-    category: "Mitteilung",
-    excerpt:
-      "Das schulübergreifende Forum bringt Jugendliche, Schulen und lokale Akteure zusammen.",
-    to: "/presse",
-  },
-  {
-    title: "Stadeum als Veranstaltungsort bestätigt",
-    date: "2026-02-25",
-    category: "Update",
-    excerpt:
-      "Die Organisation hat sich für das Stadeum als zentrale Location entschieden.",
-    to: "/presse",
-  },
-  {
-    title: "Konzeptphase geht in die Detailplanung",
-    date: "2026-02-11",
-    category: "Hintergrund",
-    excerpt:
-      "Die Formate Markt, Podien und Gesprächsrunden werden aktuell ausformuliert.",
-    to: "/presse",
-  },
-];
-
 function PressePage() {
+  const releases = Route.useLoaderData();
+  const latestReleases = releases.slice(0, 3);
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
@@ -81,6 +63,15 @@ function PressePage() {
     return () => ctx.revert();
   }, []);
 
+  const newsItems: NewsItem[] = latestReleases.map((release) => ({
+    title: release.title,
+    date: release.date,
+    category: "Pressemitteilung",
+    excerpt: release.description || release.title,
+    to: `/presse/${release.slug}`,
+    ariaLabel: `Pressemitteilung ${release.title} öffnen`,
+  }));
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-6 pt-32 pb-20">
@@ -92,11 +83,11 @@ function PressePage() {
               Pressebereich
             </div>
           }
-          title="Presse, Mitteilungen und Material"
+          title="Pressemitteilungen"
           subtitle={
             <>
-              Hier finden sich Pressetexte, Hintergrundinfos und der direkte Weg
-              zum Pressekontakt des Erstwählerforums 2026.
+              Hier findest du die neuesten Mitteilungen, Hintergrundinfos und
+              den direkten Zugang zum Pressearchiv.
             </>
           }
         />
@@ -109,7 +100,17 @@ function PressePage() {
                 <h2 className="text-2xl font-bold">Aktuelle Mitteilungen</h2>
               </div>
 
-              <NewsList items={releases} />
+              <NewsList items={newsItems} />
+
+              <div className="mt-6">
+                <Link
+                  to="/presse/archiv"
+                  className="inline-flex items-center gap-2 text-primary hover:underline"
+                >
+                  Zum Archiv
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
@@ -117,13 +118,13 @@ function PressePage() {
                 icon={<FileText className="w-5 h-5" />}
                 title="Pressemappe"
               >
-                <p className="text-muted-foreground mb-5 leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed">
                   Kompakte Hintergrundinfos, Kurzbeschreibung des Projekts und
                   Eckdaten zur Veranstaltung.
                 </p>
                 <a
-                  href="#top"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                  href="/pressemappe.pdf"
+                  className="inline-flex items-center gap-2 px-4 py-2 my-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
                 >
                   Download
                 </a>
@@ -162,27 +163,6 @@ function PressePage() {
                     info@ewf-stade.de
                   </a>
                 </div>
-
-                <div className="rounded-xl border border-border/70 bg-background/50 p-4">
-                  <p className="text-muted-foreground mb-1">Ansprechpartner</p>
-                  <p className="font-medium">Jack Ruder</p>
-                </div>
-
-                <div className="rounded-xl border border-border/70 bg-background/50 p-4 text-muted-foreground leading-relaxed">
-                  Verifizierte Pressevertreterinnen und Pressevertreter, die
-                  sich bereits bei uns gemeldet haben, erhalten auf Wunsch eine
-                  Telefonnummer für den direkten Austausch.
-                </div>
-
-                <div className="rounded-xl border border-border/70 bg-background/50 p-4 text-muted-foreground leading-relaxed">
-                  In dringenden Fällen erreicht ihr unseren Partner, den
-                  Kreisjugendring, unter 04141placeholder.
-                </div>
-
-                <div className="rounded-xl border border-border/70 bg-background/50 p-4 text-muted-foreground leading-relaxed">
-                  Verifizierte Pressekontakte erhalten außerdem PMs bereits fünf
-                  Tage vor Veröffentlichung auf unserer Presseseite.
-                </div>
               </div>
             </SharedNoteCard>
 
@@ -191,13 +171,10 @@ function PressePage() {
               title="Hinweise für Medien"
             >
               <ul className="space-y-3 text-sm text-muted-foreground leading-relaxed">
+                <li>• Die neuesten 3 Mitteilungen stehen hier direkt oben.</li>
+                <li>• Das Pressearchiv ist nach Jahr sortiert.</li>
                 <li>
-                  • Offizielle Mitteilungen werden hier nach und nach ergänzt.
-                </li>
-                <li>• Fotos und Logos nur auf Anfrage verwenden.</li>
-                <li>
-                  • Termin- und Ortsänderungen werden an dieser Stelle
-                  aktualisiert.
+                  • PDF-Download jeder Mitteilung erfolgt über die Detailseite.
                 </li>
               </ul>
             </SharedNoteCard>
