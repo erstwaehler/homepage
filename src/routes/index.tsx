@@ -319,8 +319,10 @@ function HomePage() {
     return () => ctx.revert();
   }, []);
 
-  const isMobile = window.innerWidth < 768;
-  const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
+  // const isMobile = window.innerWidth < 768;
+  const isMobile = false;
+  // const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
+  const isTablet = false;
 
   const heroTitle = isMobile
     ? m.site_title_short()
@@ -368,7 +370,7 @@ function HomePage() {
           <div className="w-full max-w-4xl space-y-8">
             <div
               ref={overTitleRef}
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-sm"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-sm max-md:hidden"
             >
               <span className="text-xs uppercase tracking-[0.24em] text-white/75">
                 {m.hero_overtitle()}
@@ -377,10 +379,10 @@ function HomePage() {
 
             <h1
               ref={titleRef}
-              className="text-6xl md:text-8xl lg:flex lg:items-center lg:justify-center font-black tracking-tight leading-[0.92] text-white gap-8"
+              className="text-4xl md:text-8xl lg:flex lg:items-center lg:justify-center font-black tracking-tight leading-[0.92] text-white gap-8"
             >
               {heroWords.map((word) => (
-                <span key={word} className="word inline-block ">
+                <span key={word} className="word block lg:inline-block py-1">
                   {word}
                 </span>
               ))}
@@ -388,7 +390,7 @@ function HomePage() {
 
             <p
               ref={subtitleRef}
-              className="text-xl md:text-3xl max-w-2xl mx-auto text-white/72 leading-relaxed"
+              className="text-xl md:text-3xl max-w-2xl max-md:hidden mx-auto text-white/72 leading-relaxed"
             >
               {m.hero_subtitle()}
             </p>
@@ -397,7 +399,7 @@ function HomePage() {
               ref={ctaRef}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-sm">
+              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-sm max-sm:scale-75">
                 <Calendar className="w-5 h-5 text-primary" />
                 <span
                   className={`text-white/85 ${RedactEventData ? "blurhide" : ""}`}
@@ -405,7 +407,7 @@ function HomePage() {
                   {RedactEventData ? m.hero_date_censored() : m.hero_date()}
                 </span>
               </div>
-              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-sm">
+              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-sm max-sm:scale-75">
                 <MapPin className="w-5 h-5 text-primary" />
                 <span
                   className={`text-white/85 ${RedactEventData ? "blurhide" : ""}`}

@@ -310,6 +310,7 @@ function ContactPage() {
             )}
 
             <ContactInfoCard
+              className="contact-info-card"
               icon={<Logo />}
               title={m.contact_formforwhoom_title()}
             >
