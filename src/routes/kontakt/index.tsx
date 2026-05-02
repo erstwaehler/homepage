@@ -74,11 +74,46 @@ function ContactPage() {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
 
-      tl.from(".contact-hero-badge", { y: 20, opacity: 0, duration: 0.6 })
-        .from(".contact-hero h1", { y: 40, opacity: 0, duration: 0.8 }, "-=0.2")
-        .from(".contact-hero p", { y: 30, opacity: 0, duration: 0.7 }, "-=0.4")
+      tl.fromTo(
+        ".contact-hero-badge",
+        {
+          y: 20,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+        },
+      )
         .fromTo(
-          ".contact-card",
+          ".contact-hero h1",
+          {
+            y: 40,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+          },
+          "-=0.2",
+        )
+        .fromTo(
+          ".contact-hero p",
+          {
+            y: 30,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.7,
+          },
+          "-=0.4",
+        )
+        .fromTo(
+          ".contact-card, .contact-info-card",
           {
             y: 40,
             opacity: 0,
@@ -90,6 +125,48 @@ function ContactPage() {
             stagger: 0.12,
           },
           "-=0.2",
+        )
+        .fromTo(
+          ".contact-card .w-11, .contact-info-card .w-12",
+          {
+            scale: 0.85,
+            opacity: 0,
+          },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.35,
+            stagger: 0.1,
+          },
+          "-=0.45",
+        )
+        .fromTo(
+          ".contact-card h2, .contact-info-card h2",
+          {
+            y: 14,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.45,
+            stagger: 0.08,
+          },
+          "-=0.35",
+        )
+        .fromTo(
+          ".contact-card p, .contact-card li, .contact-card a, .contact-info-copy, .contact-info-copy *",
+          {
+            y: 10,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.4,
+            stagger: 0.04,
+          },
+          "-=0.3",
         );
     });
 
@@ -138,10 +215,11 @@ function ContactPage() {
           <ContactInfoCard
             icon={<Mail className="w-6 h-6" />}
             title={m.contact_centralmail()}
+            className="contact-info-card"
           >
             <a
               href="mailto:info@ewf-stade.de"
-              className="text-muted-foreground hover:text-primary transition-colors break-all"
+              className="contact-info-copy text-muted-foreground hover:text-primary transition-colors break-all"
             >
               info@ewf-stade.de
             </a>
@@ -150,27 +228,36 @@ function ContactPage() {
           <ContactInfoCard
             icon={<MessageSquare className="w-6 h-6" />}
             title={m.contact_quickcontact()}
+            className="contact-info-card"
           >
-            <p className="text-muted-foreground leading-relaxed">
+            <p className="contact-info-copy text-muted-foreground leading-relaxed">
               {m.contact_quickcontact_description()}
             </p>
           </ContactInfoCard>
 
-          <ContactInfoCard icon={<MapPin className="w-6 h-6" />} title="Ort">
-            <p className="text-muted-foreground leading-relaxed">
-              {m.trans_event()}:{" "}
-              <p className={`${RedactEventData ? "blurhide" : ""}`}>
-                {RedactEventData
-                  ? m.contact_location_stadeum_redacted()
-                  : m.contact_location_stadeum()}
+          <ContactInfoCard
+            icon={<MapPin className="w-6 h-6" />}
+            title="Ort"
+            className="contact-info-card"
+          >
+            <div className="contact-info-copy space-y-2 text-muted-foreground leading-relaxed">
+              <p>
+                {m.trans_event()}:{" "}
+                <span className={`${RedactEventData ? "blurhide" : ""}`}>
+                  {RedactEventData
+                    ? m.contact_location_stadeum_redacted()
+                    : m.contact_location_stadeum()}
+                </span>
               </p>
-              {m.trans_postal_address()}:{" "}
-              <p className={`${RedactPostadresse ? "blurhide" : ""}`}>
-                {RedactPostadresse
-                  ? m.contact_location_postal_redacted()
-                  : m.contact_location_postal()}
+              <p>
+                {m.trans_postal_address()}:{" "}
+                <span className={`${RedactPostadresse ? "blurhide" : ""}`}>
+                  {RedactPostadresse
+                    ? m.contact_location_postal_redacted()
+                    : m.contact_location_postal()}
+                </span>
               </p>
-            </p>
+            </div>
           </ContactInfoCard>
         </section>
 
