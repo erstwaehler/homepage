@@ -3,5 +3,12 @@
   "name": "erstwaehlerforum-homepage",
   "compatibility_date": "2026-05-02",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry",
+  "main": "src/server.ts",
+  "alias": {
+    "#tanstack-router-entry": "./src/router.tsx",
+    "#tanstack-start-entry": "./src/server.ts",
+    "#tanstack-start-plugin-adapters": "./src/server.ts",
+    "tanstack-start-manifest:v": "./src/router.tsx",
+    "tanstack-start-injected-head-scripts:v": "./src/router.tsx",
+  },
 }

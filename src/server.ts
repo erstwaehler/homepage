@@ -27,4 +27,19 @@ export default {
     // Wenn die Domain korrekt ist, normal fortfahren
     return paraglideMiddleware(req, () => handler.fetch(req));
   },
+
+  // Handle Queue messages
+  // @ts-expect-error - cloudflare queues
+  async queue(batch, env, ctx) {
+    for (const message of batch.messages) {
+      console.log("Processing message:", message.body);
+      message.ack();
+    }
+  },
+
+  // Handle Cron Triggers
+  // @ts-expect-error - cloudflare cron
+  async scheduled(event, env, ctx) {
+    console.log("Cron triggered:", event.cron);
+  },
 };
