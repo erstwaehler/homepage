@@ -205,6 +205,10 @@ code {
   .scroll-smooth {
     scroll-behavior: smooth;
   }
+
+  .blurhide {
+    @apply blur-sm opacity-50 pointer-events-none line-through decoration-double;
+  }
 }
 
 /* Main scroll container for root page */
@@ -213,5 +217,5 @@ html {
 }
 
 body {
-  scroll-snap-type: y proximity;
+  scroll-snap-type: none;
 }

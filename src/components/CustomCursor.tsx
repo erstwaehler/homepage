@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "~/lib/gsap";
 
 const INTERACTIVE_SELECTOR =
@@ -8,6 +8,14 @@ const INTERACTIVE_SELECTOR =
 
 export function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const isTouchDevice = "ontouchstart" in window;
+    setIsTouchDevice(isTouchDevice);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined" || !cursorRef.current) return;
@@ -76,6 +84,7 @@ export function CustomCursor() {
     };
   }, []);
 
+  if (!isTouchDevice) return;
   return (
     <div
       ref={cursorRef}

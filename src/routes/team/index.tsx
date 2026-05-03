@@ -1,18 +1,20 @@
 import { usePostHog } from "@posthog/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Mail } from "lucide-react";
+import { Mail, Users } from "lucide-react";
 import { useEffect } from "react";
 import { team } from "#cc";
 import * as m from "#p";
-import { FaMastodon } from "react-icons/fa";
 import { CiInstagram } from "react-icons/ci";
+import { FaMastodon } from "react-icons/fa";
 import { AvatarImage, ThumbnailImage } from "~/components/OptimizedImage";
 import { gsap } from "~/lib/gsap";
 import { generateMetaTags } from "~/lib/meta";
+import { PreLaunchErrorPage } from "~/components/pre-launch-errorpage";
+import { RedactEventData } from "~/lib/constants";
 
 export const Route = createFileRoute("/team/")({
   loader: () => team.members,
-  component: TeamListPage,
+  component: RedactEventData ? PreLaunchErrorPage : TeamListPage,
   head: () => {
     const title = `${m.team_title()} - ${m.site_title()}`;
     const description = m.team_description();
@@ -26,111 +28,159 @@ export const Route = createFileRoute("/team/")({
   },
 });
 
+type TeamMember = (typeof team.members)[number];
+
 function TeamListPage() {
-  const team = Route.useLoaderData();
+  const members = Route.useLoaderData();
   const posthog = usePostHog();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(".team-hero h1", {
-        y: 40,
-        duration: 0.8,
-        ease: "expo.out",
-      });
-      gsap.from(".team-hero p", {
-        y: 30,
-        duration: 0.8,
-        delay: 0.15,
-        ease: "expo.out",
-      });
-      gsap.from(".team-card", {
-        y: 50,
-        duration: 0.7,
-        stagger: 0.1,
-        delay: 0.3,
-        ease: "expo.out",
-      });
+      const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+
+      tl.from(".team-badge", { y: 18, opacity: 0, duration: 0.6 })
+        .from(".team-hero h1", { y: 36, opacity: 0, duration: 0.8 }, "-=0.2")
+        .from(".team-hero p", { y: 22, opacity: 0, duration: 0.7 }, "-=0.4")
+        .from(
+          ".team-card",
+          {
+            y: 28,
+            opacity: 0,
+            duration: 0.7,
+            stagger: 0.06,
+          },
+          "-=0.2",
+        );
     });
+
     return () => ctx.revert();
   }, []);
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-6 pt-32 pb-16">
-        <div className="team-hero mb-12 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            {m.team_title()}
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            {m.team_description()}
-          </p>
-        </div>
+      <div className="max-w-7xl mx-auto px-6 pt-32 pb-20">
+        <section className="team-hero mb-16 max-w-4xl">
+          <div className="team-badge inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/10 text-primary text-sm font-medium mb-6">
+            <Users className="w-4 h-4" />
+            Team
+          </div>
 
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-8 [column-fill:_balance]">
-          {team.map((member) => (
-            <div key={member.vorname} className="mb-8 break-inside-avoid">
-              <Link
-                to="/team/$vorname"
-                params={{ vorname: member.vorname }}
-                onClick={() =>
-                  posthog.capture("team_member_clicked", {
-                    member_name: member.vorname,
-                    member_role: member.rolle,
-                    member_school: member.schule,
-                  })
-                }
-                className="team-card group block bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1"
-              >
-                {member.banner_image && (
-                  <div className="aspect-video bg-muted relative overflow-hidden">
-                    <ThumbnailImage
-                      src={member.banner_image}
-                      alt={`${member.vorname} Banner`}
-                      aspectRatio={16 / 9}
-                      className="w-full h-full group-hover:scale-110 transition-transform duration-500 ease-out"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-card/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-                )}
-                <div className="p-6">
-                  <div className="flex items-start gap-4">
-                    {member.profile_image && (
-                      <AvatarImage
-                        src={member.profile_image}
-                        alt={member.vorname}
-                        size={64}
-                        className="w-16 h-16 border-2 border-border group-hover:border-primary/50 transition-colors duration-300"
-                      />
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-xl font-semibold capitalize group-hover:text-primary transition-colors duration-300">
-                        {member.vorname}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        {member.rolle}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-3 text-muted-foreground shrink-0 pt-1">
-                      {member.socials?.mastodon && (
-                        <FaMastodon className="w-5 h-5" aria-label="Mastodon" />
-                      )}
-                      {member.socials?.instagram && (
-                        <CiInstagram
-                          className="w-5 h-5"
-                          aria-label="Instagram"
-                        />
-                      )}
-                      {member.email && (
-                        <Mail className="w-5 h-5" aria-label="E-Mail" />
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </div>
+          <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6 bg-linear-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
+            Gemeinsam organisiert, gemeinsam getragen
+          </h1>
+
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl leading-relaxed">
+            Wir sind ein Schülerteam mit klaren Aufgaben, viel Abstimmung und
+            einem gemeinsamen Ziel: das Forum gut und verlässlich umzusetzen.
+          </p>
+        </section>
+
+        <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {members.map((member) => (
+            <TeamMemberCard
+              key={member.vorname}
+              member={member}
+              onClick={() =>
+                posthog.capture("team_member_clicked", {
+                  member_name: member.vorname,
+                  member_role: member.rolle,
+                  member_school: member.schule,
+                })
+              }
+            />
           ))}
-        </div>
+        </section>
       </div>
     </div>
+  );
+}
+
+type TeamMemberCardProps = {
+  member: TeamMember;
+  onClick: () => void;
+};
+
+function TeamMemberCard({ member, onClick }: TeamMemberCardProps) {
+  return (
+    <Link
+      to="/team/$vorname"
+      params={{ vorname: member.vorname }}
+      onClick={onClick}
+      className="team-card group block bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1"
+    >
+      {member.banner_image ? (
+        <div className="relative aspect-video overflow-hidden bg-muted">
+          <ThumbnailImage
+            src={member.banner_image}
+            alt={`${member.vorname} Banner`}
+            aspectRatio={16 / 9}
+            className="w-full h-full group-hover:scale-105 transition-transform duration-500 ease-out"
+          />
+          <div className="absolute inset-0 bg-linear-to-t from-card/90 via-card/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300" />
+        </div>
+      ) : (
+        <div className="relative aspect-video bg-linear-to-br from-primary/20 via-card to-background flex items-end">
+          <div className="absolute inset-0 bg-linear-to-t from-card/80 via-transparent to-transparent" />
+          <div className="relative p-6">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
+              Teammitglied
+            </p>
+            <h2 className="text-2xl font-bold capitalize">{member.vorname}</h2>
+          </div>
+        </div>
+      )}
+
+      <div className="p-6">
+        <div className="flex items-start gap-4">
+          {member.profile_image ? (
+            <AvatarImage
+              src={member.profile_image}
+              alt={member.vorname}
+              size={80}
+              className="w-16 h-16 border-2 border-border group-hover:border-primary/50 transition-colors duration-300"
+            />
+          ) : (
+            <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+              <Users className="w-7 h-7" />
+            </div>
+          )}
+
+          <div className="flex-1 min-w-0">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h3 className="text-xl font-semibold capitalize group-hover:text-primary transition-colors duration-300">
+                  {member.vorname}
+                </h3>
+                <p className="text-sm text-primary font-medium">
+                  {member.rolle}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 text-muted-foreground shrink-0">
+                {member.socials?.mastodon && (
+                  <FaMastodon className="w-4 h-4" aria-label="Mastodon" />
+                )}
+                {member.socials?.instagram && (
+                  <CiInstagram className="w-4 h-4" aria-label="Instagram" />
+                )}
+                {member.email && (
+                  <Mail className="w-4 h-4" aria-label="E-Mail" />
+                )}
+              </div>
+            </div>
+
+            <div className="mt-4 space-y-2">
+              <div className="text-sm text-muted-foreground">
+                <span className="font-medium text-foreground">Schule:</span>{" "}
+                {member.schule}
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                {member.bio}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
   );
 }

@@ -1,0 +1,51 @@
+[[members]]
+vorname = "jack"
+rolle = "Rolle"
+schule = "Gymnasium Athenaeum Stade"
+bio = "Rollenbeschreibung Jack"
+email = "jack@ewf-stade.de"
+profile_image = "/team/jack_profile.jpg"
+banner_image = "/team/jack_banner.jpg"
+
+[members.socials]
+mastodon = "jkxrx@chaos.social"
+instagram = "jackatdjl"
+
+[[members]]
+vorname = "maite"
+rolle = "Rolle"
+schule = "Vincent-Lübeck-Gymnasium"
+email = "maite@ewf-stade.de"
+bio = "Rollenbeschreibung Maite"
+
+[[members]]
+vorname = "oskar"
+rolle = "Rolle"
+email = "oskar@ewf-stade.de"
+schule = "IGS Stade"
+bio = "Rollenbeschreibung Oskar"
+
+[[members]]
+vorname = "mira"
+rolle = "Rolle"
+schule = "IGS Stade"
+bio = "Rollenbeschreibung Mira"
+
+[[members]]
+vorname = "joshua"
+rolle = "Rolle"
+email = "joshua@ewf-stade.de"
+schule = "Gymnasium Athenaeum Stade"
+bio = "Rollenbeschreibung Joshua"
+
+[[members]]
+vorname = "antonia"
+rolle = "Rolle"
+schule = "Gymnasium Athenaeum Stade"
+bio = "Rollenbeschreibung Antonia"
+
+[[members]]
+vorname = "sientje"
+rolle = "Rolle"
+schule = "Gymnasium Athenaeum Stade"
+bio = "Rollenbeschreibung Sientje"

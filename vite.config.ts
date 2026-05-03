@@ -5,8 +5,14 @@ import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
-import { nitro } from "nitro-nightly/vite";
+import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
+import { cloudflare } from "@cloudflare/vite-plugin";
+
+const deployment =
+  process.env.ENVIRONMENT === "development"
+    ? nitro()
+    : cloudflare({ viteEnvironment: { name: "ssr" } });
 
 const config = defineConfig({
   resolve: {
@@ -18,6 +24,7 @@ const config = defineConfig({
       "#p": fileURLToPath(new URL("./src/paraglide/messages", import.meta.url)),
       "#env": fileURLToPath(new URL("./src/env.ts", import.meta.url)),
       "#flags": fileURLToPath(new URL("./src/lib/flags.ts", import.meta.url)),
+      "~pub": fileURLToPath(new URL("./public", import.meta.url)),
       "~": fileURLToPath(new URL("./src", import.meta.url)),
       "@": fileURLToPath(new URL("./", import.meta.url)),
     },
@@ -27,10 +34,10 @@ const config = defineConfig({
     paraglideVitePlugin({
       project: "./project.inlang",
       outdir: "./src/paraglide",
-      strategy: ["url"],
+      strategy: ["url", "cookie", "baseLocale"],
     }),
     contentCollections(),
-    nitro(),
+    deployment,
     tailwindcss(),
     tanstackStart({
       sitemap: {

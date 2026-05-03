@@ -10,7 +10,13 @@ export declare const allPages: Array<Page>;
 export type Team = GetTypeByName<typeof configuration, "team">;
 export declare const team: Team;
 
-export type Pressemitteilungen = GetTypeByName<typeof configuration, "Pressemitteilungen">;
-export declare const allPressemitteilungens: Array<Pressemitteilungen>;
+export type Pm = GetTypeByName<typeof configuration, "pms">;
+export declare const allPms: Array<Pm>;
+
+export type Partner = GetTypeByName<typeof configuration, "partner">;
+export declare const partner: Partner;
+
+export type HeroImage = GetTypeByName<typeof configuration, "hero-images">;
+export declare const heroImage: HeroImage;
 
 export {};
