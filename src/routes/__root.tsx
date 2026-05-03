@@ -1,82 +1,223 @@
+// react-scan must be imported before React and TanStack Start
+
+import { PostHogProvider } from "@posthog/react";
+import { TanStackDevtools } from "@tanstack/react-devtools";
+import { HotkeysProvider } from "@tanstack/react-hotkeys";
+import { HotkeysDevtoolsPanel } from "@tanstack/react-hotkeys-devtools";
+import type { QueryClient } from "@tanstack/react-query";
 import {
+  createRootRouteWithContext,
   HeadContent,
   Scripts,
-  createRootRouteWithContext,
-  redirect,
-} from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
-
-import Header from '../components/Header'
-
-import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
-
-import { getLocale, shouldRedirect } from '@/paraglide/runtime'
-
-import appCss from '../styles.css?url'
-
-import type { QueryClient } from '@tanstack/react-query'
+} from "@tanstack/react-router";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { useEffect } from "react";
+import { scan } from "react-scan";
+import * as m from "#p";
+import { initLenis } from "~/lib/lenis";
+import { getLocale } from "~/paraglide/runtime";
+import CustomCursor from "../components/CustomCursor";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import NoiseOverlay from "../components/NoiseOverlay";
+import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
+import appCss from "../styles.css?url";
+import { NotFoundPage } from "~/components/404";
+import { ServerErrorPage } from "~/components/500";
 
 interface MyRouterContext {
-  queryClient: QueryClient
+  queryClient: QueryClient;
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   beforeLoad: async () => {
-    // Other redirect strategies are possible; see
-    // https://github.com/TanStack/router/tree/main/examples/react/i18n-paraglide#offline-redirect
-    if (typeof document !== 'undefined') {
-      document.documentElement.setAttribute('lang', getLocale())
+    if (typeof document !== "undefined") {
+      document.documentElement.setAttribute("lang", getLocale());
     }
   },
 
-  head: () => ({
-    meta: [
-      {
-        charSet: 'utf-8',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
-      {
-        title: 'TanStack Start Starter',
-      },
-    ],
-    links: [
-      {
-        rel: 'stylesheet',
-        href: appCss,
-      },
-    ],
-  }),
+  notFoundComponent: NotFoundPage,
+  errorComponent: ServerErrorPage,
+
+  head: () => {
+    const siteUrl = "https://ewf-stade.de";
+    const title = m.site_title_full();
+    const description = m.site_description();
+    const ogImage = `${siteUrl}/og-image.png`;
+
+    return {
+      meta: [
+        {
+          charSet: "utf-8",
+        },
+        {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1",
+        },
+        {
+          title,
+        },
+        {
+          name: "description",
+          content: description,
+        },
+        // Open Graph
+        {
+          property: "og:title",
+          content: title,
+        },
+        {
+          property: "og:description",
+          content: description,
+        },
+        {
+          property: "og:url",
+          content: siteUrl,
+        },
+        {
+          property: "og:image",
+          content: ogImage,
+        },
+        {
+          property: "og:type",
+          content: "website",
+        },
+        {
+          property: "og:site_name",
+          content: title,
+        },
+        {
+          property: "og:locale",
+          content: "de_DE",
+        },
+        // Twitter Card
+        {
+          name: "twitter:card",
+          content: "summary_large_image",
+        },
+        {
+          name: "twitter:title",
+          content: title,
+        },
+        {
+          name: "twitter:description",
+          content: description,
+        },
+        {
+          name: "twitter:image",
+          content: ogImage,
+        },
+      ],
+      links: [
+        {
+          rel: "stylesheet",
+          href: appCss,
+        },
+        {
+          rel: "canonical",
+          href: siteUrl,
+        },
+      ],
+    };
+  },
 
   shellComponent: RootDocument,
-})
+});
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    scan({ enabled: import.meta.env.DEV });
+    initLenis();
+  }, []);
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Erstwähler Forum 2026",
+    url: "https://ewf-stade.de",
+    logo: "https://ewf-stade.de/logo.png",
+    description:
+      "Schulübergreifende Großveranstaltung zur politischen Bildung in Stade",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Stade",
+      addressCountry: "DE",
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "info@ewf-stade.de",
+      contactType: "General Inquiries",
+    },
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Erstwähler Forum 2026",
+    url: "https://ewf-stade.de",
+    description:
+      "Schulübergreifende Großveranstaltung zur politischen Bildung in Stade",
+    inLanguage: "de",
+  };
+
   return (
     <html lang={getLocale()}>
       <head>
         <HeadContent />
-      </head>
-      <body>
-        <Header />
-        {children}
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: Required for JSON-LD structured data
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
           }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-            TanStackQueryDevtools,
-          ]}
         />
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: Required for JSON-LD structured data
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+      </head>
+      <body className="dark">
+        <PostHogProvider
+          apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY as string}
+          options={{
+            api_host: "/ingest",
+            ui_host:
+              import.meta.env.VITE_PUBLIC_POSTHOG_HOST ||
+              "https://eu.posthog.com",
+            defaults: "2025-05-24",
+            capture_exceptions: true,
+            // debug: import.meta.env.DEV,
+            debug: false,
+          }}
+        >
+          <HotkeysProvider>
+            <NoiseOverlay />
+            <CustomCursor />
+            <Header />
+            <main data-transition-container>{children}</main>
+            <Footer />
+            <TanStackDevtools
+              config={{
+                position: "bottom-right",
+              }}
+              plugins={[
+                {
+                  name: "Tanstack Router",
+                  render: <TanStackRouterDevtoolsPanel />,
+                },
+                TanStackQueryDevtools,
+                {
+                  name: "Tanstack Hotkeys",
+                  render: (
+                    <HotkeysDevtoolsPanel theme="dark" devtoolsOpen={false} />
+                  ),
+                },
+              ]}
+            />
+          </HotkeysProvider>
+        </PostHogProvider>
         <Scripts />
       </body>
     </html>
-  )
+  );
 }

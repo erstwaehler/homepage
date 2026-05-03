@@ -11,3 +11,7 @@ count.txt
 .output
 .vinxi
 todos.json
+.vercel
+.env*.local
+.content-collections/cache
+.env.local
