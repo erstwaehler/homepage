@@ -40,6 +40,10 @@ const config = defineConfig({
     deployment,
     tailwindcss(),
     tanstackStart({
+      prerender: {
+        enabled: true,
+        crawlLinks: true,
+      },
       sitemap: {
         enabled: true,
         host: "https://ewf-stade.de",
