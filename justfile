@@ -45,7 +45,8 @@ remove PACKAGE mode="safe":
 [group('Featured')]
 [group('Web')]
 dev port="3000":
-    @if [ "${ENVIRONMENT:-development}" = "development" ]; then \
+    @ENVIRONMENT="$({ grep -E '^ENVIRONMENT=' .env.local 2>/dev/null | tail -n 1 | cut -d= -f2-; } 2>/dev/null)"; \
+    if [ "${ENVIRONMENT:-development}" = "development" ]; then \
         bunx --bun vite dev --port {{ port }}; \
     else \
         wrangler dev --port {{ port }}; \
@@ -92,7 +93,8 @@ build:
 [group('Testing')]
 [group('Web')]
 preview: build
-    @if [ "${ENVIRONMENT:-development}" = "development" ]; then \
+    @ENVIRONMENT="$({ grep -E '^ENVIRONMENT=' .env.local 2>/dev/null | tail -n 1 | cut -d= -f2-; } 2>/dev/null)"; \
+    if [ "${ENVIRONMENT:-development}" = "development" ]; then \
       bunx --bun vite preview; \
     else \
       wrangler preview; \

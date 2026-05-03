@@ -9,6 +9,7 @@
     "test": "vitest run",
     "lint": "biome lint",
     "deploy": "bun run build && wrangler deploy",
+    "deploy-dev": "bun run build && wrangler deploy --env dev-preview",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
