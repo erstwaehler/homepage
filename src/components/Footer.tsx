@@ -5,7 +5,7 @@ import { Mail } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import * as m from "~/paraglide/messages";
 import LocaleSwitcher from "./LocaleSwitcher";
-import { Logo } from "./logo";
+import Wordmark from "~pub/wordmark.svg";
 import { useMemo } from "react";
 import { RedactEventData } from "~/lib/constants";
 import ThemeToggle from "./ThemeToggle";
@@ -46,9 +46,12 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
           <div className="md:col-span-4 space-y-6">
-            <div className="flex items-center gap-3">
-              <Logo className="w-10 h-10" />
-              <span className="font-bold text-2xl">{m.site_title_full()}</span>
+            <div className="flex items-center">
+              <img
+                src={Wordmark}
+                alt={m.site_title_full()}
+                className="h-8 w-auto"
+              />
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
               {m.site_description()}

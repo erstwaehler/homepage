@@ -58,15 +58,19 @@ export function ErrorPage({
     <div
       className={`min-h-screen flex items-center justify-center bg-linear-to-br ${gradientFromClass} via-background ${gradientToClass} px-6`}
     >
-      <div className="text-center space-y-8 max-w-2xl">
-        <div className="flex justify-center" ref={logoRef}>
-          <div className="relative">
-            <Logo className="w-24 h-24 absolute blur-xl opacity-50" />
-            <Logo
-              className="w-24 h-24 relative"
-            />
+        <div className="text-center space-y-8 max-w-2xl">
+          <div className="flex justify-center" ref={logoRef}>
+            <div className="relative">
+              <Logo className="w-24 h-24 absolute blur-xl opacity-50" />
+              <Logo
+                className="w-24 h-24 relative"
+              />
+            </div>
           </div>
-        </div>
+
+          <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground">
+            {m.hero_subtitle()}
+          </p>
 
         <div className="space-y-4">
           <h1

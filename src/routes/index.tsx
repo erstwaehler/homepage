@@ -37,6 +37,7 @@ function HomePage() {
   const manifestoTitleRef = useRef<HTMLHeadingElement>(null);
   const manifestoTextRef = useRef<HTMLParagraphElement>(null);
   const manifestoLinksRef = useRef<HTMLDivElement>(null);
+  const disclaimerGlowRef = useRef<HTMLDivElement>(null);
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -314,6 +315,29 @@ function HomePage() {
           },
         );
       }
+
+      if (disclaimerGlowRef.current) {
+        gsap.fromTo(
+          disclaimerGlowRef.current,
+          {
+            opacity: 0,
+            scale: 0.9,
+            y: 80,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            ease,
+            scrollTrigger: {
+              trigger: heroRef.current,
+              start: "top top",
+              end: "130% top",
+              scrub: 1.2,
+            },
+          },
+        );
+      }
     }, containerRef);
 
     return () => ctx.revert();
@@ -334,11 +358,15 @@ function HomePage() {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-background text-foreground transition-colors duration-500"
+      className="relative isolate min-h-screen bg-background text-foreground transition-colors duration-500"
     >
+      <div
+        ref={disclaimerGlowRef}
+        className="pointer-events-none absolute left-1/2 top-[65vh] z-0 -translate-x-1/2 h-[56rem] w-[56rem] rounded-full bg-[radial-gradient(circle_at_center,color-mix(in_oklab,var(--primary)_26%,transparent)_0%,transparent_70%)] blur-[140px] opacity-0"
+      />
       <section
         ref={heroRef}
-        className="relative min-h-screen overflow-hidden px-6 will-change-transform origin-top"
+        className="relative z-10 min-h-screen overflow-hidden px-6 will-change-transform origin-top"
       >
         <div
           ref={heroImageRef}
@@ -349,7 +377,7 @@ function HomePage() {
               key={image.src}
               className={`absolute inset-0 transition-opacity duration-1000 bg-cover bg-center ${
                 index === currentImageIndex
-                  ? "opacity-20 dark:opacity-35"
+                  ? "opacity-70 dark:opacity-50"
                   : "opacity-0"
               }`}
               style={{
@@ -358,7 +386,7 @@ function HomePage() {
               }}
             />
           ))}
-          <div className="absolute inset-0 bg-linear-to-b from-background/10 via-background/70 to-background" />
+          <div className="absolute inset-0 bg-linear-to-b from-background/5 via-background/35 dark:via-background/55 to-background/80 dark:to-background/95" />
           <div className="fixed bottom-4 left-4 z-20 rounded-md border border-border/40 bg-card/70 px-3 py-2 text-xs text-muted-foreground backdrop-blur-sm shadow-lg">
             {cc.heroImage.images.at(currentImageIndex)?.credit}
           </div>
@@ -440,52 +468,54 @@ function HomePage() {
 
       <section
         ref={manifestoRef}
-        className="relative min-h-[120vh] overflow-hidden px-6 py-28"
+        className="relative z-10 min-h-[120vh] overflow-visible px-6 py-28"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,color-mix(in_oklab,var(--primary)_16%,transparent)_0%,transparent_45%)]" />
         <div className="relative mx-auto flex min-h-[120vh] max-w-5xl flex-col justify-center">
-          <div className="rounded-4xl border border-border bg-card/70 p-8 md:p-12 backdrop-blur-xl shadow-2xl shadow-primary/5">
-            <p className="mb-4 text-sm uppercase tracking-[0.28em] text-muted-foreground">
-              Hinweis
-            </p>
+          <div className="relative">
+            <div className="rounded-4xl border border-border/80 bg-card/70 p-8 md:p-12 shadow-2xl shadow-primary/5">
+              <p className="mb-4 text-sm uppercase tracking-[0.28em] text-muted-foreground">
+                Hinweis
+              </p>
 
-            <h2
-              ref={manifestoTitleRef}
-              className="max-w-4xl text-4xl md:text-6xl font-black tracking-tight text-foreground leading-[0.95]"
-            >
-              {m.root_manifesto_title()}
-            </h2>
+              <h2
+                ref={manifestoTitleRef}
+                className="max-w-4xl text-4xl md:text-6xl font-black tracking-tight text-foreground leading-[0.95]"
+              >
+                {m.root_manifesto_title()}
+              </h2>
 
-            <p
-              ref={manifestoTextRef}
-              className="mt-6 max-w-3xl text-lg md:text-2xl leading-relaxed text-muted-foreground"
-            >
-              {m.root_manifesto_text()}
-            </p>
+              <p
+                ref={manifestoTextRef}
+                className="mt-6 max-w-3xl text-lg md:text-2xl leading-relaxed text-muted-foreground"
+              >
+                {m.root_manifesto_text()}
+              </p>
 
-            <div
-              ref={manifestoLinksRef}
-              className="mt-10 flex flex-col sm:flex-row gap-4"
-            >
-              <Link
-                to="/blog"
-                className="inline-flex items-center justify-center rounded-2xl bg-primary px-6 py-4 font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90"
+              <div
+                ref={manifestoLinksRef}
+                className="mt-10 flex flex-col sm:flex-row gap-4"
               >
-                {m.nav_to_blog()}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-              <Link
-                to="/presse"
-                className="inline-flex items-center justify-center rounded-2xl border border-border bg-background/60 px-6 py-4 font-medium text-foreground transition-colors hover:bg-muted"
-              >
-                {m.nav_to_presse()}
-              </Link>
-              <Link
-                to="/kontakt"
-                className="inline-flex items-center justify-center rounded-2xl border border-border bg-background/60 px-6 py-4 font-medium text-foreground transition-colors hover:bg-muted"
-              >
-                {m.nav_cta_kontakt()}
-              </Link>
+                <Link
+                  to="/blog"
+                  className="inline-flex items-center justify-center rounded-2xl bg-primary px-6 py-4 font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90"
+                >
+                  {m.nav_to_blog()}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+                <Link
+                  to="/presse"
+                  className="inline-flex items-center justify-center rounded-2xl border border-border bg-background/60 px-6 py-4 font-medium text-foreground transition-colors hover:bg-muted"
+                >
+                  {m.nav_to_presse()}
+                </Link>
+                <Link
+                  to="/kontakt"
+                  className="inline-flex items-center justify-center rounded-2xl border border-border bg-background/60 px-6 py-4 font-medium text-foreground transition-colors hover:bg-muted"
+                >
+                  {m.nav_cta_kontakt()}
+                </Link>
+              </div>
             </div>
           </div>
         </div>

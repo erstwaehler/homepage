@@ -311,7 +311,9 @@ export default function Header() {
       gsap.to(header, {
         backdropFilter: "blur(20px)",
         background:
-          "linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))",
+          "linear-gradient(to bottom, color-mix(in oklab, var(--background) 92%, transparent), color-mix(in oklab, var(--background) 20%, transparent))",
+        boxShadow:
+          "0 18px 40px color-mix(in oklab, var(--foreground) 18%, transparent)",
         ease: "none",
         scrollTrigger: {
           trigger: document.body,
