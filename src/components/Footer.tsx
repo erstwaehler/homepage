@@ -8,6 +8,7 @@ import LocaleSwitcher from "./LocaleSwitcher";
 import { Logo } from "./logo";
 import { useMemo } from "react";
 import { RedactEventData } from "~/lib/constants";
+import ThemeToggle from "./ThemeToggle";
 
 type NavItem = {
   to: string;
@@ -46,7 +47,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
           <div className="md:col-span-4 space-y-6">
             <div className="flex items-center gap-3">
-              <Logo className="w-10 h-10 text-primary dark:invert" />
+              <Logo className="w-10 h-10" />
               <span className="font-bold text-2xl">{m.site_title_full()}</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
@@ -117,7 +118,10 @@ export default function Footer() {
                 <FaGithub className="w-6 h-6" />
               </a>
             </div>
-            <LocaleSwitcher />
+            <div className="flex items-center gap-3">
+              <ThemeToggle />
+              <LocaleSwitcher />
+            </div>
           </div>
         </div>
 

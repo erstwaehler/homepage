@@ -61,9 +61,9 @@ export function ErrorPage({
       <div className="text-center space-y-8 max-w-2xl">
         <div className="flex justify-center" ref={logoRef}>
           <div className="relative">
-            <Logo className="w-24 h-24 text-current/20 absolute blur-xl opacity-50 dark:invert" />
+            <Logo className="w-24 h-24 absolute blur-xl opacity-50" />
             <Logo
-              className={`w-24 h-24 text-[color:var(--${tailwindGradientBlurSourceColour})] relative dark:invert`}
+              className="w-24 h-24 relative"
             />
           </div>
         </div>
