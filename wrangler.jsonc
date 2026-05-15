@@ -28,7 +28,7 @@
   },
   "env": {
     "dev-preview": {
-      "name": "erstwaehlerforum-dev-homepage",
+      "name": "erstwaehlerforum-homepage-dev",
       "compatibility_date": "2026-05-03",
       "compatibility_flags": ["nodejs_compat"],
       "main": "src/server.ts",
