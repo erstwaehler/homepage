@@ -23,7 +23,9 @@ export const getRouter = () => {
       output: ({ url }) => localizeUrl(url),
     },
 
+    scrollRestoration: true,
     defaultPreload: "intent",
+    defaultPreloadStaleTime: 0,
   });
 
   setupRouterSsrQueryIntegration({
