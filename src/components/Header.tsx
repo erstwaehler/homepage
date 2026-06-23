@@ -311,7 +311,9 @@ export default function Header() {
       gsap.to(header, {
         backdropFilter: "blur(20px)",
         background:
-          "linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))",
+          "linear-gradient(to bottom, color-mix(in oklab, var(--background) 92%, transparent), color-mix(in oklab, var(--background) 20%, transparent))",
+        boxShadow:
+          "0 18px 40px color-mix(in oklab, var(--foreground) 18%, transparent)",
         ease: "none",
         scrollTrigger: {
           trigger: document.body,
@@ -416,11 +418,11 @@ export default function Header() {
             to="/"
             className="flex items-center gap-3 hover:opacity-80 transition-opacity magnetic-target group"
           >
-            <Logo className="w-8 h-8 text-white group-hover:scale-110 transition-transform dark:invert" />
-            <span className="font-bold text-xl hidden sm:inline text-white">
+            <Logo className="w-8 h-8 group-hover:scale-110 transition-transform" />
+            <span className="font-bold text-xl hidden sm:inline text-foreground">
               {m.site_title()}
             </span>
-            <span className="font-bold text-xl sm:hidden text-white">
+            <span className="font-bold text-xl sm:hidden text-foreground">
               {m.site_title_short()}
             </span>
           </Link>
@@ -429,7 +431,7 @@ export default function Header() {
             ref={menuButtonRef}
             type="button"
             onClick={openMenu}
-            className="flex items-center gap-2 text-white hover:text-white/80 transition-colors group"
+            className="flex items-center gap-2 text-foreground hover:text-primary transition-colors group"
             aria-label="Open menu"
           >
             <span className="text-2xl font-light group-hover:tracking-wider transition-all">
@@ -470,7 +472,7 @@ export default function Header() {
                 }}
                 className="flex items-center gap-3 hover:opacity-80 transition-opacity group"
               >
-                <Logo className="w-8 h-8 text-foreground group-hover:scale-110 transition-transform dark:invert" />
+                <Logo className="w-8 h-8 group-hover:scale-110 transition-transform" />
                 <span className="font-bold text-xl hidden sm:inline text-foreground">
                   {m.site_title()}
                 </span>

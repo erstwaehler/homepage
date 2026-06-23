@@ -51,7 +51,7 @@ export function CustomCursor() {
       if (target.closest(INTERACTIVE_SELECTOR)) {
         gsap.to(cursor, {
           scale: 3,
-          backgroundColor: "#FFD948",
+          backgroundColor: "#BB2648",
           mixBlendMode: "difference",
           duration: 0.3,
           ease: "power2.out",

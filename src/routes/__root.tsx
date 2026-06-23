@@ -12,7 +12,6 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
-import { scan } from "react-scan";
 import * as m from "#p";
 import { initLenis } from "~/lib/lenis";
 import { getLocale } from "~/paraglide/runtime";
@@ -28,6 +27,20 @@ import { ServerErrorPage } from "~/components/500";
 interface MyRouterContext {
   queryClient: QueryClient;
 }
+
+const themeInitScript = `
+(() => {
+  const storageKey = "ewf-theme";
+  const storedTheme = localStorage.getItem(storageKey);
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const theme = storedTheme === "light" || storedTheme === "dark"
+    ? storedTheme
+    : prefersDark ? "dark" : "light";
+
+  document.documentElement.classList.toggle("dark", theme === "dark");
+  document.documentElement.style.colorScheme = theme;
+})();
+`;
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   beforeLoad: async () => {
@@ -117,6 +130,15 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
           rel: "canonical",
           href: siteUrl,
         },
+        {
+          rel: "icon",
+          href: "/favicon.ico",
+          sizes: "any",
+        },
+        {
+          rel: "apple-touch-icon",
+          href: "/apple-touch-icon.png",
+        },
       ],
     };
   },
@@ -126,7 +148,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    scan({ enabled: import.meta.env.DEV });
+    if (import.meta.env.DEV) {
+      void import("react-scan").then(({ scan }) => {
+        scan({ enabled: true });
+      });
+    }
     initLenis();
   }, []);
   const organizationSchema = {
@@ -164,6 +190,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
         <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: Prevents a light/dark flash before React hydrates
+          dangerouslySetInnerHTML={{ __html: themeInitScript }}
+        />
+        <script
           type="application/ld+json"
           // biome-ignore lint/security/noDangerouslySetInnerHtml: Required for JSON-LD structured data
           dangerouslySetInnerHTML={{
@@ -176,7 +206,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
       </head>
-      <body className="dark">
+      <body>
         <PostHogProvider
           apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY as string}
           options={{
